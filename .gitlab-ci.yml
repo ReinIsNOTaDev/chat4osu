@@ -1,0 +1,31 @@
+image: geekykaran/headless-chrome-node-docker
+
+stages:
+  - test
+  - e2e
+  - build
+
+test:
+  stage: test
+  script:
+    - yarn
+    - yarn ng -- lint
+    - yarn test
+  only:
+    - master
+
+e2e:
+  stage: e2e
+  script:
+    - yarn
+    - yarn e2e
+  only:
+    - master
+
+build:
+  stage: build
+  script:
+    - yarn
+    - yarn build
+  only:
+    - master
