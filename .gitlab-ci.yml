@@ -1,4 +1,4 @@
-image: springmedia/rbbt-docker-node-chrome-headless
+image: node:alpine
 
 stages:
   - test
