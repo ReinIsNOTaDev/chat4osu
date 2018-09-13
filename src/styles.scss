@@ -1,7 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
-html, body {
+@font-face {
+  font-family: exo-main;
+  src: url('assets/fonts/Exo2-Light.otf') format('opentype');
+}
+
+@font-face {
+  font-family: exo-main;
+  font-weight: bold;
+  src: url('assets/fonts/Exo2-SemiBold.otf') format('opentype');
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
+  font-family: exo-main;
 
   height: 100%;
 }
