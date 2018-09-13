@@ -6,20 +6,26 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
 import { AuthState } from '../../store/states/auth.state';
 import { IrcService } from '../../providers/irc.service';
+import { Router } from '@angular/router';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let ircService: any;
+  let router: any;
 
   beforeEach(async(() => {
     ircService = jasmine.createSpyObj('IrcService', ['login']);
+    router = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
       imports: [NgxsModule.forRoot([AuthState])],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [{ provide: IrcService, useValue: ircService }]
+      providers: [
+        { provide: IrcService, useValue: ircService },
+        { provide: Router, useValue: router }
+      ]
     }).compileComponents();
   }));
 
