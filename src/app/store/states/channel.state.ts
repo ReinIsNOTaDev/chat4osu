@@ -1,23 +1,31 @@
-import { State, Action, StateContext } from '@ngxs/store';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 import produce from 'immer';
 import {
   JoinChannel,
   JoinChannelSuccess,
-  JoinChannelFailed
+  JoinChannelFailed,
+  SetChannel
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 
 export interface ChannelStateModel {
   channels: string[];
+  currentChannel: string;
 }
 
 @State<ChannelStateModel>({
   name: 'channel',
   defaults: {
-    channels: []
+    channels: [],
+    currentChannel: ''
   }
 })
 export class ChannelState {
+  @Selector()
+  static channels(state: ChannelStateModel) {
+    return state.channels;
+  }
+
   constructor(public irc: IrcService) {}
 
   @Action(JoinChannel)
@@ -40,5 +48,14 @@ export class ChannelState {
   @Action(JoinChannelFailed)
   joinChannelFailed(ctx: StateContext<ChannelStateModel>) {
     // Todo
+  }
+
+  @Action(SetChannel)
+  setChannel(ctx: StateContext<ChannelStateModel>, action: SetChannel) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.currentChannel = action.payload.channelName;
+      })
+    );
   }
 }

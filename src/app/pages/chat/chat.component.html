@@ -1,1 +1,7 @@
-chat works!
+<ul>
+  <li *ngFor="let channel of (channels$ | async)">{{channel}}</li>
+</ul>
+
+<ul>
+  <li *ngFor="let message of (messages$ | async)">{{message.sender}}: {{message.message}}</li>
+</ul>

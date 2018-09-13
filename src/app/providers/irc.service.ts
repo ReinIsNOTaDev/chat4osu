@@ -6,7 +6,8 @@ import { LoginSuccess, LoginFailed } from '../store/actions/auth.actions';
 import { ReceiveMessage } from '../store/actions/message.actions';
 import {
   JoinChannelSuccess,
-  JoinChannel
+  JoinChannel,
+  SetChannel
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
 
@@ -51,10 +52,12 @@ export class IrcService {
 
     this.irc.connect(
       0,
-      () => {
-        this.store.dispatch(new LoginSuccess({ username }));
-        this.store.dispatch(new JoinChannel({ channelName: '#osu' }));
-      }
+      () =>
+        this.store.dispatch([
+          new LoginSuccess({ username }),
+          new JoinChannel({ channelName: '#osu' }),
+          new SetChannel({ channelName: '#osu' })
+        ])
     );
   }
 

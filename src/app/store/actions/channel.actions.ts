@@ -12,3 +12,8 @@ export class JoinChannelFailed {
   static readonly type = '[Channel] JoinChannelFailed';
   constructor(public payload: any) {}
 }
+
+export class SetChannel {
+  static readonly type = '[Channel] SetChannel';
+  constructor(public payload: { channelName: string }) {}
+}

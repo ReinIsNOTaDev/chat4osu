@@ -1,4 +1,4 @@
-import { State, Action, StateContext } from '@ngxs/store';
+import { State, Action, StateContext, NgxsOnInit } from '@ngxs/store';
 import { Login, LoginSuccess, LoginFailed } from '../actions/auth.actions';
 import produce from 'immer';
 import { IrcService } from '../../providers/irc.service';
@@ -18,8 +18,13 @@ export interface AuthStateModel {
     loggingIn: false
   }
 })
-export class AuthState {
+export class AuthState implements NgxsOnInit {
   constructor(public irc: IrcService, public router: Router) {}
+
+  ngxsOnInit(ctx: StateContext<AuthStateModel>) {
+    // TODO: Replace with store implementation
+    this.router.navigate(['/']);
+  }
 
   @Action(Login)
   async login(ctx: StateContext<AuthStateModel>, action: Login) {

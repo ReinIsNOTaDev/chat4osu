@@ -1,7 +1,14 @@
-import { State, Action, StateContext } from '@ngxs/store';
+import {
+  State,
+  Action,
+  StateContext,
+  Selector,
+  createSelector
+} from '@ngxs/store';
 import produce from 'immer';
 import { ReceiveMessage } from '../actions/message.actions';
 import { JoinChannelSuccess } from '../actions/channel.actions';
+import { ChannelState, ChannelStateModel } from './channel.state';
 
 export interface MessageStateModel {
   messages: {
@@ -16,6 +23,14 @@ export interface MessageStateModel {
   }
 })
 export class MessageState {
+  @Selector([ChannelState])
+  static currentChannelMessages(
+    state: MessageStateModel,
+    channelState: ChannelStateModel
+  ) {
+    return state.messages[channelState.currentChannel];
+  }
+
   @Action(ReceiveMessage)
   receiveMessage(ctx: StateContext<MessageStateModel>, action: ReceiveMessage) {
     ctx.setState(

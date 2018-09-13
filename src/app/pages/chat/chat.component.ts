@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { ChannelState } from '../../store/states/channel.state';
+import { MessageState } from '../../store/states/message.state';
 
 @Component({
   selector: 'app-chat',
@@ -6,7 +10,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-  constructor() {}
+  @Select(ChannelState.channels)
+  channels$: Observable<string[]>;
 
-  ngOnInit(): void {}
+  @Select(MessageState.currentChannelMessages)
+  messages$: Observable<{ sender: string; message: string }[]>;
+
+  constructor(public store: Store) {}
+
+  ngOnInit(): void {
+    this.store.select(state => state.channel.channels).subscribe(channels => {
+      console.log(channels);
+    });
+  }
 }
