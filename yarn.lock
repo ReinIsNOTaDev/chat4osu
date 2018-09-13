@@ -1440,6 +1440,10 @@ chalk@~2.2.2:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
+chardet@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.5.0.tgz#fe3ac73c00c3d865ffcc02a0682e2c20b6a06029"
+
 chokidar@^1.4.1, chokidar@^1.4.2, chokidar@^1.5.1:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
@@ -2619,9 +2623,9 @@ event-stream@~3.3.0:
     stream-combiner "^0.2.2"
     through "^2.3.8"
 
-eventemitter3@^2.0.2:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
+event-to-promise@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/event-to-promise/-/event-to-promise-0.8.0.tgz#4b84f11772b6f25f7752fc74d971531ac6f5b626"
 
 eventemitter3@^3.0.0:
   version "3.1.0"
@@ -3663,7 +3667,7 @@ iconv-lite@0.4.23:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-iconv-lite@^0.4.11, iconv-lite@^0.4.23, iconv-lite@^0.4.4, iconv-lite@~0.4.13:
+iconv-lite@^0.4.19, iconv-lite@^0.4.23, iconv-lite@^0.4.4, iconv-lite@~0.4.13:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
   dependencies:
@@ -3694,6 +3698,10 @@ image-size@~0.5.0:
 immediate@~3.0.5:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
+
+immer@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-1.6.0.tgz#4e41801272d64bff12d4b58ada0276bb2f4ead81"
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -3805,10 +3813,6 @@ ip@^1.1.0, ip@^1.1.2, ip@^1.1.4, ip@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
 
-ipaddr.js@0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-0.1.3.tgz#27a9ca37f148d2102b0ef191ccbf2c51a8f025c6"
-
 ipaddr.js@1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.8.0.tgz#eaa33d6ddd7ace8f7f6fe0c9ca0440e706738b1e"
@@ -3817,16 +3821,18 @@ ipaddr.js@^1.5.2:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.8.1.tgz#fa4b79fa47fd3def5e3b159825161c0a519c9427"
 
-irc-framework@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/irc-framework/-/irc-framework-3.1.0.tgz#411193371a34a6388c681c3ed628571a9bad72fc"
+irc-colors@^1.1.0:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/irc-colors/-/irc-colors-1.4.3.tgz#840b06b18628a6760e68e4b514c710d549648aef"
+
+irc-upd@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/irc-upd/-/irc-upd-0.10.0.tgz#8ab8361cea17ddc8996b6bea52fad34fe9282025"
   dependencies:
-    eventemitter3 "^2.0.2"
-    iconv-lite "^0.4.11"
-    lodash "^4.17.4"
-    middleware-handler "^0.2.0"
-    runes "^0.4.3"
-    socksjs "^0.5.0"
+    irc-colors "^1.1.0"
+  optionalDependencies:
+    chardet "^0.5.0"
+    iconv-lite "^0.4.19"
 
 is-accessor-descriptor@^0.1.6:
   version "0.1.6"
@@ -4918,10 +4924,6 @@ micromatch@^3.1.4, micromatch@^3.1.8, micromatch@^3.1.9:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
-
-middleware-handler@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/middleware-handler/-/middleware-handler-0.2.0.tgz#bf02af7e6b577c0230609b2ae58df0e446f3fd02"
 
 miller-rabin@^4.0.0:
   version "4.0.1"
@@ -6852,10 +6854,6 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-runes@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/runes/-/runes-0.4.3.tgz#32f7738844bc767b65cc68171528e3373c7bb355"
-
 rx@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
@@ -7310,12 +7308,6 @@ socks@~2.2.0:
   dependencies:
     ip "^1.1.5"
     smart-buffer "^4.0.1"
-
-socksjs@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/socksjs/-/socksjs-0.5.0.tgz#77b005e32d1bfc96e560fedd5d7eedcf120f87e3"
-  dependencies:
-    ipaddr.js "0.1.3"
 
 sorted-object@~2.0.1:
   version "2.0.1"
@@ -8001,7 +7993,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@2.7.2, "typescript@>=2.6.2 <2.8", typescript@~2.7.2:
+typescript@2.8:
+  version "2.8.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.4.tgz#0b1db68e6bdfb0b767fa2ab642136a35b059b199"
+
+"typescript@>=2.6.2 <2.8", typescript@~2.7.2:
   version "2.7.2"
   resolved "http://registry.npmjs.org/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
 

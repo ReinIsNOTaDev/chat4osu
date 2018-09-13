@@ -3,12 +3,12 @@ import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -21,6 +21,10 @@ import { ElectronService } from './providers/electron.service';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ChatComponent } from './pages/chat/chat.component';
+import { AuthState } from './store/states/auth.state';
+import { ChannelState } from './store/states/channel.state';
+import { MessageState } from './store/states/message.state';
+import { IrcService } from './providers/irc.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,8 +34,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [AppComponent, LoginComponent, ChatComponent],
   imports: [
+    NgxsModule.forRoot([AuthState, ChannelState, MessageState]),
+    NgxsLoggerPluginModule.forRoot(),
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     InputTextModule,
@@ -44,7 +51,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService],
+  providers: [ElectronService, IrcService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

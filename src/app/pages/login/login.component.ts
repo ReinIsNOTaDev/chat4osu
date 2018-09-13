@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { Login } from '../../store/actions/auth.actions';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -6,7 +9,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  constructor() {}
+  loginForm: FormGroup;
 
-  ngOnInit() {}
+  constructor(public store: Store) {}
+
+  ngOnInit() {
+    this.loginForm = new FormGroup({
+      username: new FormControl(''),
+      password: new FormControl('')
+    });
+  }
+
+  login() {
+    this.store.dispatch(new Login(this.loginForm.value));
+  }
 }
