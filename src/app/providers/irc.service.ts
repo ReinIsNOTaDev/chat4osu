@@ -23,14 +23,14 @@ export class IrcService {
   }
 
   async connect(username: string, password: string): Promise<any> {
-    this.irc = new this.irc.Client('irc.ppy.sh', username, {
+    this.client = new this.irc.Client('irc.ppy.sh', username, {
       password: password,
       autoConnect: true,
       autoRejoin: false,
       retryCount: 0
     });
 
-    this.irc.addListener('error', error => {
+    this.client.addListener('error', error => {
       switch (error.command) {
         case 'err_passwdmismatch': {
           this.store.dispatch(new LoginFailed(error));
@@ -38,19 +38,19 @@ export class IrcService {
       }
     });
 
-    this.irc.addListener('message#', (nick, to, text) =>
+    this.client.addListener('message#', (nick, to, text) => {
       this.store.dispatch(
         new ReceiveMessage({ channelName: to, sender: nick, message: text })
-      )
-    );
+      );
+    });
 
-    this.irc.addListener('pm', (nick, text) =>
+    this.client.addListener('pm', (nick, text) => {
       this.store.dispatch(
         new ReceiveMessage({ channelName: nick, sender: nick, message: text })
-      )
-    );
+      );
+    });
 
-    this.irc.connect(
+    this.client.connect(
       0,
       () =>
         this.store.dispatch([
@@ -62,7 +62,7 @@ export class IrcService {
   }
 
   joinChannel(channelName: string) {
-    this.irc.join(channelName, () => {
+    this.client.join(channelName, () => {
       this.store.dispatch(new JoinChannelSuccess({ channelName }));
     });
   }

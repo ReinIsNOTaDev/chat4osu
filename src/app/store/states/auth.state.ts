@@ -1,4 +1,4 @@
-import { State, Action, StateContext, NgxsOnInit } from '@ngxs/store';
+import { State, Action, StateContext, NgxsOnInit, Selector } from '@ngxs/store';
 import { Login, LoginSuccess, LoginFailed } from '../actions/auth.actions';
 import produce from 'immer';
 import { IrcService } from '../../providers/irc.service';
@@ -13,12 +13,17 @@ export interface AuthStateModel {
 @State<AuthStateModel>({
   name: 'auth',
   defaults: {
-    username: '',
+    username: 'dsds',
     loggedIn: false,
     loggingIn: false
   }
 })
 export class AuthState implements NgxsOnInit {
+  @Selector()
+  static username(state: AuthStateModel) {
+    return state.username;
+  }
+
   constructor(public irc: IrcService, public router: Router) {}
 
   ngxsOnInit(ctx: StateContext<AuthStateModel>) {
@@ -28,11 +33,9 @@ export class AuthState implements NgxsOnInit {
 
   @Action(Login)
   async login(ctx: StateContext<AuthStateModel>, action: Login) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.loggingIn = true;
-      })
-    );
+    ctx.patchState({
+      loggingIn: true
+    });
 
     this.irc.connect(
       action.payload.username,
@@ -45,23 +48,19 @@ export class AuthState implements NgxsOnInit {
     // TODO: Replace with store implementation
     this.router.navigate(['/chat']);
 
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.loggedIn = true;
-        draft.username = action.payload.username;
-        draft.loggingIn = false;
-      })
-    );
+    ctx.patchState({
+      loggedIn: true,
+      loggingIn: false,
+      username: action.payload.username
+    });
   }
 
   @Action(LoginFailed)
   loginFailed(ctx: StateContext<AuthStateModel>) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.loggedIn = false;
-        draft.username = '';
-        draft.loggingIn = false;
-      })
-    );
+    ctx.patchState({
+      loggedIn: false,
+      loggingIn: false,
+      username: ''
+    });
   }
 }

@@ -3,6 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ChannelState } from '../../store/states/channel.state';
 import { MessageState } from '../../store/states/message.state';
+import { AuthState } from '../../store/states/auth.state';
 
 @Component({
   selector: 'app-chat',
@@ -16,11 +17,10 @@ export class ChatComponent implements OnInit {
   @Select(MessageState.currentChannelMessages)
   messages$: Observable<{ sender: string; message: string }[]>;
 
+  @Select(AuthState.username)
+  username$: Observable<string>;
+
   constructor(public store: Store) {}
 
-  ngOnInit(): void {
-    this.store.select(state => state.channel.channels).subscribe(channels => {
-      console.log(channels);
-    });
-  }
+  ngOnInit(): void {}
 }
