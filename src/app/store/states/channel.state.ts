@@ -26,6 +26,11 @@ export class ChannelState {
     return state.channels;
   }
 
+  @Selector()
+  static currentChannel(state: ChannelStateModel) {
+    return state.currentChannel;
+  }
+
   constructor(public irc: IrcService) {}
 
   @Action(JoinChannel)

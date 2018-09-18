@@ -1,13 +1,24 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
 @Component({
   selector: 'app-tab-bar',
   templateUrl: './tab-bar.component.html',
-  styleUrls: ['./tab-bar.component.scss']
+  styleUrls: ['./tab-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TabBarComponent implements OnInit {
   @Input()
   channels: string[];
+
+  @Input()
+  currentChannel: string;
 
   @Output()
   setChannel: EventEmitter<string> = new EventEmitter();

@@ -15,6 +15,9 @@ export class ChatComponent implements OnInit {
   @Select(ChannelState.channels)
   channels$: Observable<string[]>;
 
+  @Select(ChannelState.currentChannel)
+  currentChannel$: Observable<string>;
+
   @Select(MessageState.currentChannelMessages)
   messages$: Observable<{ sender: string; message: string }[]>;
 

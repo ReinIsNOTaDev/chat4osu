@@ -1,5 +1,5 @@
 <div class="chat-container">
-  <app-tab-bar [channels]="channels$ | async" (setChannel)="onSetChannel($event)"></app-tab-bar>
+  <app-tab-bar [channels]="channels$ | async" [currentChannel]="currentChannel$ | async" (setChannel)="onSetChannel($event)"></app-tab-bar>
   <ul>
     <li *ngFor="let message of (messages$ | async)">{{message.sender}}: {{message.message}}</li>
   </ul>
