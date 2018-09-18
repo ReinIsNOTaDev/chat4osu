@@ -42,6 +42,7 @@
     "event-to-promise": "^0.8.0",
     "immer": "1.2.0",
     "irc-upd": "^0.10.0",
+    "moment": "^2.22.2",
     "primeicons": "^1.0.0-beta.10",
     "primeng": "^6.1.3"
   },

@@ -1,0 +1,26 @@
+.message-container {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 30px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  flex-direction: row;
+
+  .date {
+    color: #c0c0c0;
+    margin-right: 2px;
+  }
+
+  .sender {
+    color: #ffc561;
+    margin-right: 5px;
+  }
+
+  .text {
+    color: #ffffff;
+  }
+}

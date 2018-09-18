@@ -16,6 +16,11 @@ export class SendMessageFailed {
 export class ReceiveMessage {
   static readonly type = '[Message] ReceiveMessage';
   constructor(
-    public payload: { channelName: string; sender: string; message: string }
+    public payload: {
+      channelName: string;
+      sender: string;
+      message: string;
+      date: Date;
+    }
   ) {}
 }

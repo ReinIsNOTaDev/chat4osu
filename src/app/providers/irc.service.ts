@@ -40,13 +40,23 @@ export class IrcService {
 
     this.client.addListener('message#', (nick, to, text) => {
       this.store.dispatch(
-        new ReceiveMessage({ channelName: to, sender: nick, message: text })
+        new ReceiveMessage({
+          channelName: to,
+          sender: nick,
+          message: text,
+          date: new Date()
+        })
       );
     });
 
     this.client.addListener('pm', (nick, text) => {
       this.store.dispatch(
-        new ReceiveMessage({ channelName: nick, sender: nick, message: text })
+        new ReceiveMessage({
+          channelName: nick,
+          sender: nick,
+          message: text,
+          date: new Date()
+        })
       );
     });
 

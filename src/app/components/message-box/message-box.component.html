@@ -1,0 +1,7 @@
+<div class="message-container">
+  <div class="message" *ngFor="let msg of messages">
+    <div class="date">[{{parseDate(msg.date)}}]</div>
+    <div class="sender">{{msg.sender}}:</div>
+    <div class="text">{{msg.message}}</div>
+  </div>
+</div>

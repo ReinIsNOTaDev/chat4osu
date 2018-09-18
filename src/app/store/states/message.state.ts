@@ -12,7 +12,7 @@ import { ChannelState, ChannelStateModel } from './channel.state';
 
 export interface MessageStateModel {
   messages: {
-    [channelName: string]: { sender: string; message: string }[];
+    [channelName: string]: { sender: string; message: string; date: Date }[];
   };
 }
 
@@ -41,7 +41,8 @@ export class MessageState {
         }
         draft.messages[action.payload.channelName].push({
           message: action.payload.message,
-          sender: action.payload.sender
+          sender: action.payload.sender,
+          date: action.payload.date
         });
       })
     );
@@ -54,7 +55,9 @@ export class MessageState {
   ) {
     ctx.setState(
       produce(ctx.getState(), draft => {
-        draft.messages[action.payload.channelName] = [];
+        if (!draft.messages[action.payload.channelName]) {
+          draft.messages[action.payload.channelName] = [];
+        }
       })
     );
   }
