@@ -28,9 +28,11 @@ export class AuthState {
 
   @Action(Login)
   async login(ctx: StateContext<AuthStateModel>, action: Login) {
-    ctx.patchState({
-      loggingIn: true
-    });
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.loggingIn = true;
+      })
+    );
 
     this.irc.connect(
       action.payload.username,
@@ -42,19 +44,23 @@ export class AuthState {
   loginSuccess(ctx: StateContext<AuthStateModel>, action: LoginSuccess) {
     ctx.dispatch(new Navigate(['/chat']));
 
-    ctx.patchState({
-      loggedIn: true,
-      loggingIn: false,
-      username: action.payload.username
-    });
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.loggedIn = true;
+        draft.username = action.payload.username;
+        draft.loggingIn = false;
+      })
+    );
   }
 
   @Action(LoginFailed)
   loginFailed(ctx: StateContext<AuthStateModel>) {
-    ctx.patchState({
-      loggedIn: false,
-      loggingIn: false,
-      username: ''
-    });
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.loggedIn = false;
+        draft.username = '';
+        draft.loggingIn = false;
+      })
+    );
   }
 }
