@@ -28,6 +28,7 @@ import { MessageState } from './store/states/message.state';
 import { IrcService } from './providers/irc.service';
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
+import { VirtualScrollModule } from 'angular2-virtual-scroll';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -51,6 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxsRouterPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     BrowserModule,
+    VirtualScrollModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

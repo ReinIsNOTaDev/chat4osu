@@ -39,6 +39,7 @@
     "@ngxs/logger-plugin": "^3.2.0",
     "@ngxs/router-plugin": "^3.2.0",
     "@ngxs/store": "^3.2.0",
+    "angular2-virtual-scroll": "^0.4.12",
     "event-to-promise": "^0.8.0",
     "immer": "1.2.0",
     "irc-upd": "^0.10.0",

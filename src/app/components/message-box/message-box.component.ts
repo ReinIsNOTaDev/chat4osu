@@ -10,6 +10,8 @@ export class MessageBoxComponent implements OnInit {
   @Input()
   messages: { sender: string; message: string; date: Date }[];
 
+  viewPortItems: { sender: string; message: string; date: Date }[];
+
   constructor() {}
 
   ngOnInit(): void {}

@@ -1,7 +1,7 @@
-<div class="message-container">
-  <div class="message" *ngFor="let msg of messages">
-    <div class="date">[{{parseDate(msg.date)}}]</div>
-    <div class="sender">{{msg.sender}}:</div>
-    <div class="text">{{msg.message}}</div>
+<virtual-scroll [items]="messages" (vsUpdate)="viewPortItems = $event">
+  <div class="message" *ngFor="let msg of viewPortItems">
+    <span class="date">[{{parseDate(msg.date)}}]</span>
+    <span class="sender">{{msg.sender}}:</span>
+    <span class="text">{{msg.message}}</span>
   </div>
-</div>
+</virtual-scroll>
