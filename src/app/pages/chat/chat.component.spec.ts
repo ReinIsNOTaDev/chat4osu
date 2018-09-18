@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ChatComponent } from './chat.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ChatComponent', () => {
   let component: ChatComponent;
@@ -11,7 +10,8 @@ describe('ChatComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ChatComponent],
-      imports: [NgxsModule.forRoot()]
+      imports: [NgxsModule.forRoot()],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
