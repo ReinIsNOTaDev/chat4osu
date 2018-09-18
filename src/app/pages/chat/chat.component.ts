@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ChannelState } from '../../store/states/channel.state';
 import { MessageState } from '../../store/states/message.state';
 import { AuthState } from '../../store/states/auth.state';
+import { SetChannel } from '../../store/actions/channel.actions';
 
 @Component({
   selector: 'app-chat',
@@ -23,4 +24,8 @@ export class ChatComponent implements OnInit {
   constructor(public store: Store) {}
 
   ngOnInit(): void {}
+
+  onSetChannel(channelName: string) {
+    this.store.dispatch(new SetChannel({ channelName }));
+  }
 }

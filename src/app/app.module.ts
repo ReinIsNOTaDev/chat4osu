@@ -26,6 +26,7 @@ import { AuthState } from './store/states/auth.state';
 import { ChannelState } from './store/states/channel.state';
 import { MessageState } from './store/states/message.state';
 import { IrcService } from './providers/irc.service';
+import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -33,7 +34,16 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, ChatComponent],
+  declarations: [
+    AppComponent,
+
+    // Components
+    TabBarComponent,
+
+    // Pages
+    LoginComponent,
+    ChatComponent
+  ],
   imports: [
     NgxsModule.forRoot([AuthState, ChannelState, MessageState]),
     NgxsRouterPluginModule.forRoot(),

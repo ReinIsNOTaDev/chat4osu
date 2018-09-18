@@ -1,9 +1,6 @@
-<h3>Logged in as {{username$ | async}}</h3>
-
-<ul>
-  <li *ngFor="let channel of (channels$ | async)">{{channel}}</li>
-</ul>
-
-<ul>
-  <li *ngFor="let message of (messages$ | async)">{{message.sender}}: {{message.message}}</li>
-</ul>
+<div class="chat-container">
+  <app-tab-bar [channels]="channels$ | async" (setChannel)="onSetChannel($event)"></app-tab-bar>
+  <ul>
+    <li *ngFor="let message of (messages$ | async)">{{message.sender}}: {{message.message}}</li>
+  </ul>
+</div>
