@@ -2,7 +2,7 @@ import { State, Action, StateContext, NgxsOnInit, Selector } from '@ngxs/store';
 import { Login, LoginSuccess, LoginFailed } from '../actions/auth.actions';
 import produce from 'immer';
 import { IrcService } from '../../providers/irc.service';
-import { Router } from '@angular/router';
+import { Navigate } from '@ngxs/router-plugin';
 
 export interface AuthStateModel {
   username: string;
@@ -18,18 +18,13 @@ export interface AuthStateModel {
     loggingIn: false
   }
 })
-export class AuthState implements NgxsOnInit {
+export class AuthState {
   @Selector()
   static username(state: AuthStateModel) {
     return state.username;
   }
 
-  constructor(public irc: IrcService, public router: Router) {}
-
-  ngxsOnInit(ctx: StateContext<AuthStateModel>) {
-    // TODO: Replace with store implementation
-    this.router.navigate(['/']);
-  }
+  constructor(public irc: IrcService) {}
 
   @Action(Login)
   async login(ctx: StateContext<AuthStateModel>, action: Login) {
@@ -45,8 +40,7 @@ export class AuthState implements NgxsOnInit {
 
   @Action(LoginSuccess)
   loginSuccess(ctx: StateContext<AuthStateModel>, action: LoginSuccess) {
-    // TODO: Replace with store implementation
-    this.router.navigate(['/chat']);
+    ctx.dispatch(new Navigate(['/chat']));
 
     ctx.patchState({
       loggedIn: true,

@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -35,6 +36,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [AppComponent, LoginComponent, ChatComponent],
   imports: [
     NgxsModule.forRoot([AuthState, ChannelState, MessageState]),
+    NgxsRouterPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     BrowserModule,
     FormsModule,

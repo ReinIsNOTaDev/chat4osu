@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
+import { Store } from '@ngxs/store';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +11,11 @@ import { AppConfig } from '../environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public electronService: ElectronService,
-    private translate: TranslateService) {
-
+  constructor(
+    public electronService: ElectronService,
+    private translate: TranslateService,
+    private store: Store
+  ) {
     translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
 
@@ -22,5 +26,7 @@ export class AppComponent {
     } else {
       console.log('Mode web');
     }
+
+    this.store.dispatch(new Navigate(['']));
   }
 }
