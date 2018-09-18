@@ -13,7 +13,7 @@ export interface AuthStateModel {
 @State<AuthStateModel>({
   name: 'auth',
   defaults: {
-    username: 'dsds',
+    username: '',
     loggedIn: false,
     loggingIn: false
   }
