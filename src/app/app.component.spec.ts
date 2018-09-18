@@ -3,18 +3,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ElectronService } from './providers/electron.service';
+import { NgxsModule } from '@ngxs/store';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-      providers: [
-        ElectronService
-      ],
+      declarations: [AppComponent],
+      providers: [ElectronService],
       imports: [
         RouterTestingModule,
+        NgxsModule.forRoot([]),
         TranslateModule.forRoot()
       ]
     }).compileComponents();
@@ -28,6 +26,5 @@ describe('AppComponent', () => {
 });
 
 class TranslateServiceStub {
-  setDefaultLang(lang: string): void {
-  }
+  setDefaultLang(lang: string): void {}
 }
