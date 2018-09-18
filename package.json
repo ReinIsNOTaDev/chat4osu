@@ -19,8 +19,6 @@
     "postinstall": "npm run postinstall:electron && npx electron-builder install-app-deps",
     "postinstall:web": "node postinstall-web",
     "postinstall:electron": "node postinstall",
-    "webdriver:clean": "webdriver-manager clean",
-    "webdriver:update": "webdriver-manager update --chrome",
     "ng": "ng",
     "start": "npm run postinstall:electron && npm-run-all -p ng:serve electron:serve",
     "build": "npm run postinstall:electron && npm run electron:serve-tsc && ng build",
@@ -35,7 +33,7 @@
     "electron:windows": "npm run build:prod && npx electron-builder build --windows",
     "electron:mac": "npm run build:prod && npx electron-builder build --mac",
     "test": "npm run postinstall:web && ng test",
-    "e2e": "npm run postinstall:web && npm run webdriver:clean && npm run webdriver:update && ng e2e"
+    "e2e": "npm run postinstall:web && ng e2e"
   },
   "dependencies": {
     "@ngxs/logger-plugin": "^3.2.0",

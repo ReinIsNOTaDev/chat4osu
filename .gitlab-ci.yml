@@ -1,4 +1,4 @@
-image: axway/docker-node-chrome
+image: weboaks/node-karma-protractor-chrome
 
 stages:
   - test
