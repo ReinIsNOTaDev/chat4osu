@@ -1,0 +1,24 @@
+.input-bar {
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+
+  .input-text {
+    height: 100%;
+    outline: none;
+    border: none;
+    padding: 6px;
+    font-family: exo-main;
+    flex-grow: 1;
+  }
+
+  .input-submit {
+    height: 100%;
+    background-color: green;
+    color: white;
+    font-family: exo-main;
+    width: 50px;
+    outline: none;
+    border: none;
+  }
+}

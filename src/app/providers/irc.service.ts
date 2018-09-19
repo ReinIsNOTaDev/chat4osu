@@ -80,4 +80,8 @@ export class IrcService {
       this.store.dispatch(new JoinChannelSuccess({ channelName }));
     }
   }
+
+  sendMessage(channelName: string, message: string) {
+    this.client.say(channelName, message);
+  }
 }

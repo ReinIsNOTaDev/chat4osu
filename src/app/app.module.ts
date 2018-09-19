@@ -31,6 +31,7 @@ import { IrcService } from './providers/irc.service';
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { InputBarComponent } from './components/input-bar/input-bar.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -44,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     // Components
     TabBarComponent,
     MessageBoxComponent,
+    InputBarComponent,
 
     // Pages
     LoginComponent,

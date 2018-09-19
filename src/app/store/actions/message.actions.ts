@@ -1,6 +1,6 @@
 export class SendMessage {
   static readonly type = '[Message] SendMessage';
-  constructor(public payload: { channelName: string; message: string }) {}
+  constructor(public payload: { message: string; date: Date }) {}
 }
 
 export class SendMessageSuccess {

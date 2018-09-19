@@ -6,6 +6,7 @@ import { MessageState } from '../../store/states/message.state';
 import { AuthState } from '../../store/states/auth.state';
 import { SetChannel, JoinChannel } from '../../store/actions/channel.actions';
 import { ConfirmationService } from 'primeng/api';
+import { SendMessage } from '../../store/actions/message.actions';
 
 @Component({
   selector: 'app-chat',
@@ -51,5 +52,9 @@ export class ChatComponent implements OnInit {
       .subscribe(() => {
         this.joinChannelValue = '';
       });
+  }
+
+  onSendMessage(message: string) {
+    this.store.dispatch(new SendMessage({ message, date: new Date() }));
   }
 }
