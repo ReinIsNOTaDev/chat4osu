@@ -1,23 +1,51 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges } from '@angular/core';
 import * as moment from 'moment';
+import { VirtualScrollComponent } from 'angular2-virtual-scroll';
 
 @Component({
   selector: 'app-message-box',
   templateUrl: './message-box.component.html',
   styleUrls: ['./message-box.component.scss']
 })
-export class MessageBoxComponent implements OnInit {
+export class MessageBoxComponent implements OnInit, OnChanges {
   @Input()
   messages: { sender: string; message: string; date: Date }[];
 
   viewPortItems: { sender: string; message: string; date: Date }[];
 
+  @ViewChild(VirtualScrollComponent)
+  private virtualScroll: VirtualScrollComponent;
+
   constructor() {}
 
   ngOnInit(): void {}
 
+  ngOnChanges(): void {
+    // Dont run if the viewport hasn't been initialized
+    if (!this.viewPortItems || !this.messages) {
+      return;
+    }
+
+    // If we just changed channel, scroll to bottom
+    if (this.messages.indexOf(this.viewPortItems[0]) === -1) {
+      this.scrollToBottom();
+    }
+
+    // If we're at the bottom, scroll to bottom
+    if (
+      this.viewPortItems[this.viewPortItems.length - 1] ===
+      this.messages[this.messages.length - 2]
+    ) {
+      this.scrollToBottom();
+    }
+  }
+
   parseDate(date: Date): string {
     const tempDate = moment(date);
     return tempDate.hours() + ':' + tempDate.minutes();
+  }
+
+  scrollToBottom() {
+    this.virtualScroll.scrollToIndex(this.messages.length - 1, true);
   }
 }

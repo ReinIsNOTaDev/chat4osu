@@ -1,7 +1,7 @@
-<virtual-scroll [items]="messages" (vsUpdate)="viewPortItems = $event">
+<virtual-scroll [items]="messages" [enableUnequalChildrenSizes]="true" (vsUpdate)="viewPortItems = $event">
   <div class="message" *ngFor="let msg of viewPortItems">
     <span class="date">[{{parseDate(msg.date)}}]</span>
     <span class="sender">{{msg.sender}}:</span>
-    <span class="text">{{msg.message}}</span>
+    {{msg.message}}
   </div>
 </virtual-scroll>

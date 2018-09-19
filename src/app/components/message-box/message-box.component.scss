@@ -6,8 +6,7 @@ virtual-scroll {
 }
 
 .message {
-  display: flex;
-  flex-direction: row;
+  color: #ffffff;
 
   .date {
     color: #c0c0c0;
@@ -16,10 +15,6 @@ virtual-scroll {
 
   .sender {
     color: #ffc561;
-    margin-right: 5px;
-  }
-
-  .text {
-    color: #ffffff;
+    margin-right: 4px;
   }
 }
