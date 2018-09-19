@@ -41,3 +41,18 @@ body {
 
   height: 100%;
 }
+
+// Join channel modal
+body .ui-dialog.join-channel {
+  input {
+    width: 100%;
+  }
+
+  .ui-dialog-titlebar {
+    padding: 0.5em 0.75em;
+  }
+
+  .ui-dialog-footer {
+    border-top: none;
+  }
+}

@@ -2,10 +2,12 @@ import 'zone.js/dist/zone-mix';
 import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
@@ -52,6 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxsRouterPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     BrowserModule,
+    BrowserAnimationsModule,
     VirtualScrollModule,
     FormsModule,
     ReactiveFormsModule,
@@ -59,6 +62,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     InputTextModule,
     ButtonModule,
+    DialogModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

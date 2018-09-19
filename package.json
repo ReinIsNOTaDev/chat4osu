@@ -36,6 +36,7 @@
     "e2e": "npm run postinstall:web && ng e2e"
   },
   "dependencies": {
+    "@angular/animations": "^6.1.7",
     "@ngxs/logger-plugin": "^3.2.0",
     "@ngxs/router-plugin": "^3.2.0",
     "@ngxs/store": "^3.2.0",

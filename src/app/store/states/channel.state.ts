@@ -7,6 +7,7 @@ import {
   SetChannel
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
+import { ReceiveMessage } from '../actions/message.actions';
 
 export interface ChannelStateModel {
   channels: string[];
@@ -53,6 +54,18 @@ export class ChannelState {
   @Action(JoinChannelFailed)
   joinChannelFailed(ctx: StateContext<ChannelStateModel>) {
     // Todo
+  }
+
+  @Action(ReceiveMessage)
+  receiveMessage(ctx: StateContext<ChannelStateModel>, action: ReceiveMessage) {
+    const state = ctx.getState();
+    if (state.channels.indexOf(action.payload.channelName) === -1) {
+      ctx.setState(
+        produce(state, draft => {
+          draft.channels.push(action.payload.channelName);
+        })
+      );
+    }
   }
 
   @Action(SetChannel)

@@ -23,11 +23,18 @@ export class TabBarComponent implements OnInit {
   @Output()
   setChannel: EventEmitter<string> = new EventEmitter();
 
+  @Output()
+  joinChannelClick: EventEmitter<string> = new EventEmitter();
+
   constructor() {}
 
   ngOnInit(): void {}
 
   onSetChannel(channel: string) {
     this.setChannel.emit(channel);
+  }
+
+  onJoinChannelClick() {
+    this.joinChannelClick.emit();
   }
 }

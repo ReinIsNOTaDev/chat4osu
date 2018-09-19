@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { ChannelState } from '../../store/states/channel.state';
 import { MessageState } from '../../store/states/message.state';
 import { AuthState } from '../../store/states/auth.state';
-import { SetChannel } from '../../store/actions/channel.actions';
+import { SetChannel, JoinChannel } from '../../store/actions/channel.actions';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-chat',
@@ -24,11 +25,31 @@ export class ChatComponent implements OnInit {
   @Select(AuthState.username)
   username$: Observable<string>;
 
+  joinChannelVisible = false;
+  joinChannelValue = '';
+
   constructor(public store: Store) {}
 
   ngOnInit(): void {}
 
   onSetChannel(channelName: string) {
     this.store.dispatch(new SetChannel({ channelName }));
+  }
+
+  onJoinChannelClick() {
+    this.joinChannelVisible = true;
+  }
+
+  joinChannel() {
+    this.joinChannelVisible = false;
+
+    this.store
+      .dispatch([
+        new JoinChannel({ channelName: this.joinChannelValue }),
+        new SetChannel({ channelName: this.joinChannelValue })
+      ])
+      .subscribe(() => {
+        this.joinChannelValue = '';
+      });
   }
 }
