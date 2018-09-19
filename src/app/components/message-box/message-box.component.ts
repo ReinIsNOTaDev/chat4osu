@@ -42,7 +42,11 @@ export class MessageBoxComponent implements OnInit, OnChanges {
 
   parseDate(date: Date): string {
     const tempDate = moment(date);
-    return tempDate.hours() + ':' + tempDate.minutes();
+    return (
+      ('0' + tempDate.hours()).slice(-2) +
+      ':' +
+      ('0' + tempDate.minutes()).slice(-2)
+    );
   }
 
   scrollToBottom() {
