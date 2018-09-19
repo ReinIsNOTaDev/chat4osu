@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import * as Store from 'electron-store';
+import { ElectronService } from './electron.service';
 
 @Injectable()
 export class StorageService {
-  storage: Store;
+  storage: typeof Store;
 
-  constructor() {
-    this.storage = new Store();
+  constructor(electron: ElectronService) {
+    if (electron.isElectron()) {
+      const electronStoreModule = window.require('electron-store');
+      this.storage = new electronStoreModule();
+    }
   }
 
   get(key: string) {

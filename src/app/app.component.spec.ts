@@ -4,12 +4,24 @@ import { AppComponent } from './app.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ElectronService } from './providers/electron.service';
 import { NgxsModule } from '@ngxs/store';
+import { StorageService } from './providers/storage.service';
 
 describe('AppComponent', () => {
+  let _storageService: any;
+
   beforeEach(async(() => {
+    _storageService = jasmine.createSpyObj('StorageService', [
+      'get',
+      'set',
+      'delete'
+    ]);
+
     TestBed.configureTestingModule({
       declarations: [AppComponent],
-      providers: [ElectronService],
+      providers: [
+        ElectronService,
+        { provide: StorageService, useValue: _storageService }
+      ],
       imports: [
         RouterTestingModule,
         NgxsModule.forRoot([]),
