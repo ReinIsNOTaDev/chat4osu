@@ -32,6 +32,7 @@ import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { VirtualScrollModule } from 'angular2-virtual-scroll';
 import { InputBarComponent } from './components/input-bar/input-bar.component';
+import { StorageService } from './providers/storage.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -73,7 +74,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService, IrcService],
+  providers: [StorageService, ElectronService, IrcService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

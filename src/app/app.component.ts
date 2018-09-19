@@ -4,6 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
 import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
+import { StorageService } from './providers/storage.service';
+import { Login } from './store/actions/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +16,8 @@ export class AppComponent {
   constructor(
     public electronService: ElectronService,
     private translate: TranslateService,
-    private store: Store
+    private store: Store,
+    private storage: StorageService
   ) {
     translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
@@ -27,6 +30,14 @@ export class AppComponent {
       console.log('Mode web');
     }
 
-    this.store.dispatch(new Navigate(['']));
+    // Check storage for settings, etc
+    const username = this.storage.get('username');
+    const password = this.storage.get('password');
+
+    if (username && password) {
+      this.store.dispatch(new Login({ username, password }));
+    } else {
+      this.store.dispatch(new Navigate(['']));
+    }
   }
 }

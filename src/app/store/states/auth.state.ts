@@ -3,6 +3,7 @@ import { Login, LoginSuccess, LoginFailed } from '../actions/auth.actions';
 import produce from 'immer';
 import { IrcService } from '../../providers/irc.service';
 import { Navigate } from '@ngxs/router-plugin';
+import { StorageService } from '../../providers/storage.service';
 
 export interface AuthStateModel {
   username: string;
@@ -24,7 +25,7 @@ export class AuthState {
     return state.username;
   }
 
-  constructor(public irc: IrcService) {}
+  constructor(private irc: IrcService, private storage: StorageService) {}
 
   @Action(Login)
   async login(ctx: StateContext<AuthStateModel>, action: Login) {
@@ -51,6 +52,10 @@ export class AuthState {
         draft.loggingIn = false;
       })
     );
+
+    // Save auth in storage
+    this.storage.set('username', action.payload.username);
+    this.storage.set('password', action.payload.password);
   }
 
   @Action(LoginFailed)
@@ -62,5 +67,9 @@ export class AuthState {
         draft.loggingIn = false;
       })
     );
+
+    // Remove auth from storage
+    this.storage.delete('username');
+    this.storage.delete('password');
   }
 }

@@ -5,7 +5,7 @@ export class Login {
 
 export class LoginSuccess {
   static readonly type = '[Auth] LoginSuccess';
-  constructor(public payload: { username: string }) {}
+  constructor(public payload: { username: string; password: string }) {}
 }
 
 export class LoginFailed {

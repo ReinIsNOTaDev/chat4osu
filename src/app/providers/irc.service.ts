@@ -64,7 +64,7 @@ export class IrcService {
       0,
       () =>
         this.store.dispatch([
-          new LoginSuccess({ username }),
+          new LoginSuccess({ username, password }),
           new JoinChannel({ channelName: '#osu' }),
           new SetChannel({ channelName: '#osu' })
         ])
