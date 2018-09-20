@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ChannelState } from '../../store/states/channel.state';
@@ -29,6 +29,8 @@ export class ChatComponent implements OnInit {
   joinChannelVisible = false;
   joinChannelValue = '';
 
+  @ViewChild('input') input;
+
   constructor(public store: Store) {}
 
   ngOnInit(): void {}
@@ -56,5 +58,9 @@ export class ChatComponent implements OnInit {
 
   onSendMessage(message: string) {
     this.store.dispatch(new SendMessage({ message, date: new Date() }));
+  }
+
+  focusInput() {
+    this.input.nativeElement.focus();
   }
 }

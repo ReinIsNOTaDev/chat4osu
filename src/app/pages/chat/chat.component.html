@@ -1,7 +1,7 @@
-<p-dialog header="Join channel" width="300" [(visible)]="joinChannelVisible" [dismissableMask]="true" [modal]="true" [blockScroll]="true"
-  styleClass="join-channel">
+<p-dialog header="Join channel" width="300" [(visible)]="joinChannelVisible" [dismissableMask]="true" [modal]="true" [blockScroll]="true" [focusOnShow]="false"
+  styleClass="join-channel" (onShow)="focusInput()">
   <form (ngSubmit)="joinChannel()">
-    <input name="channel" type="text" placeholder="#channel or user" pInputText [(ngModel)]="joinChannelValue" />
+    <input #input name="channel" type="text" placeholder="#channel or user" pInputText [(ngModel)]="joinChannelValue" />
   </form>
   <p-footer>
     <p-button label="Join" styleClass="ui-button-success" (click)="joinChannel()"></p-button>

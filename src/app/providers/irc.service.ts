@@ -25,17 +25,36 @@ export class IrcService {
   async connect(username: string, password: string): Promise<any> {
     this.client = new this.irc.Client('irc.ppy.sh', username, {
       password: password,
-      autoConnect: true,
+      autoConnect: false,
       autoRejoin: false,
-      retryCount: 0
+      debug: false
     });
 
     this.client.addListener('error', error => {
+      console.error('error', error);
       switch (error.command) {
         case 'err_passwdmismatch': {
           this.store.dispatch(new LoginFailed(error));
         }
       }
+    });
+
+    this.client.addListener('netError', error => {
+      console.error('netError', error);
+    });
+
+    this.client.addListener('unhandled', message => {
+      console.log('unhandled', message);
+    });
+
+    this.client.addListener('raw', message => {
+      const blacklisted = ['JOIN', 'PART', 'QUIT'];
+      if (blacklisted.indexOf(message.rawCommand) !== -1) {
+        return;
+      }
+
+      console.log('raw', message.rawCommand);
+      console.log('args', message.args);
     });
 
     this.client.addListener('message#', (nick, to, text) => {
@@ -60,8 +79,12 @@ export class IrcService {
       );
     });
 
+    this.client.addListener('whois', info => {
+      console.log('whois', info);
+    });
+
     this.client.connect(
-      0,
+      3,
       () =>
         this.store.dispatch([
           new LoginSuccess({ username, password }),

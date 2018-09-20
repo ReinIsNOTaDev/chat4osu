@@ -50,6 +50,6 @@ export class MessageBoxComponent implements OnInit, OnChanges {
   }
 
   scrollToBottom() {
-    this.virtualScroll.scrollToIndex(this.messages.length - 1, true);
+    this.virtualScroll.scrollToIndex(this.messages.length - 1, true, 0, 0);
   }
 }
