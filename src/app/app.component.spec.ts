@@ -5,9 +5,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ElectronService } from './providers/electron.service';
 import { NgxsModule } from '@ngxs/store';
 import { StorageService } from './providers/storage.service';
+import { ToastState } from './store/states/toast.state';
+import { MessageService } from 'primeng/api';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AppComponent', () => {
   let _storageService: any;
+  let _messageService: any;
 
   beforeEach(async(() => {
     _storageService = jasmine.createSpyObj('StorageService', [
@@ -15,18 +19,21 @@ describe('AppComponent', () => {
       'set',
       'delete'
     ]);
+    _messageService = jasmine.createSpyObj('MessageService', ['add']);
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       providers: [
         ElectronService,
-        { provide: StorageService, useValue: _storageService }
+        { provide: StorageService, useValue: _storageService },
+        { provide: MessageService, useValue: _messageService }
       ],
       imports: [
         RouterTestingModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([ToastState]),
         TranslateModule.forRoot()
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
