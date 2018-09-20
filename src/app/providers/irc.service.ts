@@ -10,13 +10,19 @@ import {
   SetChannel
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
+import { MessageService } from 'primeng/api';
+import { AddToast } from '../store/actions/toast.actions';
 
 @Injectable()
 export class IrcService {
   irc: typeof irc;
   client: typeof irc.Client;
 
-  constructor(public store: Store, electron: ElectronService) {
+  constructor(
+    public store: Store,
+    electron: ElectronService,
+    private messageService: MessageService
+  ) {
     if (electron.isElectron()) {
       this.irc = window.require('irc-upd');
     }
@@ -26,11 +32,20 @@ export class IrcService {
     this.client = new this.irc.Client('irc.ppy.sh', username, {
       password: password,
       autoConnect: false,
+      retryCount: 0,
       autoRejoin: false,
       debug: false
     });
 
     this.client.addListener('error', error => {
+      this.store.dispatch(
+        new AddToast({
+          key: 'toast',
+          severity: 'error',
+          summary: 'Error',
+          detail: error.command
+        })
+      );
       console.error('error', error);
       switch (error.command) {
         case 'err_passwdmismatch': {
@@ -40,15 +55,30 @@ export class IrcService {
     });
 
     this.client.addListener('netError', error => {
+      this.store.dispatch(
+        new AddToast({
+          severity: 'error',
+          summary: 'Network error',
+          detail: error.command
+        })
+      );
       console.error('netError', error);
     });
 
     this.client.addListener('unhandled', message => {
+      this.store.dispatch(
+        new AddToast({
+          severity: 'warn',
+          summary: 'Unhandled message',
+          detail:
+            'An unhandled message was sent from the server. Check the console for more information.'
+        })
+      );
       console.log('unhandled', message);
     });
 
     this.client.addListener('raw', message => {
-      const blacklisted = ['JOIN', 'PART', 'QUIT'];
+      const blacklisted = ['JOIN', 'PART', 'QUIT', '353'];
       if (blacklisted.indexOf(message.rawCommand) !== -1) {
         return;
       }
@@ -84,7 +114,7 @@ export class IrcService {
     });
 
     this.client.connect(
-      3,
+      0,
       () =>
         this.store.dispatch([
           new LoginSuccess({ username, password }),

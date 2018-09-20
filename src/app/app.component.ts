@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
-import { Store } from '@ngxs/store';
+import { Store, Select } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
 import { StorageService } from './providers/storage.service';
 import { Login } from './store/actions/auth.actions';
+import { Observable } from 'rxjs';
+import { ToastState } from './store/states/toast.state';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +16,9 @@ import { Login } from './store/actions/auth.actions';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  @Select(ToastState.lastToast)
+  lastToast$: Observable<Message>;
+
   constructor(
     public electronService: ElectronService,
     private translate: TranslateService,
@@ -20,24 +26,22 @@ export class AppComponent {
     private storage: StorageService
   ) {
     translate.setDefaultLang('en');
-    console.log('AppConfig', AppConfig);
 
     if (electronService.isElectron()) {
-      console.log('Mode electron');
-      console.log('Electron ipcRenderer', electronService.ipcRenderer);
-      console.log('NodeJS childProcess', electronService.childProcess);
-    } else {
-      console.log('Mode web');
-    }
+      // Check storage for settings, etc
+      const username = this.storage.get('username');
+      const password = this.storage.get('password');
 
-    // Check storage for settings, etc
-    const username = this.storage.get('username');
-    const password = this.storage.get('password');
-
-    if (username && password) {
-      this.store.dispatch(new Login({ username, password }));
+      if (username && password) {
+        this.store.dispatch(new Login({ username, password: 'password' }));
+      } else {
+        this.store.dispatch(new Navigate(['']));
+      }
     } else {
       this.store.dispatch(new Navigate(['']));
     }
+
+    // Hack to show toast
+    this.lastToast$.subscribe();
   }
 }

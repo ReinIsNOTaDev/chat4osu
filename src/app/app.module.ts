@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
@@ -33,6 +35,7 @@ import { MessageBoxComponent } from './components/message-box/message-box.compon
 import { VirtualScrollModule } from 'angular2-virtual-scroll';
 import { InputBarComponent } from './components/input-bar/input-bar.component';
 import { StorageService } from './providers/storage.service';
+import { ToastState } from './store/states/toast.state';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -53,7 +56,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ChatComponent
   ],
   imports: [
-    NgxsModule.forRoot([AuthState, ChannelState, MessageState]),
+    NgxsModule.forRoot([AuthState, ChannelState, MessageState, ToastState]),
     NgxsRouterPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     BrowserModule,
@@ -66,6 +69,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InputTextModule,
     ButtonModule,
     DialogModule,
+    ToastModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -74,7 +78,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [StorageService, ElectronService, IrcService],
+  providers: [MessageService, StorageService, ElectronService, IrcService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
