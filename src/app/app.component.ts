@@ -33,7 +33,7 @@ export class AppComponent {
       const password = this.storage.get('password');
 
       if (username && password) {
-        this.store.dispatch(new Login({ username, password: 'password' }));
+        this.store.dispatch(new Login({ username, password }));
       } else {
         this.store.dispatch(new Navigate(['']));
       }
