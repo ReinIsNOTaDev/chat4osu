@@ -135,6 +135,26 @@ export class IrcService {
   }
 
   sendMessage(channelName: string, message: string) {
-    this.client.say(channelName, message);
+    const cleanMsg = message.trim();
+    if (cleanMsg.charAt(0) === '/') {
+      this.handleCommand(cleanMsg);
+    } else {
+      this.client.say(channelName, message);
+    }
+  }
+
+  handleCommand(msg: string) {
+    const msgParts = msg.split(' ');
+    switch (msgParts[0]) {
+      case '/join': {
+        this.joinChannel(msgParts[1]);
+        break;
+      }
+
+      case '/j': {
+        this.joinChannel(msgParts[1]);
+        break;
+      }
+    }
   }
 }

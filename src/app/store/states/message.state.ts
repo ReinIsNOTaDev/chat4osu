@@ -40,22 +40,25 @@ export class MessageState {
   SendMessage(ctx: StateContext<MessageStateModel>, action: SendMessage) {
     const channelName = this.store.selectSnapshot(ChannelState.currentChannel);
     const username = this.store.selectSnapshot(AuthState.username);
-    this.irc.sendMessage(channelName, action.payload.message);
+    const message = action.payload.message.trim();
+    this.irc.sendMessage(channelName, message);
 
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        // Create the channel array if it doesn't exist yet
-        if (!draft.messages[channelName]) {
-          draft.messages[channelName] = [];
-        }
+    if (message.charAt(0) !== '/') {
+      ctx.setState(
+        produce(ctx.getState(), draft => {
+          // Create the channel array if it doesn't exist yet
+          if (!draft.messages[channelName]) {
+            draft.messages[channelName] = [];
+          }
 
-        draft.messages[channelName].push({
-          message: action.payload.message,
-          sender: username,
-          date: action.payload.date
-        });
-      })
-    );
+          draft.messages[channelName].push({
+            message: message,
+            sender: username,
+            date: action.payload.date
+          });
+        })
+      );
+    }
   }
 
   @Action(ReceiveMessage)
