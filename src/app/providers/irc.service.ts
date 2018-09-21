@@ -98,6 +98,16 @@ export class IrcService {
       );
     });
 
+    this.client.addListener('join', (channel, nick) => {
+      if (nick === this.client.nick) {
+        this.store.dispatch(
+          new JoinChannelSuccess({
+            channelName: channel
+          })
+        );
+      }
+    });
+
     this.client.addListener('pm', (nick, text) => {
       this.store.dispatch(
         new ReceiveMessage({
@@ -126,9 +136,7 @@ export class IrcService {
 
   joinChannel(channelName: string) {
     if (channelName.charAt(0) === '#') {
-      this.client.join(channelName, () => {
-        this.store.dispatch(new JoinChannelSuccess({ channelName }));
-      });
+      this.client.join(channelName);
     } else {
       this.store.dispatch(new JoinChannelSuccess({ channelName }));
     }
