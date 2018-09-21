@@ -3,6 +3,11 @@ export class JoinChannel {
   constructor(public payload: { channelName: string }) {}
 }
 
+export class JoinAndSetChannel {
+  static readonly type = '[Channel] JoinAndSetChannel';
+  constructor(public payload: { channelName: string }) {}
+}
+
 export class JoinChannelSuccess {
   static readonly type = '[Channel] JoinChannelSuccess';
   constructor(public payload: { channelName: string }) {}

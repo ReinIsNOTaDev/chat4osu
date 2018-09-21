@@ -4,7 +4,11 @@ import { Observable } from 'rxjs';
 import { ChannelState } from '../../store/states/channel.state';
 import { MessageState } from '../../store/states/message.state';
 import { AuthState } from '../../store/states/auth.state';
-import { SetChannel, JoinChannel } from '../../store/actions/channel.actions';
+import {
+  SetChannel,
+  JoinChannel,
+  JoinAndSetChannel
+} from '../../store/actions/channel.actions';
 import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
 
@@ -29,7 +33,8 @@ export class ChatComponent implements OnInit {
   joinChannelVisible = false;
   joinChannelValue = '';
 
-  @ViewChild('input') input;
+  @ViewChild('input')
+  input;
 
   constructor(public store: Store) {}
 
@@ -47,10 +52,7 @@ export class ChatComponent implements OnInit {
     this.joinChannelVisible = false;
 
     this.store
-      .dispatch([
-        new JoinChannel({ channelName: this.joinChannelValue }),
-        new SetChannel({ channelName: this.joinChannelValue })
-      ])
+      .dispatch([new JoinAndSetChannel({ channelName: this.joinChannelValue })])
       .subscribe(() => {
         this.joinChannelValue = '';
       });

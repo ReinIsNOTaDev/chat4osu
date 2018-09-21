@@ -4,7 +4,8 @@ import {
   JoinChannel,
   JoinChannelSuccess,
   JoinChannelFailed,
-  SetChannel
+  SetChannel,
+  JoinAndSetChannel
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage } from '../actions/message.actions';
@@ -37,6 +38,11 @@ export class ChannelState {
   @Action(JoinChannel)
   joinChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
     this.irc.joinChannel(action.payload.channelName);
+  }
+
+  @Action(JoinAndSetChannel)
+  joinAndSetChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
+    this.irc.joinChannel(action.payload.channelName, true);
   }
 
   @Action(JoinChannelSuccess)

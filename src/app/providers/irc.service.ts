@@ -134,11 +134,18 @@ export class IrcService {
     );
   }
 
-  joinChannel(channelName: string) {
+  joinChannel(channelName: string, setToActive = false) {
     if (channelName.charAt(0) === '#') {
-      this.client.join(channelName);
+      this.client.join(channelName, () => {
+        if (setToActive) {
+          this.store.dispatch(new SetChannel({ channelName }));
+        }
+      });
     } else {
       this.store.dispatch(new JoinChannelSuccess({ channelName }));
+      if (setToActive) {
+        this.store.dispatch(new SetChannel({ channelName }));
+      }
     }
   }
 
