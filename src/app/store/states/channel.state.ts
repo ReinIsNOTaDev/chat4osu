@@ -59,7 +59,12 @@ export class ChannelState {
   @Action(ReceiveMessage)
   receiveMessage(ctx: StateContext<ChannelStateModel>, action: ReceiveMessage) {
     const state = ctx.getState();
-    if (state.channels.indexOf(action.payload.channelName) === -1) {
+
+    const channelKey = state.channels.find(
+      key => key.toLowerCase() === action.payload.channelName.toLowerCase()
+    );
+
+    if (!channelKey) {
       ctx.setState(
         produce(state, draft => {
           draft.channels.push(action.payload.channelName);

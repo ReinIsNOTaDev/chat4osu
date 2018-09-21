@@ -65,12 +65,17 @@ export class MessageState {
   receiveMessage(ctx: StateContext<MessageStateModel>, action: ReceiveMessage) {
     ctx.setState(
       produce(ctx.getState(), draft => {
+        let channelKey = Object.keys(draft.messages).find(
+          key => key.toLowerCase() === action.payload.channelName.toLowerCase()
+        );
+
         // Create the channel array if it doesn't exist yet
-        if (!draft.messages[action.payload.channelName]) {
+        if (!channelKey) {
           draft.messages[action.payload.channelName] = [];
+          channelKey = action.payload.channelName;
         }
 
-        draft.messages[action.payload.channelName].push({
+        draft.messages[channelKey].push({
           message: action.payload.message,
           sender: action.payload.sender,
           date: action.payload.date
