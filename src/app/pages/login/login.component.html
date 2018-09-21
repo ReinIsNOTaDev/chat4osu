@@ -1,6 +1,10 @@
 <div class="container">
   <div class="login-box">
-    <form [formGroup]="loginForm">
+    <div class="spinner" *ngIf="loggingIn$ | async">
+      <p-progressSpinner class="spinner-element" [strokeWidth]="3"></p-progressSpinner>
+    </div>
+
+    <form [formGroup]="loginForm" *ngIf="!(loggingIn$ | async)">
       <div class="ui-g">
         <div class="ui-g-12">
           <span class="ui-float-label">

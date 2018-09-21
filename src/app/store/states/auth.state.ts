@@ -25,6 +25,11 @@ export class AuthState {
     return state.username;
   }
 
+  @Selector()
+  static loggingIn(state: AuthStateModel) {
+    return state.loggingIn;
+  }
+
   constructor(private irc: IrcService, private storage: StorageService) {}
 
   @Action(Login)
