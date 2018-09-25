@@ -31,7 +31,6 @@ build:
       - $CI_PROJECT_DIR/release/*.*
   script:
     - sed "s/0.0.0/${VERSION_ID}/g" package.json > _package.json && mv _package.json package.json
-    - yarn
-    - yarn electron:windows
+    - npm install && npm run electron:windows
   only:
     - master
