@@ -25,6 +25,7 @@ export class AppComponent {
     private store: Store,
     private storage: StorageService
   ) {
+    this.electronService.update();
     translate.setDefaultLang('en');
 
     if (electronService.isElectron()) {

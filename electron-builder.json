@@ -27,8 +27,13 @@
   ],
   "win": {
     "icon": "dist",
-    "target": ["portable", "nsis"],
+    "target": ["nsis"],
     "verifyUpdateCodeSignature": false
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": true,
+    "allowToChangeInstallationDirectory": true
   },
   "mac": {
     "icon": "dist",
