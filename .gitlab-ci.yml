@@ -6,23 +6,6 @@ variables:
 stages:
   - build
 
-test:
-  stage: test
-  script:
-    - yarn
-    - yarn ng -- lint
-    - yarn test
-  only:
-    - master
-
-e2e:
-  stage: e2e
-  script:
-    - yarn
-    - yarn e2e
-  only:
-    - master
-
 build:
   image: slauta93/electron-builder-win
   stage: build
