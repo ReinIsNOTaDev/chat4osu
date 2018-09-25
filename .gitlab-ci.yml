@@ -4,7 +4,26 @@ variables:
   VERSION_ID: '0.0.$CI_PIPELINE_ID'
 
 stages:
+  - test
+  - e2e
   - build
+
+test:
+  stage: test
+  script:
+    - yarn
+    - yarn ng -- lint
+    - yarn test
+  only:
+    - master
+
+e2e:
+  stage: e2e
+  script:
+    - yarn
+    - yarn e2e
+  only:
+    - master
 
 build:
   image: electronuserland/builder:wine
