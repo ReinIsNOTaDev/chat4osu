@@ -1,5 +1,11 @@
 {
   "productName": "chat4osu",
+  "publish": [
+    {
+      "provider": "generic",
+      "url": "https://gitlab.com"
+    }
+  ],
   "directories": {
     "output": "release/"
   },
@@ -21,7 +27,8 @@
   ],
   "win": {
     "icon": "dist",
-    "target": ["portable"]
+    "target": ["portable", "nsis"],
+    "verifyUpdateCodeSignature": false
   },
   "mac": {
     "icon": "dist",

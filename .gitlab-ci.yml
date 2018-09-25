@@ -1,8 +1,9 @@
 image: weboaks/node-karma-protractor-chrome
 
+variables:
+  VERSION_ID: '0.0.$CI_PIPELINE_ID'
+
 stages:
-  - test
-  - e2e
   - build
 
 test:
@@ -23,9 +24,14 @@ e2e:
     - master
 
 build:
+  image: slauta93/electron-builder-win
   stage: build
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/release/*.*
   script:
+    - sed "s/0.0.0/${VERSION_ID}/g" package.json > _package.json && mv _package.json package.json
     - yarn
-    - yarn build
+    - yarn electron:windows
   only:
     - master
