@@ -7,7 +7,7 @@ stages:
   - build
 
 build:
-  image: electronuserland/builder
+  image: electronuserland/builder:wine
   stage: build
   artifacts:
     paths:
