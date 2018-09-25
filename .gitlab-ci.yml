@@ -7,13 +7,13 @@ stages:
   - build
 
 build:
-  image: slauta93/electron-builder-win
+  image: electronuserland/builder
   stage: build
   artifacts:
     paths:
       - $CI_PROJECT_DIR/release/*.*
   script:
     - sed "s/0.0.0/${VERSION_ID}/g" package.json > _package.json && mv _package.json package.json
-    - npm install && npm run electron:windows
+    - yarn && yarn electron:windows
   only:
     - master
