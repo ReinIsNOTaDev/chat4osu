@@ -19,7 +19,7 @@ export class SettingsState {
   }
 
   @Action(SetVersion)
-  SetVersion(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
+  setVersion(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.version = action.payload;

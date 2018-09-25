@@ -25,6 +25,7 @@ export class AppComponent {
     private store: Store,
     private storage: StorageService
   ) {
+    this.electronService.setVersion();
     if (AppConfig.production) {
       this.electronService.update();
     }

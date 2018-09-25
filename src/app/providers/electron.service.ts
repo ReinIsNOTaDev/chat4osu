@@ -36,10 +36,6 @@ export class ElectronService {
       this.log = this.remote.require('electron-log');
       this.log.info('Starting...');
 
-      // Set version
-      this.log.info(`Version ${this.remote.app.getVersion()}`);
-      this.store.dispatch(new SetVersion(this.remote.app.getVersion()));
-
       // Auto-update settings
       this.autoUpdater.logger = this.log;
       (<any>this.autoUpdater.logger).transports.file.level = 'info';
@@ -53,6 +49,13 @@ export class ElectronService {
       if (AppConfig.production) {
         this.autoUpdateListeners();
       }
+    }
+  }
+
+  setVersion() {
+    if (this.isElectron()) {
+      this.log.info(`Version ${this.remote.app.getVersion()}`);
+      this.store.dispatch(new SetVersion(this.remote.app.getVersion()));
     }
   }
 

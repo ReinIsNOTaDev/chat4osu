@@ -28,7 +28,8 @@
   "win": {
     "icon": "dist",
     "target": ["nsis"],
-    "verifyUpdateCodeSignature": false
+    "verifyUpdateCodeSignature": false,
+    "artifactName": "${productName}-installer.${ext}"
   },
   "nsis": {
     "oneClick": false,
