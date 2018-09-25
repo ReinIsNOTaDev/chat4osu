@@ -4,6 +4,7 @@ import { Login } from '../../store/actions/auth.actions';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthState } from '../../store/states/auth.state';
+import { SettingsState } from '../../store/states/settings.state';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,9 @@ import { AuthState } from '../../store/states/auth.state';
 export class LoginComponent implements OnInit {
   @Select(AuthState.loggingIn)
   loggingIn$: Observable<boolean>;
+
+  @Select(SettingsState.version)
+  version$: Observable<string>;
 
   loginForm: FormGroup;
 

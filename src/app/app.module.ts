@@ -37,6 +37,7 @@ import { VirtualScrollModule } from 'angular2-virtual-scroll';
 import { InputBarComponent } from './components/input-bar/input-bar.component';
 import { StorageService } from './providers/storage.service';
 import { ToastState } from './store/states/toast.state';
+import { SettingsState } from './store/states/settings.state';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -57,7 +58,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     ChatComponent
   ],
   imports: [
-    NgxsModule.forRoot([AuthState, ChannelState, MessageState, ToastState]),
+    NgxsModule.forRoot([
+      SettingsState,
+      AuthState,
+      ChannelState,
+      MessageState,
+      ToastState
+    ]),
     NgxsRouterPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     BrowserModule,
