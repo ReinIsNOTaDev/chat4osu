@@ -7,7 +7,8 @@ import { AuthState } from '../../store/states/auth.state';
 import {
   SetChannel,
   JoinChannel,
-  JoinAndSetChannel
+  JoinAndSetChannel,
+  LeaveChannel
 } from '../../store/actions/channel.actions';
 import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
@@ -64,5 +65,9 @@ export class ChatComponent implements OnInit {
 
   focusInput() {
     this.input.nativeElement.focus();
+  }
+
+  onLeaveChannel(channelName: string) {
+    this.store.dispatch(new LeaveChannel({ channelName }));
   }
 }

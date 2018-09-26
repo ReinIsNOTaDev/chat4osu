@@ -83,6 +83,15 @@ export class ElectronService {
 
     this.autoUpdater.on('error', err => {
       console.log('Error in auto-updater.', err);
+      this.store.dispatch(
+        new AddToast({
+          summary: 'Updater error',
+          detail:
+            'The auto updater has encountered an error. Please check the logs for more info!',
+          key: 'toast',
+          severity: 'error'
+        })
+      );
     });
 
     this.autoUpdater.on('download-progress', progressObj => {

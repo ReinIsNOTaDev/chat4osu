@@ -149,6 +149,12 @@ export class IrcService {
     }
   }
 
+  partChannel(channelName: string) {
+    if (channelName.charAt(0) === '#') {
+      this.client.part(channelName);
+    }
+  }
+
   sendMessage(channelName: string, message: string) {
     const cleanMsg = message.trim();
     if (cleanMsg.charAt(0) === '/') {

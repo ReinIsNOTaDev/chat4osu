@@ -5,7 +5,8 @@ import {
   JoinChannelSuccess,
   JoinChannelFailed,
   SetChannel,
-  JoinAndSetChannel
+  JoinAndSetChannel,
+  LeaveChannel
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage } from '../actions/message.actions';
@@ -84,6 +85,31 @@ export class ChannelState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.currentChannel = action.payload.channelName;
+      })
+    );
+  }
+
+  @Action(LeaveChannel)
+  leaveChannel(ctx: StateContext<ChannelStateModel>, action: SetChannel) {
+    this.irc.partChannel(action.payload.channelName);
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        const index = draft.channels.indexOf(action.payload.channelName);
+        draft.channels.splice(index, 1);
+
+        if (draft.channels.length === 0) {
+          draft.currentChannel = '';
+        } else if (
+          draft.channels.indexOf(draft.currentChannel) === -1 &&
+          draft.channels[index]
+        ) {
+          draft.currentChannel = draft.channels[index];
+        } else if (
+          draft.channels.indexOf(draft.currentChannel) === -1 &&
+          !draft.channels[index]
+        ) {
+          draft.currentChannel = draft.channels[index - 1];
+        }
       })
     );
   }
