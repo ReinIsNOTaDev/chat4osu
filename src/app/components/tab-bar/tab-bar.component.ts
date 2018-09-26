@@ -26,6 +26,9 @@ export class TabBarComponent implements OnInit {
   @Output()
   joinChannelClick: EventEmitter<string> = new EventEmitter();
 
+  @Output()
+  leaveChannel: EventEmitter<string> = new EventEmitter();
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -36,5 +39,10 @@ export class TabBarComponent implements OnInit {
 
   onJoinChannelClick() {
     this.joinChannelClick.emit();
+  }
+
+  onLeaveChannel(event, channel: string) {
+    event.stopPropagation();
+    this.leaveChannel.emit(channel);
   }
 }
