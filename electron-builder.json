@@ -31,11 +31,6 @@
     "verifyUpdateCodeSignature": false,
     "artifactName": "${productName}-setup.${ext}"
   },
-  "nsis": {
-    "oneClick": false,
-    "perMachine": true,
-    "allowToChangeInstallationDirectory": true
-  },
   "mac": {
     "icon": "dist",
     "target": ["dmg"]
