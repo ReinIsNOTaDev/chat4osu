@@ -29,7 +29,7 @@
     "icon": "dist",
     "target": ["nsis"],
     "verifyUpdateCodeSignature": false,
-    "artifactName": "${productName}-installer.${ext}"
+    "artifactName": "${productName}-setup.${ext}"
   },
   "nsis": {
     "oneClick": false,
