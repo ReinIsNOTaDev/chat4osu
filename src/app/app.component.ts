@@ -42,6 +42,10 @@ export class AppComponent {
       } else {
         this.store.dispatch(new Navigate(['']));
       }
+
+      if (!AppConfig.production) {
+        this.electronService.ipcRenderer.send('dev-tools');
+      }
     } else {
       this.store.dispatch(new Navigate(['']));
     }

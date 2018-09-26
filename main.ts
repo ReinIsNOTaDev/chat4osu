@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -33,8 +33,6 @@ function createWindow() {
       })
     );
   }
-
-  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -71,3 +69,7 @@ try {
   // Catch Error
   // throw e;
 }
+
+ipcMain.on('dev-tools', () => {
+  win.webContents.openDevTools();
+});
