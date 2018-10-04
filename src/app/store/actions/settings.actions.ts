@@ -2,3 +2,8 @@ export class SetVersion {
   static readonly type = '[Settings] SetVersion';
   constructor(public readonly payload: string) {}
 }
+
+export class OpenExternalUrl {
+  static readonly type = '[Settings] OpenExternalUrl';
+  constructor(public readonly payload: string) {}
+}

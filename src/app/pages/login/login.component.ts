@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthState } from '../../store/states/auth.state';
 import { SettingsState } from '../../store/states/settings.state';
+import { OpenExternalUrl } from '../../store/actions/settings.actions';
 
 @Component({
   selector: 'app-login',
@@ -31,5 +32,10 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.store.dispatch(new Login(this.loginForm.value));
+  }
+
+  openIrcPage(event) {
+    event.preventDefault();
+    this.store.dispatch(new OpenExternalUrl('https://osu.ppy.sh/p/irc'));
   }
 }

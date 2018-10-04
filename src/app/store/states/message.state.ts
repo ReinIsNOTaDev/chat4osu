@@ -12,6 +12,7 @@ import { JoinChannelSuccess } from '../actions/channel.actions';
 import { ChannelState, ChannelStateModel } from './channel.state';
 import { IrcService } from '../../providers/irc.service';
 import { AuthState } from './auth.state';
+import { Logout } from '../actions/auth.actions';
 
 export interface MessageStateModel {
   messages: {
@@ -94,6 +95,15 @@ export class MessageState {
         if (!draft.messages[action.payload.channelName]) {
           draft.messages[action.payload.channelName] = [];
         }
+      })
+    );
+  }
+
+  @Action(Logout)
+  async logout(ctx: StateContext<MessageStateModel>) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.messages = {};
       })
     );
   }
