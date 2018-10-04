@@ -178,4 +178,9 @@ export class IrcService {
       }
     }
   }
+
+  logout() {
+    this.client.removeAllListeners();
+    this.client.disconnect();
+  }
 }

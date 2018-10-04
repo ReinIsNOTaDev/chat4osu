@@ -1,5 +1,10 @@
 import { State, Action, StateContext, NgxsOnInit, Selector } from '@ngxs/store';
-import { Login, LoginSuccess, LoginFailed } from '../actions/auth.actions';
+import {
+  Login,
+  LoginSuccess,
+  LoginFailed,
+  Logout
+} from '../actions/auth.actions';
 import produce from 'immer';
 import { IrcService } from '../../providers/irc.service';
 import { Navigate } from '@ngxs/router-plugin';
@@ -76,5 +81,24 @@ export class AuthState {
     // Remove auth from storage
     this.storage.delete('username');
     this.storage.delete('password');
+  }
+
+  @Action(Logout)
+  async logout(ctx: StateContext<AuthStateModel>) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.loggingIn = false;
+        draft.loggedIn = false;
+        draft.username = '';
+      })
+    );
+
+    this.irc.logout();
+
+    // Remove auth from storage
+    this.storage.delete('username');
+    this.storage.delete('password');
+
+    ctx.dispatch(new Navigate(['/']));
   }
 }

@@ -12,3 +12,7 @@ export class LoginFailed {
   static readonly type = '[Auth] LoginFailed';
   constructor(public payload: any) {}
 }
+
+export class Logout {
+  static readonly type = '[Auth] Logout';
+}

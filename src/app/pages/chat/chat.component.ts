@@ -12,6 +12,7 @@ import {
 } from '../../store/actions/channel.actions';
 import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
+import { Logout } from '../../store/actions/auth.actions';
 
 @Component({
   selector: 'app-chat',
@@ -69,5 +70,9 @@ export class ChatComponent implements OnInit {
 
   onLeaveChannel(channelName: string) {
     this.store.dispatch(new LeaveChannel({ channelName }));
+  }
+
+  onLogout() {
+    this.store.dispatch(new Logout());
   }
 }
