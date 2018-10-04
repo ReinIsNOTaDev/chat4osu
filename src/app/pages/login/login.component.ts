@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { AuthState } from '../../store/states/auth.state';
 import { SettingsState } from '../../store/states/settings.state';
 import { OpenExternalUrl } from '../../store/actions/settings.actions';
-import { AddToast } from '../../store/actions/toast.actions';
 
 @Component({
   selector: 'app-login',
