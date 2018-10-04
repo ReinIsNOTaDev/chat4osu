@@ -1,4 +1,4 @@
-import { State, Action, StateContext, NgxsOnInit, Selector } from '@ngxs/store';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 import {
   Login,
   LoginSuccess,
@@ -87,8 +87,8 @@ export class AuthState {
   async logout(ctx: StateContext<AuthStateModel>) {
     ctx.setState(
       produce(ctx.getState(), draft => {
-        draft.loggingIn = false;
         draft.loggedIn = false;
+        draft.loggingIn = false;
         draft.username = '';
       })
     );

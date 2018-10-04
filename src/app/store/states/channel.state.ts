@@ -10,6 +10,7 @@ import {
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage } from '../actions/message.actions';
+import { Logout } from '../actions/auth.actions';
 
 export interface ChannelStateModel {
   channels: string[];
@@ -110,6 +111,16 @@ export class ChannelState {
         ) {
           draft.currentChannel = draft.channels[index - 1];
         }
+      })
+    );
+  }
+
+  @Action(Logout)
+  async logout(ctx: StateContext<ChannelStateModel>) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.channels = [];
+        draft.currentChannel = '';
       })
     );
   }
