@@ -12,6 +12,25 @@
     border-radius: 2px;
     background-color: rgba(255, 255, 255, 0.1);
 
+    .title {
+      color: white;
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .irc-help-container {
+      padding-bottom: 0;
+      display: flex;
+      justify-content: center;
+
+      .irc-help {
+        font-size: 0.7rem;
+        color: #c4c4c4;
+      }
+    }
+
     .spinner {
       width: 100%;
       height: 100%;

@@ -1,6 +1,7 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { SetVersion } from '../actions/settings.actions';
+import { SetVersion, OpenExternalUrl } from '../actions/settings.actions';
 import produce from 'immer';
+import { ElectronService } from '../../providers/electron.service';
 
 export interface SettingsStateModel {
   version: string;
@@ -18,6 +19,8 @@ export class SettingsState {
     return state.version;
   }
 
+  constructor(private electron: ElectronService) {}
+
   @Action(SetVersion)
   setVersion(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
     ctx.setState(
@@ -25,5 +28,10 @@ export class SettingsState {
         draft.version = action.payload;
       })
     );
+  }
+
+  @Action(OpenExternalUrl)
+  openExternalUrl(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
+    this.electron.openLinkInBrowser(action.payload);
   }
 }

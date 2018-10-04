@@ -8,6 +8,10 @@
     <form [formGroup]="loginForm" *ngIf="!(loggingIn$ | async)">
       <div class="ui-g">
         <div class="ui-g-12">
+          <h3 class="title">chat4osu</h3>
+        </div>
+
+        <div class="ui-g-12">
           <span class="ui-float-label">
             <input id="float-input" type="text" formControlName="username" pInputText>
             <label for="float-input">Username</label>
@@ -17,12 +21,16 @@
         <div class="ui-g-12">
           <span class="ui-float-label">
             <input id="float-input" type="password" formControlName="password" pInputText>
-            <label for="float-input">Password</label>
+            <label for="float-input">IRC Password</label>
           </span>
         </div>
 
         <div class="ui-g-12">
           <p-button label="Login" styleClass="ui-button-success" (click)="login()"></p-button>
+        </div>
+
+        <div class="ui-g-12 irc-help-container">
+          <span class="irc-help">Get your IRC password <a href="#" (click)="openIrcPage($event)">HERE</a>!</span>
         </div>
       </div>
     </form>

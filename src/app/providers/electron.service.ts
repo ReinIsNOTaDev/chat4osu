@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
-import { ipcRenderer, webFrame, remote } from 'electron';
+import { ipcRenderer, webFrame, remote, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import * as childProcess from 'child_process';
@@ -21,6 +21,7 @@ export class ElectronService {
   autoUpdater: typeof autoUpdater;
   log: typeof log;
   fs: typeof fs;
+  shell: typeof shell;
 
   constructor(private store: Store) {
     // Conditional imports
@@ -28,6 +29,7 @@ export class ElectronService {
       this.ipcRenderer = window.require('electron').ipcRenderer;
       this.webFrame = window.require('electron').webFrame;
       this.remote = window.require('electron').remote;
+      this.shell = window.require('electron').shell;
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
 
@@ -56,6 +58,12 @@ export class ElectronService {
     if (this.isElectron()) {
       this.log.info(`Version ${this.remote.app.getVersion()}`);
       this.store.dispatch(new SetVersion(this.remote.app.getVersion()));
+    }
+  }
+
+  openLinkInBrowser(url: string) {
+    if (this.isElectron()) {
+      this.shell.openExternal(url);
     }
   }
 
