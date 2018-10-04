@@ -16,7 +16,9 @@ export class InputBarComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    this.send.emit(this.message);
-    this.message = '';
+    if (this.message.trim() !== '') {
+      this.send.emit(this.message);
+      this.message = '';
+    }
   }
 }
