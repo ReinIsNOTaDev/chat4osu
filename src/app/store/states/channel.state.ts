@@ -15,13 +15,15 @@ import { Logout } from '../actions/auth.actions';
 export interface ChannelStateModel {
   channels: string[];
   currentChannel: string;
+  multiplayer: boolean;
 }
 
 @State<ChannelStateModel>({
   name: 'channel',
   defaults: {
     channels: [],
-    currentChannel: ''
+    currentChannel: '',
+    multiplayer: false
   }
 })
 export class ChannelState {
@@ -33,6 +35,11 @@ export class ChannelState {
   @Selector()
   static currentChannel(state: ChannelStateModel) {
     return state.currentChannel;
+  }
+
+  @Selector()
+  static multiplayer(state: ChannelStateModel) {
+    return state.multiplayer;
   }
 
   constructor(public irc: IrcService) {}
@@ -86,6 +93,18 @@ export class ChannelState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.currentChannel = action.payload.channelName;
+        const channel = action.payload.channelName;
+
+        if (
+          channel
+            .trim()
+            .toLowerCase()
+            .indexOf('#mp_') !== -1
+        ) {
+          draft.multiplayer = true;
+        } else {
+          draft.multiplayer = false;
+        }
       })
     );
   }
@@ -111,6 +130,19 @@ export class ChannelState {
         ) {
           draft.currentChannel = draft.channels[index - 1];
         }
+
+        const channel = draft.currentChannel;
+
+        if (
+          channel
+            .trim()
+            .toLowerCase()
+            .indexOf('#mp_') !== -1
+        ) {
+          draft.multiplayer = true;
+        } else {
+          draft.multiplayer = false;
+        }
       })
     );
   }
@@ -121,6 +153,7 @@ export class ChannelState {
       produce(ctx.getState(), draft => {
         draft.channels = [];
         draft.currentChannel = '';
+        draft.multiplayer = false;
       })
     );
   }

@@ -13,5 +13,5 @@
   <app-tab-bar [channels]="channels$ | async" [currentChannel]="currentChannel$ | async" (setChannel)="onSetChannel($event)"
     (joinChannelClick)="onJoinChannelClick()" (leaveChannel)="onLeaveChannel($event)"></app-tab-bar>
   <app-message-box [messages]="messages$ | async"></app-message-box>
-  <app-input-bar (send)="onSendMessage($event)"></app-input-bar>
+  <app-input-bar [mpMode]="multiplayer$ | async" (send)="onSendMessage($event)"></app-input-bar>
 </div>

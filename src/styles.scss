@@ -17,10 +17,10 @@
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 ::-webkit-scrollbar-button {
-  width: 8px;
+  width: 5px;
   height: 5px;
 }
 ::-webkit-scrollbar-track {
@@ -62,4 +62,8 @@ body .ui-dialog.join-channel {
   .ui-dialog-footer {
     border-top: none;
   }
+}
+
+.panel {
+  width: 150px;
 }
