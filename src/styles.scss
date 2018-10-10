@@ -1,5 +1,5 @@
 // Load theme
-@import '../node_modules/primeng/resources/themes/cruze/theme.css';
+@import '../node_modules/primeng/resources/themes/nova-dark/theme.css';
 
 @font-face {
   font-family: exo-main;
@@ -17,10 +17,10 @@
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 ::-webkit-scrollbar-button {
-  width: 8px;
+  width: 5px;
   height: 5px;
 }
 ::-webkit-scrollbar-track {
@@ -62,4 +62,8 @@ body .ui-dialog.join-channel {
   .ui-dialog-footer {
     border-top: none;
   }
+}
+
+.panel {
+  width: 150px;
 }

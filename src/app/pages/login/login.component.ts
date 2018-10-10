@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Login } from '../../store/actions/auth.actions';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthState } from '../../store/states/auth.state';
 import { SettingsState } from '../../store/states/settings.state';
@@ -25,13 +25,21 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      username: new FormControl(''),
-      password: new FormControl('')
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2)
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4)
+      ])
     });
   }
 
   login() {
-    this.store.dispatch(new Login(this.loginForm.value));
+    if (this.loginForm.valid) {
+      this.store.dispatch(new Login(this.loginForm.value));
+    }
   }
 
   openIrcPage(event) {

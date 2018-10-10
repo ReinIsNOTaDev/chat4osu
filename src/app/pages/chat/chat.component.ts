@@ -32,6 +32,9 @@ export class ChatComponent implements OnInit {
   @Select(AuthState.username)
   username$: Observable<string>;
 
+  @Select(ChannelState.multiplayer)
+  multiplayer$: Observable<boolean>;
+
   joinChannelVisible = false;
   joinChannelValue = '';
 

@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -80,6 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ButtonModule,
     DialogModule,
     ToastModule,
+    DropdownModule,
     ProgressSpinnerModule,
     TranslateModule.forRoot({
       loader: {
