@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MessageBoxComponent } from './message-box.component';
 import { NgxsModule } from '@ngxs/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ParsePipe } from '../../providers/parse.pipe';
 
 describe('MessageBoxComponent', () => {
   let component: MessageBoxComponent;
@@ -9,7 +10,7 @@ describe('MessageBoxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MessageBoxComponent],
+      declarations: [MessageBoxComponent, ParsePipe],
       imports: [NgxsModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

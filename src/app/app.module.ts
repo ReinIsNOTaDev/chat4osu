@@ -40,6 +40,7 @@ import { StorageService } from './providers/storage.service';
 import { ToastState } from './store/states/toast.state';
 import { SettingsState } from './store/states/settings.state';
 import { ControlBarComponent } from './components/control-bar/control-bar.component';
+import { ParsePipe } from './providers/parse.pipe';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -58,7 +59,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     // Pages
     LoginComponent,
-    ChatComponent
+    ChatComponent,
+
+    // Pipes
+    ParsePipe
   ],
   imports: [
     NgxsModule.forRoot([

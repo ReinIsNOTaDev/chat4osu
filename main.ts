@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, ipcMain } from 'electron';
+import { app, BrowserWindow, screen, ipcMain, shell } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -17,6 +17,12 @@ function createWindow() {
     minWidth: 825,
     minHeight: 400,
     autoHideMenuBar: true
+  });
+
+  // Handle external links
+  win.webContents.on('new-window', function(event, link) {
+    event.preventDefault();
+    shell.openExternal(link);
   });
 
   if (serve) {

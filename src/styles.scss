@@ -67,3 +67,18 @@ body .ui-dialog.join-channel {
 .panel {
   width: 150px;
 }
+
+.link {
+  text-decoration: none;
+  background-color: #204acb;
+  color: white;
+  padding: 1px 2px;
+  border-radius: 4px;
+  transition-duration: 0.15s;
+  -webkit-transition-duration: 0.15s;
+}
+
+.link:hover {
+  background-color: #4d69bf;
+  color: white;
+}

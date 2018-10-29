@@ -3,7 +3,7 @@
     <div class="message" *ngFor="let msg of viewPortItems">
       <span class="date">[{{parseDate(msg.date)}}]</span>
       <span class="sender">{{msg.sender}}:</span>
-      {{msg.message}}
+      <span [innerHTML]="msg.message | parse"></span>
     </div>
   </virtual-scroll>
 </div>
