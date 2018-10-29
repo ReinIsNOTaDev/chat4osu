@@ -11,6 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
+import { ContextMenuModule } from 'primeng/contextmenu';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
@@ -78,6 +79,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     VirtualScrollModule,
     FormsModule,
+    ContextMenuModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,

@@ -6,6 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-tab-bar',
@@ -28,6 +29,18 @@ export class TabBarComponent implements OnInit {
 
   @Output()
   leaveChannel: EventEmitter<string> = new EventEmitter();
+
+  menuItems: MenuItem[] = [
+    {
+      label: 'Open channel'
+    },
+    {
+      label: 'Leave channel'
+    },
+    {
+      label: 'Users'
+    }
+  ];
 
   constructor() {}
 
