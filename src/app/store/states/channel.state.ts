@@ -181,6 +181,7 @@ export class ChannelState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.channels = [];
+        draft.users = {};
         draft.currentChannel = '';
         draft.multiplayer = false;
       })
