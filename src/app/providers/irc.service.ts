@@ -8,7 +8,9 @@ import {
   JoinChannelSuccess,
   JoinChannel,
   SetChannel,
-  SetChannelUsers
+  SetChannelUsers,
+  AddUser,
+  RemoveUser
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
 import { MessageService } from 'primeng/api';
@@ -79,7 +81,25 @@ export class IrcService {
     });
 
     this.client.addListener('raw', message => {
-      const blacklisted = ['JOIN', 'PART', 'QUIT', '353'];
+      const blacklisted = [
+        'JOIN',
+        'PART',
+        'QUIT',
+        '353',
+        'PRIVMSG',
+        'MODE',
+        '332',
+        '333',
+        '375',
+        '372',
+        '376',
+        '318',
+        '312',
+        '319',
+        '366',
+        '324',
+        '329'
+      ];
       if (blacklisted.indexOf(message.rawCommand) !== -1) {
         return;
       }
@@ -100,11 +120,35 @@ export class IrcService {
     });
 
     this.client.addListener('join', (channel, nick) => {
+      const mp =
+        channel
+          .trim()
+          .toLowerCase()
+          .indexOf('#mp_') !== -1;
+
       if (nick === this.client.nick) {
         this.store.dispatch(
           new JoinChannelSuccess({
             channelName: channel
           })
+        );
+      } else if (mp) {
+        // Only do realtime updates in MP lobbies for performance issues
+        this.store.dispatch(new AddUser({ channelName: channel, user: nick }));
+      }
+    });
+
+    this.client.addListener('part', (channel, nick) => {
+      const mp =
+        channel
+          .trim()
+          .toLowerCase()
+          .indexOf('#mp_') !== -1;
+
+      if (nick !== this.client.nick && mp) {
+        // Only do realtime updates in MP lobbies for performance issues
+        this.store.dispatch(
+          new RemoveUser({ channelName: channel, user: nick })
         );
       }
     });

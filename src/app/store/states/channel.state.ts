@@ -8,7 +8,9 @@ import {
   JoinAndSetChannel,
   LeaveChannel,
   SetChannelUsers,
-  GetChannelUsers
+  GetChannelUsers,
+  AddUser,
+  RemoveUser
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage } from '../actions/message.actions';
@@ -172,6 +174,27 @@ export class ChannelState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.users[action.payload.channelName] = action.payload.users;
+      })
+    );
+  }
+
+  @Action(AddUser)
+  async addUser(ctx: StateContext<ChannelStateModel>, action: AddUser) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.users[action.payload.channelName].push(action.payload.user);
+      })
+    );
+  }
+
+  @Action(RemoveUser)
+  async removeUser(ctx: StateContext<ChannelStateModel>, action: RemoveUser) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.users[action.payload.channelName].splice(
+          draft.users[action.payload.channelName].indexOf(action.payload.user),
+          1
+        );
       })
     );
   }

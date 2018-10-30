@@ -76,7 +76,19 @@ export function HttpLoaderFactory(http: HttpClient) {
       ToastState
     ]),
     NgxsRouterPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({
+      logger: {
+        log: (msg: string, color: string, payload: any) => {
+          console.log(msg, color, payload);
+        },
+        groupEnd: () => {
+          console.groupEnd();
+        },
+        group: (title: string, message: string) => {
+          console.group(title, message);
+        }
+      }
+    }),
     BrowserModule,
     BrowserAnimationsModule,
     VirtualScrollModule,
