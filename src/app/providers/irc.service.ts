@@ -21,6 +21,21 @@ export class IrcService {
   irc: typeof irc;
   client: typeof irc.Client;
 
+  mpRegexes = {
+    playerJoined: {
+      pattern: /^(.+) joined in slot (\d+)( for team (red|blue))?\.$/,
+      command: (channelName, matches) => {
+        this.store.dispatch(new AddUser({ channelName, user: matches[1] }));
+      }
+    },
+    playerLeft: {
+      pattern: /^(.+) left the game\.$/,
+      command: (channelName, matches) => {
+        this.store.dispatch(new RemoveUser({ channelName, user: matches[1] }));
+      }
+    }
+  };
+
   constructor(
     public store: Store,
     electron: ElectronService,
@@ -116,7 +131,7 @@ export class IrcService {
           .indexOf('#mp_') !== -1;
 
       if (nick === 'BanchoBot' && mp) {
-        // Handle some important multiplayer lobby message
+        this.handleMpMessage(to, text);
       }
 
       this.store.dispatch(
@@ -203,6 +218,17 @@ export class IrcService {
   partChannel(channelName: string) {
     if (channelName.charAt(0) === '#') {
       this.client.part(channelName);
+    }
+  }
+
+  handleMpMessage(channel: string, text: string) {
+    for (const regexName of Object.keys(this.mpRegexes)) {
+      const regex = this.mpRegexes[regexName].pattern;
+      const result = regex.exec(text);
+      if (result) {
+        this.mpRegexes[regexName].command(channel, result);
+        return;
+      }
     }
   }
 
