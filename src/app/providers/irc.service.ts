@@ -109,6 +109,16 @@ export class IrcService {
     });
 
     this.client.addListener('message#', (nick, to, text) => {
+      const mp =
+        to
+          .trim()
+          .toLowerCase()
+          .indexOf('#mp_') !== -1;
+
+      if (nick === 'BanchoBot' && mp) {
+        // Handle some important multiplayer lobby message
+      }
+
       this.store.dispatch(
         new ReceiveMessage({
           channelName: to,
@@ -120,35 +130,11 @@ export class IrcService {
     });
 
     this.client.addListener('join', (channel, nick) => {
-      const mp =
-        channel
-          .trim()
-          .toLowerCase()
-          .indexOf('#mp_') !== -1;
-
       if (nick === this.client.nick) {
         this.store.dispatch(
           new JoinChannelSuccess({
             channelName: channel
           })
-        );
-      } else if (mp) {
-        // Only do realtime updates in MP lobbies for performance issues
-        this.store.dispatch(new AddUser({ channelName: channel, user: nick }));
-      }
-    });
-
-    this.client.addListener('part', (channel, nick) => {
-      const mp =
-        channel
-          .trim()
-          .toLowerCase()
-          .indexOf('#mp_') !== -1;
-
-      if (nick !== this.client.nick && mp) {
-        // Only do realtime updates in MP lobbies for performance issues
-        this.store.dispatch(
-          new RemoveUser({ channelName: channel, user: nick })
         );
       }
     });
