@@ -9,11 +9,18 @@ export class ControlBarComponent implements OnInit {
   @Output()
   logout: EventEmitter<any> = new EventEmitter();
 
+  @Output()
+  users: EventEmitter<any> = new EventEmitter();
+
   constructor() {}
 
   ngOnInit(): void {}
 
   onLogoutClicked() {
     this.logout.emit();
+  }
+
+  onUsersClicked() {
+    this.users.emit();
   }
 }

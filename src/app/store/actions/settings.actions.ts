@@ -7,3 +7,7 @@ export class OpenExternalUrl {
   static readonly type = '[Settings] OpenExternalUrl';
   constructor(public readonly payload: string) {}
 }
+
+export class ToggleUsersPanel {
+  static readonly type = '[Settings] ToggleUsersPanel';
+}

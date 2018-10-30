@@ -30,18 +30,6 @@ export class TabBarComponent implements OnInit {
   @Output()
   leaveChannel: EventEmitter<string> = new EventEmitter();
 
-  menuItems: MenuItem[] = [
-    {
-      label: 'Open channel'
-    },
-    {
-      label: 'Leave channel'
-    },
-    {
-      label: 'Users'
-    }
-  ];
-
   constructor() {}
 
   ngOnInit(): void {}

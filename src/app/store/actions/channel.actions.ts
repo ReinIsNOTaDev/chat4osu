@@ -27,3 +27,8 @@ export class LeaveChannel {
   static readonly type = '[Channel] LeaveChannel';
   constructor(public payload: { channelName: string }) {}
 }
+
+export class SetChannelUsers {
+  static readonly type = '[Channel] SetChannelUsers';
+  constructor(public payload: { channelName: string; users: string[] }) {}
+}

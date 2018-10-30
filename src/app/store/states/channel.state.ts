@@ -6,7 +6,8 @@ import {
   JoinChannelFailed,
   SetChannel,
   JoinAndSetChannel,
-  LeaveChannel
+  LeaveChannel,
+  SetChannelUsers
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage } from '../actions/message.actions';
@@ -14,6 +15,7 @@ import { Logout } from '../actions/auth.actions';
 
 export interface ChannelStateModel {
   channels: string[];
+  users: { [channel: string]: string[] };
   currentChannel: string;
   multiplayer: boolean;
 }
@@ -22,6 +24,7 @@ export interface ChannelStateModel {
   name: 'channel',
   defaults: {
     channels: [],
+    users: {},
     currentChannel: '',
     multiplayer: false
   }
@@ -143,6 +146,18 @@ export class ChannelState {
         } else {
           draft.multiplayer = false;
         }
+      })
+    );
+  }
+
+  @Action(SetChannelUsers)
+  async setChannelUsers(
+    ctx: StateContext<ChannelStateModel>,
+    action: SetChannelUsers
+  ) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.users[action.payload.channelName] = action.payload.users;
       })
     );
   }

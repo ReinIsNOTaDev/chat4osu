@@ -1,5 +1,5 @@
-<p-dialog header="Join channel" width="300" [(visible)]="joinChannelVisible" [dismissableMask]="true" [modal]="true" [blockScroll]="true"
-  [focusOnShow]="false" styleClass="join-channel" (onShow)="focusInput()">
+<p-dialog header="Join channel" width="300" [(visible)]="joinChannelVisible" [dismissableMask]="true" [modal]="true"
+  [blockScroll]="true" [focusOnShow]="false" styleClass="join-channel" (onShow)="focusInput()">
   <form (ngSubmit)="joinChannel()">
     <input #input name="channel" type="text" placeholder="#channel or user" pInputText [(ngModel)]="joinChannelValue" />
   </form>
@@ -9,7 +9,7 @@
 </p-dialog>
 
 <div class="chat-container">
-  <app-control-bar (logout)="onLogout()"></app-control-bar>
+  <app-control-bar (logout)="onLogout()" (users)="onUsers()"></app-control-bar>
   <app-tab-bar [channels]="channels$ | async" [currentChannel]="currentChannel$ | async" (setChannel)="onSetChannel($event)"
     (joinChannelClick)="onJoinChannelClick()" (leaveChannel)="onLeaveChannel($event)"></app-tab-bar>
   <app-message-box [messages]="messages$ | async"></app-message-box>

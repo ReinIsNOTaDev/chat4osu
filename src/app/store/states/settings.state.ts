@@ -1,16 +1,23 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { SetVersion, OpenExternalUrl } from '../actions/settings.actions';
+import {
+  SetVersion,
+  OpenExternalUrl,
+  ToggleUsersPanel
+} from '../actions/settings.actions';
 import produce from 'immer';
 import { ElectronService } from '../../providers/electron.service';
+import { IrcService } from '../../providers/irc.service';
 
 export interface SettingsStateModel {
   version: string;
+  usersVisible: boolean;
 }
 
 @State<SettingsStateModel>({
   name: 'settings',
   defaults: {
-    version: '0.0.0'
+    version: '0.0.0',
+    usersVisible: false
   }
 })
 export class SettingsState {
@@ -19,7 +26,12 @@ export class SettingsState {
     return state.version;
   }
 
-  constructor(private electron: ElectronService) {}
+  @Selector()
+  static usersVisible(state: SettingsStateModel) {
+    return state.usersVisible;
+  }
+
+  constructor(private electron: ElectronService, private irc: IrcService) {}
 
   @Action(SetVersion)
   setVersion(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
@@ -33,5 +45,15 @@ export class SettingsState {
   @Action(OpenExternalUrl)
   openExternalUrl(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
     this.electron.openLinkInBrowser(action.payload);
+  }
+
+  @Action(ToggleUsersPanel)
+  toggleUsersPanel(ctx: StateContext<SettingsStateModel>) {
+    this.irc.getUsers('#german');
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.usersVisible = !draft.usersVisible;
+      })
+    );
   }
 }

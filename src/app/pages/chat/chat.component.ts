@@ -13,6 +13,7 @@ import {
 import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
 import { Logout } from '../../store/actions/auth.actions';
+import { ToggleUsersPanel } from '../../store/actions/settings.actions';
 
 @Component({
   selector: 'app-chat',
@@ -77,5 +78,9 @@ export class ChatComponent implements OnInit {
 
   onLogout() {
     this.store.dispatch(new Logout());
+  }
+
+  onUsers() {
+    this.store.dispatch(new ToggleUsersPanel());
   }
 }

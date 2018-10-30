@@ -1,7 +1,6 @@
 <div class="tab-container">
   <div class="tab" *ngFor="let channel of channels" (click)="onSetChannel(channel)" [ngClass]="{'active': channel === currentChannel}">
-    <p-contextMenu [target]="ch" [model]="menuItems"></p-contextMenu>
-    <span #ch>{{channel}}</span>
+    <span>{{channel}}</span>
     <span class="leave" (click)="onLeaveChannel($event, channel)">x</span>
   </div>
   <div class="tab join" (click)="onJoinChannelClick()">+</div>

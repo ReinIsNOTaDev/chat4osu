@@ -7,7 +7,8 @@ import { ReceiveMessage } from '../store/actions/message.actions';
 import {
   JoinChannelSuccess,
   JoinChannel,
-  SetChannel
+  SetChannel,
+  SetChannelUsers
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
 import { MessageService } from 'primeng/api';
@@ -78,7 +79,7 @@ export class IrcService {
     });
 
     this.client.addListener('raw', message => {
-      const blacklisted = ['JOIN', 'PART', 'QUIT', '353'];
+      const blacklisted = ['JOIN', 'PART', 'QUIT'];
       if (blacklisted.indexOf(message.rawCommand) !== -1) {
         return;
       }
@@ -123,6 +124,16 @@ export class IrcService {
       console.log('whois', info);
     });
 
+    this.client.addListener('names', (channel, nicks) => {
+      const users = Object.keys(nicks);
+      this.store.dispatch(
+        new SetChannelUsers({
+          channelName: channel,
+          users
+        })
+      );
+    });
+
     this.client.connect(
       0,
       () =>
@@ -162,6 +173,11 @@ export class IrcService {
     } else {
       this.client.say(channelName, message);
     }
+  }
+
+  getUsers(channelName: string) {
+    console.log(channelName);
+    this.client.send('NAMES', channelName);
   }
 
   handleCommand(msg: string) {
