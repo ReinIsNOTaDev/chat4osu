@@ -42,6 +42,7 @@ import { ToastState } from './store/states/toast.state';
 import { SettingsState } from './store/states/settings.state';
 import { ControlBarComponent } from './components/control-bar/control-bar.component';
 import { ParsePipe } from './providers/parse.pipe';
+import { UserBarComponent } from './components/user-bar/user-bar.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -57,6 +58,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MessageBoxComponent,
     InputBarComponent,
     ControlBarComponent,
+    UserBarComponent,
 
     // Pages
     LoginComponent,

@@ -14,6 +14,7 @@ import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
 import { Logout } from '../../store/actions/auth.actions';
 import { ToggleUsersPanel } from '../../store/actions/settings.actions';
+import { SettingsState } from '../../store/states/settings.state';
 
 @Component({
   selector: 'app-chat',
@@ -35,6 +36,12 @@ export class ChatComponent implements OnInit {
 
   @Select(ChannelState.multiplayer)
   multiplayer$: Observable<boolean>;
+
+  @Select(ChannelState.users)
+  users$: Observable<string[]>;
+
+  @Select(SettingsState.usersVisible)
+  usersVisible$: Observable<boolean>;
 
   joinChannelVisible = false;
   joinChannelValue = '';

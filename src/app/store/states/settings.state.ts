@@ -6,7 +6,6 @@ import {
 } from '../actions/settings.actions';
 import produce from 'immer';
 import { ElectronService } from '../../providers/electron.service';
-import { IrcService } from '../../providers/irc.service';
 
 export interface SettingsStateModel {
   version: string;
@@ -31,7 +30,7 @@ export class SettingsState {
     return state.usersVisible;
   }
 
-  constructor(private electron: ElectronService, private irc: IrcService) {}
+  constructor(private electron: ElectronService) {}
 
   @Action(SetVersion)
   setVersion(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
@@ -49,7 +48,6 @@ export class SettingsState {
 
   @Action(ToggleUsersPanel)
   toggleUsersPanel(ctx: StateContext<SettingsStateModel>) {
-    this.irc.getUsers('#german');
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.usersVisible = !draft.usersVisible;

@@ -9,9 +9,14 @@
 </p-dialog>
 
 <div class="chat-container">
-  <app-control-bar (logout)="onLogout()" (users)="onUsers()"></app-control-bar>
-  <app-tab-bar [channels]="channels$ | async" [currentChannel]="currentChannel$ | async" (setChannel)="onSetChannel($event)"
-    (joinChannelClick)="onJoinChannelClick()" (leaveChannel)="onLeaveChannel($event)"></app-tab-bar>
-  <app-message-box [messages]="messages$ | async"></app-message-box>
-  <app-input-bar [mpMode]="multiplayer$ | async" (send)="onSendMessage($event)"></app-input-bar>
+  <div class="main">
+    <app-control-bar (logout)="onLogout()" (users)="onUsers()"></app-control-bar>
+    <app-tab-bar [channels]="channels$ | async" [currentChannel]="currentChannel$ | async" (setChannel)="onSetChannel($event)"
+      (joinChannelClick)="onJoinChannelClick()" (leaveChannel)="onLeaveChannel($event)"></app-tab-bar>
+    <app-message-box [messages]="messages$ | async"></app-message-box>
+    <app-input-bar [mpMode]="multiplayer$ | async" (send)="onSendMessage($event)"></app-input-bar>
+  </div>
+  <ng-container *ngIf="usersVisible$ | async">
+    <app-user-bar [users]="users$ | async"></app-user-bar>
+  </ng-container>
 </div>

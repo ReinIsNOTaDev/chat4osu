@@ -79,7 +79,7 @@ export class IrcService {
     });
 
     this.client.addListener('raw', message => {
-      const blacklisted = ['JOIN', 'PART', 'QUIT'];
+      const blacklisted = ['JOIN', 'PART', 'QUIT', '353'];
       if (blacklisted.indexOf(message.rawCommand) !== -1) {
         return;
       }
@@ -125,7 +125,17 @@ export class IrcService {
     });
 
     this.client.addListener('names', (channel, nicks) => {
-      const users = Object.keys(nicks);
+      const users = Object.keys(nicks).sort((a, b) => {
+        if (a.toLowerCase() < b.toLowerCase()) {
+          return -1;
+        }
+
+        if (a.toLowerCase() > b.toLowerCase()) {
+          return 1;
+        }
+
+        return 0;
+      });
       this.store.dispatch(
         new SetChannelUsers({
           channelName: channel,

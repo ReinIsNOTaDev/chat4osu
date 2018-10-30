@@ -7,7 +7,8 @@ import {
   SetChannel,
   JoinAndSetChannel,
   LeaveChannel,
-  SetChannelUsers
+  SetChannelUsers,
+  GetChannelUsers
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage } from '../actions/message.actions';
@@ -43,6 +44,11 @@ export class ChannelState {
   @Selector()
   static multiplayer(state: ChannelStateModel) {
     return state.multiplayer;
+  }
+
+  @Selector()
+  static users(state: ChannelStateModel) {
+    return state.users[state.currentChannel];
   }
 
   constructor(public irc: IrcService) {}
@@ -148,6 +154,14 @@ export class ChannelState {
         }
       })
     );
+  }
+
+  @Action(GetChannelUsers)
+  async getChannelUsers(
+    ctx: StateContext<ChannelStateModel>,
+    action: GetChannelUsers
+  ) {
+    this.irc.getUsers(action.payload.channelName);
   }
 
   @Action(SetChannelUsers)

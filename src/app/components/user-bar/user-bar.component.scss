@@ -1,0 +1,23 @@
+virtual-scroll {
+  display: block;
+  width: 100%;
+  height: 100%;
+  word-break: break-word;
+}
+
+.user-bar {
+  width: 100%;
+  height: 100%;
+  width: 175px;
+  color: white;
+  padding: 5px;
+  background-color: rgb(56, 56, 92);
+
+  .title {
+    font-size: 0.8rem;
+  }
+
+  .user {
+    font-size: 0.7rem;
+  }
+}
