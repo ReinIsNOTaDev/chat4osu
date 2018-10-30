@@ -18,12 +18,14 @@ export interface MessageStateModel {
   messages: {
     [channelName: string]: { sender: string; message: string; date: Date }[];
   };
+  history: string[];
 }
 
 @State<MessageStateModel>({
   name: 'message',
   defaults: {
-    messages: {}
+    messages: {},
+    history: []
   }
 })
 export class MessageState {
@@ -51,6 +53,8 @@ export class MessageState {
           if (!draft.messages[channelName]) {
             draft.messages[channelName] = [];
           }
+
+          draft.history.push(message);
 
           draft.messages[channelName].push({
             message: message,
@@ -104,6 +108,7 @@ export class MessageState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.messages = {};
+        draft.history = [];
       })
     );
   }
