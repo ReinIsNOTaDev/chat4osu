@@ -3,6 +3,13 @@ export class SendMessage {
   constructor(public payload: { message: string; date: Date }) {}
 }
 
+export class SendMessageToChannel {
+  static readonly type = '[Message] SendMessageToChannel';
+  constructor(
+    public payload: { channel: string; message: string; date: Date }
+  ) {}
+}
+
 export class SendMessageSuccess {
   static readonly type = '[Message] SendMessageSuccess';
   constructor(public payload: { channelName: string; message: string }) {}
@@ -21,6 +28,7 @@ export class ReceiveMessage {
       sender: string;
       message: string;
       date: Date;
+      action?: boolean;
     }
   ) {}
 }

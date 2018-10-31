@@ -13,6 +13,12 @@ import {
 import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
 import { Logout } from '../../store/actions/auth.actions';
+import { ToggleUsersPanel } from '../../store/actions/settings.actions';
+import { SettingsState } from '../../store/states/settings.state';
+import {
+  MultiplayerState,
+  MpLobby
+} from '../../store/states/multiplayer.state';
 
 @Component({
   selector: 'app-chat',
@@ -34,6 +40,15 @@ export class ChatComponent implements OnInit {
 
   @Select(ChannelState.multiplayer)
   multiplayer$: Observable<boolean>;
+
+  @Select(ChannelState.users)
+  users$: Observable<string[]>;
+
+  @Select(SettingsState.usersVisible)
+  usersVisible$: Observable<boolean>;
+
+  @Select(MultiplayerState.lobby)
+  lobby$: Observable<MpLobby>;
 
   joinChannelVisible = false;
   joinChannelValue = '';
@@ -77,5 +92,9 @@ export class ChatComponent implements OnInit {
 
   onLogout() {
     this.store.dispatch(new Logout());
+  }
+
+  onUsers() {
+    this.store.dispatch(new ToggleUsersPanel());
   }
 }

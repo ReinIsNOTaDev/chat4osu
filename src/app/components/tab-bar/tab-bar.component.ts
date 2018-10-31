@@ -6,6 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-tab-bar',

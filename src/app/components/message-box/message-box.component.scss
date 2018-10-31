@@ -1,14 +1,19 @@
+:host {
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
 virtual-scroll {
   display: block;
   width: 100%;
   height: 100%;
+  max-height: calc(100vh - 110px);
   word-break: break-word;
 }
 
 .parent-container {
   width: 100%;
   height: 100%;
-  max-height: calc(100vh - 90px);
   padding: 10px 5px;
 }
 
@@ -21,7 +26,10 @@ virtual-scroll {
   }
 
   .sender {
-    color: #ffc561;
     margin-right: 4px;
+
+    &.normal {
+      color: #ffc561;
+    }
   }
 }

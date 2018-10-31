@@ -11,6 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
+import { ContextMenuModule } from 'primeng/contextmenu';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
@@ -40,6 +41,10 @@ import { StorageService } from './providers/storage.service';
 import { ToastState } from './store/states/toast.state';
 import { SettingsState } from './store/states/settings.state';
 import { ControlBarComponent } from './components/control-bar/control-bar.component';
+import { ParsePipe } from './providers/parse.pipe';
+import { UserBarComponent } from './components/user-bar/user-bar.component';
+import { MultiplayerState } from './store/states/multiplayer.state';
+import { MpUserBarComponent } from './components/mp-user-bar/mp-user-bar.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -55,10 +60,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     MessageBoxComponent,
     InputBarComponent,
     ControlBarComponent,
+    UserBarComponent,
+    MpUserBarComponent,
 
     // Pages
     LoginComponent,
-    ChatComponent
+    ChatComponent,
+
+    // Pipes
+    ParsePipe
   ],
   imports: [
     NgxsModule.forRoot([
@@ -66,14 +76,28 @@ export function HttpLoaderFactory(http: HttpClient) {
       AuthState,
       ChannelState,
       MessageState,
-      ToastState
+      ToastState,
+      MultiplayerState
     ]),
     NgxsRouterPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({
+      logger: {
+        log: (msg: string, color: string, payload: any) => {
+          console.log(msg, color, payload);
+        },
+        groupEnd: () => {
+          console.groupEnd();
+        },
+        group: (title: string, message: string) => {
+          console.group(title, message);
+        }
+      }
+    }),
     BrowserModule,
     BrowserAnimationsModule,
     VirtualScrollModule,
     FormsModule,
+    ContextMenuModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,

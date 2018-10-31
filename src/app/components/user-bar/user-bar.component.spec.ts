@@ -1,23 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MessageBoxComponent } from './message-box.component';
+import { UserBarComponent } from './user-bar.component';
 import { NgxsModule } from '@ngxs/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ParsePipe } from '../../providers/parse.pipe';
 
-describe('MessageBoxComponent', () => {
-  let component: MessageBoxComponent;
-  let fixture: ComponentFixture<MessageBoxComponent>;
+describe('UserBarComponent', () => {
+  let component: UserBarComponent;
+  let fixture: ComponentFixture<UserBarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MessageBoxComponent, ParsePipe],
+      declarations: [UserBarComponent],
       imports: [NgxsModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MessageBoxComponent);
+    fixture = TestBed.createComponent(UserBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
