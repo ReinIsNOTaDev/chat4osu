@@ -17,6 +17,14 @@
     <app-input-bar [mpMode]="multiplayer$ | async" (send)="onSendMessage($event)"></app-input-bar>
   </div>
   <ng-container *ngIf="usersVisible$ | async">
-    <app-user-bar [users]="users$ | async"></app-user-bar>
+
+    <ng-container *ngIf="!(multiplayer$ | async)">
+      <app-user-bar [users]="users$ | async"></app-user-bar>
+    </ng-container>
+
+    <ng-container *ngIf="multiplayer$ | async">
+      <app-mp-user-bar [mpLobby]="lobby$ | async"></app-mp-user-bar>
+    </ng-container>
+
   </ng-container>
 </div>

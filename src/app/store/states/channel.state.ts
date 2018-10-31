@@ -1,4 +1,4 @@
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import produce from 'immer';
 import {
   JoinChannel,
@@ -8,13 +8,17 @@ import {
   JoinAndSetChannel,
   LeaveChannel,
   SetChannelUsers,
-  GetChannelUsers,
-  AddUser,
-  RemoveUser
+  GetChannelUsers
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage } from '../actions/message.actions';
 import { Logout } from '../actions/auth.actions';
+import {
+  AddUser,
+  RemoveUser,
+  JoinMpLobby,
+  LeaveMpLobby
+} from '../actions/multiplayer.actions';
 
 export interface ChannelStateModel {
   channels: string[];
@@ -53,7 +57,7 @@ export class ChannelState {
     return state.users[state.currentChannel];
   }
 
-  constructor(public irc: IrcService) {}
+  constructor(public irc: IrcService, public store: Store) {}
 
   @Action(JoinChannel)
   joinChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
@@ -70,6 +74,16 @@ export class ChannelState {
     ctx: StateContext<ChannelStateModel>,
     action: JoinChannelSuccess
   ) {
+    const mp =
+      action.payload.channelName
+        .trim()
+        .toLowerCase()
+        .indexOf('#mp_') !== -1;
+
+    if (mp) {
+      this.store.dispatch(new JoinMpLobby(action.payload.channelName));
+    }
+
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.channels.push(action.payload.channelName);
@@ -123,6 +137,17 @@ export class ChannelState {
   @Action(LeaveChannel)
   leaveChannel(ctx: StateContext<ChannelStateModel>, action: SetChannel) {
     this.irc.partChannel(action.payload.channelName);
+
+    const mp =
+      action.payload.channelName
+        .trim()
+        .toLowerCase()
+        .indexOf('#mp_') !== -1;
+
+    if (mp) {
+      this.store.dispatch(new LeaveMpLobby(action.payload.channelName));
+    }
+
     ctx.setState(
       produce(ctx.getState(), draft => {
         const index = draft.channels.indexOf(action.payload.channelName);
@@ -171,32 +196,19 @@ export class ChannelState {
     ctx: StateContext<ChannelStateModel>,
     action: SetChannelUsers
   ) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.users[action.payload.channelName] = action.payload.users;
-      })
-    );
-  }
+    const mp =
+      action.payload.channelName
+        .trim()
+        .toLowerCase()
+        .indexOf('#mp_') !== -1;
 
-  @Action(AddUser)
-  async addUser(ctx: StateContext<ChannelStateModel>, action: AddUser) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.users[action.payload.channelName].push(action.payload.user);
-      })
-    );
-  }
-
-  @Action(RemoveUser)
-  async removeUser(ctx: StateContext<ChannelStateModel>, action: RemoveUser) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.users[action.payload.channelName].splice(
-          draft.users[action.payload.channelName].indexOf(action.payload.user),
-          1
-        );
-      })
-    );
+    if (!mp) {
+      ctx.setState(
+        produce(ctx.getState(), draft => {
+          draft.users[action.payload.channelName] = action.payload.users;
+        })
+      );
+    }
   }
 
   @Action(Logout)

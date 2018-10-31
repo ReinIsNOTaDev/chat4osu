@@ -8,13 +8,23 @@ import {
   JoinChannelSuccess,
   JoinChannel,
   SetChannel,
-  SetChannelUsers,
-  AddUser,
-  RemoveUser
+  SetChannelUsers
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
 import { MessageService } from 'primeng/api';
 import { AddToast } from '../store/actions/toast.actions';
+import {
+  AddUser,
+  RemoveUser,
+  MoveUser,
+  SetTeam,
+  SetRoomName,
+  SetTeamMode,
+  SetWinCondition,
+  SetMods,
+  SetFreeMod,
+  SetBeatmap
+} from '../store/actions/multiplayer.actions';
 
 @Injectable()
 export class IrcService {
@@ -22,16 +32,178 @@ export class IrcService {
   client: typeof irc.Client;
 
   mpRegexes = {
+    roomName: {
+      pattern: /^Room name: (.+), History: https:\/\/osu\.ppy\.sh\/mp\/(\d+)$/,
+      command: (channelName, matches) => {
+        this.store.dispatch(
+          new SetRoomName({
+            channel: channelName,
+            name: matches[1]
+          })
+        );
+      }
+    },
+    teamModeWinConditions: {
+      pattern: /^Team mode: (\w+), Win condition: (\w+)$/,
+      command: (channelName, matches) => {
+        this.store.dispatch([
+          new SetTeamMode({
+            channel: channelName,
+            mode: matches[1]
+          }),
+          new SetWinCondition({
+            channel: channelName,
+            condition: matches[2]
+          })
+        ]);
+      }
+    },
+    activeMods: {
+      pattern: /^Active mods: (.+)$/,
+      command: (channel, matches) => {
+        const mods: string[] = matches[1].split(', ');
+        const freemod = mods.indexOf('Freemod');
+        if (freemod !== -1) {
+          mods.splice(freemod, 1);
+          this.store.dispatch(new SetFreeMod({ channel, freemod: true }));
+        } else {
+          this.store.dispatch(new SetFreeMod({ channel, freemod: false }));
+        }
+
+        this.store.dispatch(
+          new SetMods({
+            channel,
+            mods
+          })
+        );
+      }
+    },
     playerJoined: {
       pattern: /^(.+) joined in slot (\d+)( for team (red|blue))?\.$/,
       command: (channelName, matches) => {
-        this.store.dispatch(new AddUser({ channelName, user: matches[1] }));
+        this.store.dispatch(
+          new AddUser({
+            channelName,
+            user: matches[1].trim(),
+            slot: parseInt(matches[2], 10),
+            team: matches[4]
+          })
+        );
+      }
+    },
+    playerChangedBeatmap: {
+      pattern: /^Beatmap changed to: (.+) \(https:\/\/osu\.ppy\.sh\/b\/(\d+)\)$/,
+      command: (channel, matches) => {
+        this.store.dispatch(
+          new SetBeatmap({
+            channel,
+            id: matches[2]
+          })
+        );
+      }
+    },
+    refereeChangedBeatmap: {
+      pattern: /^Changed beatmap to https:\/\/osu\.ppy\.sh\/b\/(\d+) (.+)$/,
+      command: (channel, matches) => {
+        this.store.dispatch(
+          new SetBeatmap({
+            channel,
+            id: matches[1]
+          })
+        );
+      }
+    },
+    beatmapFromSettings: {
+      pattern: /^Beatmap: https:\/\/osu\.ppy\.sh\/b\/(\d+) (.+)$/,
+      command: (channel, matches) => {
+        this.store.dispatch(
+          new SetBeatmap({
+            channel,
+            id: matches[1]
+          })
+        );
+      }
+    },
+    set: {
+      pattern: /^Changed match settings to ((\d+) slots, )?(HeadToHead|TagCoop|TeamVs|TagTeamVs)(, (Score|Accuracy|Combo|ScoreV2))?$/,
+      command: (channel, matches) => {
+        this.store.dispatch(
+          new SetTeamMode({
+            channel,
+            mode: matches[3]
+          })
+        );
+
+        if (matches[5]) {
+          this.store.dispatch(
+            new SetWinCondition({
+              channel,
+              condition: matches[5]
+            })
+          );
+        }
+      }
+    },
+    changeMods: {
+      pattern: /^(Enabled (.+)|Disabled all mods), (disabled|enabled) FreeMod$/,
+      command: (channel, matches) => {
+        const mods = [];
+        if (matches[2]) {
+          mods.push(...matches[2].split(', '));
+        }
+
+        this.store.dispatch([
+          new SetMods({
+            channel,
+            mods
+          }),
+          new SetFreeMod({ channel, freemod: matches[3] === 'enabled' })
+        ]);
       }
     },
     playerLeft: {
       pattern: /^(.+) left the game\.$/,
       command: (channelName, matches) => {
-        this.store.dispatch(new RemoveUser({ channelName, user: matches[1] }));
+        this.store.dispatch(
+          new RemoveUser({ channelName, user: matches[1].trim() })
+        );
+      }
+    },
+    playerMoved: {
+      pattern: /^(.+) moved to slot (\d+)$/,
+      command: (channelName, matches) => {
+        this.store.dispatch(
+          new MoveUser({
+            channelName,
+            user: matches[1].trim(),
+            slot: parseInt(matches[2], 10)
+          })
+        );
+      }
+    },
+    playerChangedTeam: {
+      pattern: /^(.+) changed to (Blue|Red)$/,
+      command: (channelName, matches) => {
+        this.store.dispatch(
+          new SetTeam({
+            channel: channelName,
+            username: matches[1].trim(),
+            team: matches[2].toLowerCase()
+          })
+        );
+      }
+    },
+    playersConnected: {
+      pattern: /^Slot (\d+)  ?(Not Ready|Ready) https:\/\/osu\.ppy\.sh\/u\/(\d+) (.+?)( \[Team (Blue|Red) ?\])?$/,
+      command: (channelName, matches) => {
+        this.store.dispatch(
+          new AddUser({
+            channelName,
+            slot: parseInt(matches[1], 10),
+            user: matches[4].trim(),
+            team: matches[6] ? matches[6].toLowerCase() : undefined
+          })
+        );
       }
     }
   };

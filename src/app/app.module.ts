@@ -43,6 +43,8 @@ import { SettingsState } from './store/states/settings.state';
 import { ControlBarComponent } from './components/control-bar/control-bar.component';
 import { ParsePipe } from './providers/parse.pipe';
 import { UserBarComponent } from './components/user-bar/user-bar.component';
+import { MultiplayerState } from './store/states/multiplayer.state';
+import { MpUserBarComponent } from './components/mp-user-bar/mp-user-bar.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -59,6 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InputBarComponent,
     ControlBarComponent,
     UserBarComponent,
+    MpUserBarComponent,
 
     // Pages
     LoginComponent,
@@ -73,7 +76,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       AuthState,
       ChannelState,
       MessageState,
-      ToastState
+      ToastState,
+      MultiplayerState
     ]),
     NgxsRouterPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({
