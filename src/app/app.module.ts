@@ -45,6 +45,7 @@ import { ParsePipe } from './providers/parse.pipe';
 import { UserBarComponent } from './components/user-bar/user-bar.component';
 import { MultiplayerState } from './store/states/multiplayer.state';
 import { MpUserBarComponent } from './components/mp-user-bar/mp-user-bar.component';
+import { AppConfig } from '../environments/environment';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -80,19 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       MultiplayerState
     ]),
     NgxsRouterPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot({
-      logger: {
-        log: (msg: string, color: string, payload: any) => {
-          console.log(msg, color, payload);
-        },
-        groupEnd: () => {
-          console.groupEnd();
-        },
-        group: (title: string, message: string) => {
-          console.group(title, message);
-        }
-      }
-    }),
+    NgxsLoggerPluginModule.forRoot({ disabled: AppConfig.production }),
     BrowserModule,
     BrowserAnimationsModule,
     VirtualScrollModule,
