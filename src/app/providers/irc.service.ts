@@ -3,7 +3,10 @@ import * as irc from 'irc-upd';
 import * as eventToPromise from 'event-to-promise';
 import { Store } from '@ngxs/store';
 import { LoginSuccess, LoginFailed } from '../store/actions/auth.actions';
-import { ReceiveMessage } from '../store/actions/message.actions';
+import {
+  ReceiveMessage,
+  SendMessageSuccess
+} from '../store/actions/message.actions';
 import {
   JoinChannelSuccess,
   JoinChannel,
@@ -337,6 +340,30 @@ export class IrcService {
       );
     });
 
+    this.client.addListener('action', (from, to, text) => {
+      if (to === this.client.nick) {
+        this.store.dispatch(
+          new ReceiveMessage({
+            channelName: from,
+            sender: from,
+            message: text,
+            date: new Date(),
+            action: true
+          })
+        );
+      } else {
+        this.store.dispatch(
+          new ReceiveMessage({
+            channelName: to,
+            sender: from,
+            message: text,
+            date: new Date(),
+            action: true
+          })
+        );
+      }
+    });
+
     this.client.addListener('whois', info => {
       console.log('whois', info);
     });
@@ -407,10 +434,23 @@ export class IrcService {
   sendMessage(channelName: string, message: string) {
     const cleanMsg = message.trim();
     if (cleanMsg.charAt(0) === '/') {
-      this.handleCommand(cleanMsg);
+      this.handleCommand(cleanMsg, channelName);
     } else {
       this.client.say(channelName, message);
     }
+  }
+
+  sendAction(channelName: string, action: string) {
+    this.client.action(channelName, action);
+    this.store.dispatch(
+      new ReceiveMessage({
+        channelName,
+        sender: this.client.nick,
+        message: action,
+        date: new Date(),
+        action: true
+      })
+    );
   }
 
   getUsers(channelName: string) {
@@ -418,7 +458,7 @@ export class IrcService {
     this.client.send('NAMES', channelName);
   }
 
-  handleCommand(msg: string) {
+  handleCommand(msg: string, channel?: string) {
     const msgParts = msg.split(' ');
     switch (msgParts[0]) {
       case '/join': {
@@ -428,6 +468,12 @@ export class IrcService {
 
       case '/j': {
         this.joinChannel(msgParts[1]);
+        break;
+      }
+
+      case '/me': {
+        const message = msg.replace('/me ', '');
+        this.sendAction(channel, message);
         break;
       }
     }

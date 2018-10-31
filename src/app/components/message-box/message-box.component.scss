@@ -26,7 +26,10 @@ virtual-scroll {
   }
 
   .sender {
-    color: #ffc561;
     margin-right: 4px;
+
+    &.normal {
+      color: #ffc561;
+    }
   }
 }

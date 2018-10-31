@@ -28,6 +28,7 @@ export class ReceiveMessage {
       sender: string;
       message: string;
       date: Date;
+      action?: boolean;
     }
   ) {}
 }

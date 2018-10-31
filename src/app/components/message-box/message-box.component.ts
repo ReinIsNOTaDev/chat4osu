@@ -9,9 +9,14 @@ import { VirtualScrollComponent } from 'angular2-virtual-scroll';
 })
 export class MessageBoxComponent implements OnInit, OnChanges {
   @Input()
-  messages: { sender: string; message: string; date: Date }[];
+  messages: { sender: string; message: string; date: Date; action?: boolean }[];
 
-  viewPortItems: { sender: string; message: string; date: Date }[];
+  viewPortItems: {
+    sender: string;
+    message: string;
+    date: Date;
+    action?: boolean;
+  }[];
 
   @ViewChild(VirtualScrollComponent)
   private virtualScroll: VirtualScrollComponent;

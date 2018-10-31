@@ -20,7 +20,12 @@ import { Logout } from '../actions/auth.actions';
 
 export interface MessageStateModel {
   messages: {
-    [channelName: string]: { sender: string; message: string; date: Date }[];
+    [channelName: string]: {
+      sender: string;
+      message: string;
+      date: Date;
+      action?: boolean;
+    }[];
   };
   history: string[];
 }
@@ -117,7 +122,8 @@ export class MessageState {
         draft.messages[channelKey].push({
           message: action.payload.message,
           sender: action.payload.sender,
-          date: action.payload.date
+          date: action.payload.date,
+          action: action.payload.action
         });
       })
     );
