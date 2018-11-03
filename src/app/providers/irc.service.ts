@@ -197,14 +197,14 @@ export class IrcService {
       }
     },
     playersConnected: {
-      pattern: /^Slot (\d+)  ?(Not Ready|Ready) https:\/\/osu\.ppy\.sh\/u\/(\d+) (.+?)( \[Team (Blue|Red) ?\])?$/,
+      pattern: /^Slot (\d+)  ?(Not Ready|Ready) https:\/\/osu\.ppy\.sh\/u\/(\d+) (.+?)( \[(Host \/ )?Team (Blue|Red) ?\])?$/,
       command: (channelName, matches) => {
         this.store.dispatch(
           new AddUser({
             channelName,
             slot: parseInt(matches[1], 10),
             user: matches[4].trim(),
-            team: matches[6] ? matches[6].toLowerCase() : undefined
+            team: matches[7] ? matches[7].toLowerCase() : undefined
           })
         );
       }
