@@ -197,7 +197,7 @@ export class IrcService {
       }
     },
     playersConnected: {
-      pattern: /^Slot (\d+)  ?(Not Ready|Ready) https:\/\/osu\.ppy\.sh\/u\/(\d+) (.+?)( \[(Host \/ )?Team (Blue|Red) ?\])?$/,
+      pattern: /^Slot (\d+)  ?(Not Ready|Ready) https:\/\/osu\.ppy\.sh\/u\/(\d+) (.+?)( \[(Host \/ )?Team (Blue|Red) ?(\/ (.+?))?\])?$/,
       command: (channelName, matches) => {
         this.store.dispatch(
           new AddUser({
