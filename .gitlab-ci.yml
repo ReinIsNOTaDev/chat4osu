@@ -5,7 +5,6 @@ variables:
 
 stages:
   - test
-  - e2e
   - build
 
 test:
@@ -14,14 +13,6 @@ test:
     - yarn
     - yarn ng -- lint
     - yarn test
-  only:
-    - master
-
-e2e:
-  stage: e2e
-  script:
-    - yarn
-    - yarn e2e
   only:
     - master
 
