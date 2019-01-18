@@ -9,19 +9,17 @@
   styleClass="join-channel"
   (onShow)="focusInput()"
 >
-  <form (ngSubmit)="joinChannel()">
+  <form (ngSubmit)="joinChannel()" class="join-channel-input">
     <input
       #input
       name="channel"
       type="text"
       placeholder="#channel or user"
-      pInputText
       [(ngModel)]="joinChannelValue"
+      class="input-text"
     />
+    <button type="submit" class="input-submit">Join</button>
   </form>
-  <p-footer>
-    <p-button label="Join" styleClass="ui-button-success" (click)="joinChannel()"></p-button>
-  </p-footer>
 </p-dialog>
 
 <div class="chat-container">
