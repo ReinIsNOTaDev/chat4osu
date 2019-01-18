@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, ViewChild, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  OnChanges,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import * as moment from 'moment';
 import { VirtualScrollComponent } from 'angular2-virtual-scroll';
 
@@ -10,6 +18,9 @@ import { VirtualScrollComponent } from 'angular2-virtual-scroll';
 export class MessageBoxComponent implements OnInit, OnChanges {
   @Input()
   messages: { sender: string; message: string; date: Date; action?: boolean }[];
+
+  @Output()
+  openProfile = new EventEmitter<string>();
 
   viewPortItems: {
     sender: string;
@@ -38,8 +49,7 @@ export class MessageBoxComponent implements OnInit, OnChanges {
 
     // If we're at the bottom, scroll to bottom
     if (
-      this.viewPortItems[this.viewPortItems.length - 1] ===
-      this.messages[this.messages.length - 2]
+      this.viewPortItems[this.viewPortItems.length - 1] === this.messages[this.messages.length - 2]
     ) {
       this.scrollToBottom();
     }
@@ -47,14 +57,14 @@ export class MessageBoxComponent implements OnInit, OnChanges {
 
   parseDate(date: Date): string {
     const tempDate = moment(date);
-    return (
-      ('0' + tempDate.hours()).slice(-2) +
-      ':' +
-      ('0' + tempDate.minutes()).slice(-2)
-    );
+    return ('0' + tempDate.hours()).slice(-2) + ':' + ('0' + tempDate.minutes()).slice(-2);
   }
 
   scrollToBottom() {
     this.virtualScroll.scrollToIndex(this.messages.length - 1, true, 0, 0);
+  }
+
+  clickUser(username: string) {
+    this.openProfile.emit(username);
   }
 }

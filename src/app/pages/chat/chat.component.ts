@@ -13,12 +13,9 @@ import {
 import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
 import { Logout } from '../../store/actions/auth.actions';
-import { ToggleUsersPanel } from '../../store/actions/settings.actions';
+import { ToggleUsersPanel, OpenExternalUrl } from '../../store/actions/settings.actions';
 import { SettingsState } from '../../store/states/settings.state';
-import {
-  MultiplayerState,
-  MpLobby
-} from '../../store/states/multiplayer.state';
+import { MultiplayerState, MpLobby } from '../../store/states/multiplayer.state';
 
 @Component({
   selector: 'app-chat',
@@ -96,5 +93,9 @@ export class ChatComponent implements OnInit {
 
   onUsers() {
     this.store.dispatch(new ToggleUsersPanel());
+  }
+
+  onOpenProfile(username: string) {
+    this.store.dispatch(new OpenExternalUrl(`https://osu.ppy.sh/u/${username}`));
   }
 }
