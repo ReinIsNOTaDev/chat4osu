@@ -51,16 +51,54 @@ body {
 
 // Join channel modal
 body .ui-dialog.join-channel {
+  min-height: 90px !important;
+  height: 90px !important;
+
   input {
     width: 100%;
   }
 
   .ui-dialog-titlebar {
     padding: 0.5em 0.75em;
+    background-color: rgb(35, 37, 65);
+    border-color: rgb(35, 37, 65);
+  }
+
+  .ui-dialog-content {
+    background-color: rgb(35, 37, 65);
+    border-color: rgb(35, 37, 65);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
   }
 
   .ui-dialog-footer {
     border-top: none;
+  }
+}
+
+.join-channel-input {
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+
+  .input-text {
+    height: 100%;
+    outline: none;
+    border: none;
+    padding: 6px;
+    font-family: exo-main;
+    flex-grow: 1;
+  }
+
+  .input-submit {
+    height: 100%;
+    background-color: green;
+    color: white;
+    font-family: exo-main;
+    width: 50px;
+    outline: none;
+    border: none;
   }
 }
 
