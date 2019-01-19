@@ -3,10 +3,7 @@ import * as irc from 'irc-upd';
 import * as eventToPromise from 'event-to-promise';
 import { Store } from '@ngxs/store';
 import { LoginSuccess, LoginFailed } from '../store/actions/auth.actions';
-import {
-  ReceiveMessage,
-  SendMessageSuccess
-} from '../store/actions/message.actions';
+import { ReceiveMessage, SendMessageSuccess } from '../store/actions/message.actions';
 import {
   JoinChannelSuccess,
   JoinChannel,
@@ -167,9 +164,7 @@ export class IrcService {
     playerLeft: {
       pattern: /^(.+) left the game\.$/,
       command: (channelName, matches) => {
-        this.store.dispatch(
-          new RemoveUser({ channelName, user: matches[1].trim() })
-        );
+        this.store.dispatch(new RemoveUser({ channelName, user: matches[1].trim() }));
       }
     },
     playerMoved: {
@@ -298,7 +293,7 @@ export class IrcService {
       console.log('args', message.args);
     });
 
-    this.client.addListener('message#', (nick, to, text) => {
+    this.client.addListener('message#', (nick: string, to: string, text: string) => {
       const mp =
         to
           .trim()
@@ -306,7 +301,9 @@ export class IrcService {
           .indexOf('#mp_') !== -1;
 
       if (nick === 'BanchoBot' && mp) {
-        this.handleMpMessage(to, text);
+        // Fixes a bug where banchobot will send untrimmed messages
+        const trimmedText = text.trim();
+        this.handleMpMessage(to, trimmedText);
       }
 
       this.store.dispatch(
