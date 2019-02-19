@@ -1,6 +1,7 @@
 .tab-container {
   display: flex;
   height: 30px;
+  align-items: center;
 
   .tab {
     padding: 2px 5px;
@@ -8,6 +9,7 @@
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
     cursor: pointer;
+    height: 25px;
 
     &.active {
       background-color: rgba(255, 255, 255, 0.4);
@@ -15,6 +17,9 @@
 
     &.join {
       background-color: rgba(255, 255, 0, 0.4);
+      border-radius: 100px;
+      height: 19px;
+      line-height: 11px;
     }
 
     .leave {

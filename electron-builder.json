@@ -26,7 +26,7 @@
     "!tslint.json"
   ],
   "win": {
-    "icon": "dist",
+    "icon": "dist/favicon.ico",
     "target": ["nsis"],
     "verifyUpdateCodeSignature": false,
     "artifactName": "${productName}-setup.${ext}"
