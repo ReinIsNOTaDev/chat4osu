@@ -192,14 +192,15 @@ export class IrcService {
       }
     },
     playersConnected: {
-      pattern: /^Slot (\d+)  ?(Not Ready|Ready) https:\/\/osu\.ppy\.sh\/u\/(\d+) (.+?)( \[(Host \/ )?Team (Blue|Red) ?(\/ (.+?))?\])?$/,
+      // tslint:disable-next-line:max-line-length
+      pattern: /^Slot (\d+)  ?(Not Ready|Ready) https:\/\/osu\.ppy\.sh\/u\/(\d+) (.+?)( \[(Host \/ )?(Team (Blue|Red) ?)?((\/ )?(.+?))?\])?$/,
       command: (channelName, matches) => {
         this.store.dispatch(
           new AddUser({
             channelName,
             slot: parseInt(matches[1], 10),
             user: matches[4].trim(),
-            team: matches[7] ? matches[7].toLowerCase() : undefined
+            team: matches[8] ? matches[8].toLowerCase() : undefined
           })
         );
       }
@@ -385,14 +386,12 @@ export class IrcService {
       );
     });
 
-    this.client.connect(
-      0,
-      () =>
-        this.store.dispatch([
-          new LoginSuccess({ username, password }),
-          new JoinChannel({ channelName: '#osu' }),
-          new SetChannel({ channelName: '#osu' })
-        ])
+    this.client.connect(0, () =>
+      this.store.dispatch([
+        new LoginSuccess({ username, password }),
+        new JoinChannel({ channelName: '#osu' }),
+        new SetChannel({ channelName: '#osu' })
+      ])
     );
   }
 
