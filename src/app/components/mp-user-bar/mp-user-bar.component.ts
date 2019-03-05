@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MpLobby, MpUser } from '../../store/states/multiplayer.state';
 
 @Component({
@@ -10,9 +10,18 @@ export class MpUserBarComponent implements OnInit {
   @Input()
   mpLobby: MpLobby;
 
+  @Output()
+  refresh = new EventEmitter();
+
+  @Output()
+  start = new EventEmitter();
+
+  @Output()
+  abort = new EventEmitter();
+
   viewPortItems: MpUser[];
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }

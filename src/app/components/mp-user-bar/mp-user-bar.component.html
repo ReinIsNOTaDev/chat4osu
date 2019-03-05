@@ -9,9 +9,9 @@
   <div class="title condition">Win condition: {{mpLobby?.winCondition}}</div>
   <div class="title mode">Team mode: {{mpLobby?.teamMode}}</div>
   <div class="title actions">
-    <a href="">refresh</a> |
-    <a href="">start in 10s</a> |
-    <a href="">abort</a>
+    <a (click)="refresh.emit()">refresh</a> |
+    <a (click)="start.emit()">start in 10s</a> |
+    <a (click)="abort.emit()">abort</a>
   </div>
   <hr>
   <virtual-scroll [items]="mpLobby?.players" [enableUnequalChildrenSizes]="false" (vsUpdate)="viewPortItems = $event">
