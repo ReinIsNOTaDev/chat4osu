@@ -37,9 +37,10 @@
   },
   "dependencies": {
     "@angular/animations": "^7.2.1",
-    "@ngxs/logger-plugin": "^3.2.0",
-    "@ngxs/router-plugin": "^3.2.0",
-    "@ngxs/store": "^3.2.0",
+    "@ngxs/form-plugin": "^3.4.1",
+    "@ngxs/logger-plugin": "^3.4.1",
+    "@ngxs/router-plugin": "^3.4.1",
+    "@ngxs/store": "^3.4.1",
     "angular2-virtual-scroll": "^0.4.12",
     "electron-log": "^2.2.17",
     "electron-store": "^2.0.0",
