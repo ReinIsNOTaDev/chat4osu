@@ -1,16 +1,23 @@
 <div class="user-bar">
   <div class="title lobby-name">{{mpLobby?.roomName !== '' ? mpLobby?.roomName : mpLobby?.mpId}}</div>
   <div class="title players">Players: {{mpLobby?.players.length}}</div>
-  <div class="title beatmap">Current map: <span *ngIf="mpLobby?.beatmapId === ''">none</span><a *ngIf="mpLobby?.beatmapId !== ''"
-      [attr.href]="'https://osu.ppy.sh/b/'+mpLobby?.beatmapId" target="_blank">{{mpLobby?.beatmapId}}</a></div>
+  <div class="title beatmap">Current map: <span *ngIf="mpLobby?.beatmapId === ''">none</span><a
+      *ngIf="mpLobby?.beatmapId !== ''" [attr.href]="'https://osu.ppy.sh/b/'+mpLobby?.beatmapId"
+      target="_blank">{{mpLobby?.beatmapId}}</a></div>
   <div class="title mods">Current mods: {{mpLobby?.mods.length === 0 ? 'none' : mpLobby?.mods}}</div>
   <div class="title freemod">Freemod: {{mpLobby?.freemod}}</div>
   <div class="title condition">Win condition: {{mpLobby?.winCondition}}</div>
   <div class="title mode">Team mode: {{mpLobby?.teamMode}}</div>
+  <div class="title actions">
+    <a href="">refresh</a> |
+    <a href="">start in 10s</a> |
+    <a href="">abort</a>
+  </div>
   <hr>
   <virtual-scroll [items]="mpLobby?.players" [enableUnequalChildrenSizes]="false" (vsUpdate)="viewPortItems = $event">
     <div class="user" *ngFor="let player of viewPortItems">
-      {{player.slot}}: <span class="name" [ngClass]="{'red': player.team === 'red', 'blue': player.team === 'blue'}">{{player.username}}</span>
+      {{player.slot}}: <span class="name"
+        [ngClass]="{'red': player.team === 'red', 'blue': player.team === 'blue'}">{{player.username}}</span>
     </div>
   </virtual-scroll>
 </div>
