@@ -53,9 +53,9 @@ export class ChatComponent implements OnInit {
   @ViewChild('input')
   input;
 
-  constructor(public store: Store) {}
+  constructor(public store: Store) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSetChannel(channelName: string) {
     this.store.dispatch(new SetChannel({ channelName }));
@@ -97,5 +97,17 @@ export class ChatComponent implements OnInit {
 
   onOpenProfile(username: string) {
     this.store.dispatch(new OpenExternalUrl(`https://osu.ppy.sh/u/${username}`));
+  }
+
+  onRefresh() {
+    this.store.dispatch(new SendMessage({ message: '!mp settings', date: new Date() }));
+  }
+
+  onStart() {
+    this.store.dispatch(new SendMessage({ message: '!mp start 10', date: new Date() }));
+  }
+
+  onAbort() {
+    this.store.dispatch(new SendMessage({ message: '!mp abort', date: new Date() }));
   }
 }

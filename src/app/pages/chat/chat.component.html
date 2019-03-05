@@ -22,7 +22,8 @@
     </ng-container>
 
     <ng-container *ngIf="(multiplayer$ | async)">
-      <app-mp-user-bar [mpLobby]="lobby$ | async"></app-mp-user-bar>
+      <app-mp-user-bar [mpLobby]="lobby$ | async" (refresh)="onRefresh()" (start)="onStart()" (abort)="onAbort()">
+      </app-mp-user-bar>
     </ng-container>
   </ng-container>
 </div>

@@ -16,6 +16,10 @@ virtual-scroll {
   .title {
     font-size: 0.8rem;
     font-weight: 400;
+
+    &.actions {
+      cursor: pointer;
+    }
   }
 
   .lobby-name {
