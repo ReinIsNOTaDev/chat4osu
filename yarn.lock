@@ -210,21 +210,31 @@
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/logger-plugin@^3.2.0":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@ngxs/logger-plugin/-/logger-plugin-3.3.4.tgz#74d7e56e7577d56206e25e36ce48d79c5ba99ca8"
+"@ngxs/form-plugin@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@ngxs/form-plugin/-/form-plugin-3.4.1.tgz#19403fdaf34aca7c23808d473470e280113d444e"
+  integrity sha512-+BFy1FTchs6zseUJMnlZvpNrFrmD5vzswBazU28G9VKdOuFrTQmuXRFmK5Nr4fOdDnZJhOeJ6/5xvPuRN3kmfg==
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/router-plugin@^3.2.0":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@ngxs/router-plugin/-/router-plugin-3.3.4.tgz#1a1a7ba33209fd571b8847667076880096845dc9"
+"@ngxs/logger-plugin@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@ngxs/logger-plugin/-/logger-plugin-3.4.1.tgz#afe3c173c151520b75e5c6ee8e6caeabb6ddddab"
+  integrity sha512-XYxYcTIsRrMsoAarHAWg3h5MGhmytQ1M2OOWiKZzA541cK8rWVMiPSRA58A0YKrJQRiY5jKF0OmBethK4/QMkA==
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/store@^3.2.0":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@ngxs/store/-/store-3.3.4.tgz#dced015eedf054bc651bbc1b67b590287cec7437"
+"@ngxs/router-plugin@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@ngxs/router-plugin/-/router-plugin-3.4.1.tgz#02dfc0133fa6c34b9a6a33b8355a6b49b2c2e535"
+  integrity sha512-xmxZyx++5meikwph0oXyFKPp8mHDHBKdels89sykSM4TIRJeqkOcy6m22V5pOPAG2oWDUh+yjSSmAMwGLRaScA==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ngxs/store@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@ngxs/store/-/store-3.4.1.tgz#b926d1f599ea8fb9d528fd1dc2e0f642da65e0c8"
+  integrity sha512-H+MRYC+NDhx0ysscqm8bOPYEdzeo94Oj3B3qCVTBXUsPHWyYUU565PdNcXqf1JxptS9gZBUfNnGxWzhREjWG3Q==
   dependencies:
     tslib "^1.9.0"
 

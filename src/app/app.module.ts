@@ -17,6 +17,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -88,6 +89,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     ContextMenuModule,
     ReactiveFormsModule,
+    NgxsFormPluginModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
     InputTextModule,
@@ -107,4 +109,4 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [MessageService, StorageService, ElectronService, IrcService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

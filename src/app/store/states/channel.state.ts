@@ -11,7 +11,7 @@ import {
   GetChannelUsers
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
-import { ReceiveMessage } from '../actions/message.actions';
+import { ReceiveMessage, SendMessage } from '../actions/message.actions';
 import { Logout } from '../actions/auth.actions';
 import {
   AddUser,
@@ -19,10 +19,13 @@ import {
   JoinMpLobby,
   LeaveMpLobby
 } from '../actions/multiplayer.actions';
+import { UpdateFormStatus, UpdateFormValue } from '@ngxs/form-plugin';
 
 export interface ChannelStateModel {
   channels: string[];
   users: { [channel: string]: string[] };
+  writtenMessages: { [channel: string]: string };
+  writtenMessageForm: any;
   currentChannel: string;
   multiplayer: boolean;
 }
@@ -32,8 +35,15 @@ export interface ChannelStateModel {
   defaults: {
     channels: [],
     users: {},
+    writtenMessages: {},
     currentChannel: '',
-    multiplayer: false
+    multiplayer: false,
+    writtenMessageForm: {
+      model: {},
+      dirty: false,
+      status: '',
+      errors: {}
+    }
   }
 })
 export class ChannelState {
@@ -57,7 +67,12 @@ export class ChannelState {
     return state.users[state.currentChannel];
   }
 
-  constructor(public irc: IrcService, public store: Store) {}
+  @Selector()
+  static writtenMessage(state: ChannelStateModel) {
+    return state.writtenMessages[state.currentChannel];
+  }
+
+  constructor(public irc: IrcService, public store: Store) { }
 
   @Action(JoinChannel)
   joinChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
@@ -87,6 +102,7 @@ export class ChannelState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.channels.push(action.payload.channelName);
+        draft.writtenMessages[action.payload.channelName] = '';
       })
     );
   }
@@ -94,6 +110,32 @@ export class ChannelState {
   @Action(JoinChannelFailed)
   joinChannelFailed(ctx: StateContext<ChannelStateModel>) {
     // Todo
+  }
+
+  @Action(UpdateFormValue)
+  updateWrittenMessage(ctx: StateContext<ChannelStateModel>, action: UpdateFormValue) {
+    const state = ctx.getState();
+
+    if (action.payload.path !== 'channel.writtenMessageForm' || state.currentChannel === '') {
+      return;
+    }
+
+    ctx.setState(
+      produce(state, draft => {
+        draft.writtenMessages[draft.currentChannel] = action.payload.value.message;
+      })
+    );
+  }
+
+  @Action(SendMessage)
+  removeWrittenMessage(ctx: StateContext<ChannelStateModel>) {
+    const state = ctx.getState();
+    ctx.setState(
+      produce(state, draft => {
+        draft.writtenMessages[draft.currentChannel] = '';
+        draft.writtenMessageForm.model.message = '';
+      })
+    );
   }
 
   @Action(ReceiveMessage)
@@ -119,6 +161,9 @@ export class ChannelState {
       produce(ctx.getState(), draft => {
         draft.currentChannel = action.payload.channelName;
         const channel = action.payload.channelName;
+
+        // Change form
+        draft.writtenMessageForm.model.message = draft.writtenMessages[channel];
 
         if (
           channel
@@ -152,19 +197,23 @@ export class ChannelState {
       produce(ctx.getState(), draft => {
         const index = draft.channels.indexOf(action.payload.channelName);
         draft.channels.splice(index, 1);
+        delete draft.writtenMessages[action.payload.channelName];
 
         if (draft.channels.length === 0) {
           draft.currentChannel = '';
+          draft.writtenMessageForm.model.message = '';
         } else if (
           draft.channels.indexOf(draft.currentChannel) === -1 &&
           draft.channels[index]
         ) {
           draft.currentChannel = draft.channels[index];
+          draft.writtenMessageForm.model.message = draft.writtenMessages[draft.channels[index]];
         } else if (
           draft.channels.indexOf(draft.currentChannel) === -1 &&
           !draft.channels[index]
         ) {
           draft.currentChannel = draft.channels[index - 1];
+          draft.writtenMessageForm.model.message = draft.writtenMessages[draft.channels[index - 1]];
         }
 
         const channel = draft.currentChannel;
@@ -219,6 +268,13 @@ export class ChannelState {
         draft.users = {};
         draft.currentChannel = '';
         draft.multiplayer = false;
+        draft.writtenMessages = {};
+        draft.writtenMessageForm = {
+          model: {},
+          dirty: false,
+          status: '',
+          errors: {}
+        };
       })
     );
   }

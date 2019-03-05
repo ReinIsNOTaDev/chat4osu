@@ -1,6 +1,4 @@
-<form (ngSubmit)="onSubmit()" class="input-bar">
-  <input class="input-text" name="message" placeholder="Write a message..." [(ngModel)]="message" />
+<form [formGroup]="messageForm" ngxsForm="channel.writtenMessageForm" (ngSubmit)="onSubmit()" class="input-bar">
+  <input class="input-text" name="message" placeholder="Write a message..." formControlName="message" />
   <button class="input-submit" type="submit">Send</button>
-  <p-dropdown name="mp-commands" *ngIf="mpMode" placeholder="MP" [options]="mpCommands" [(ngModel)]="selectedItem" [autoWidth]="false"
-    [dropdownIcon]="'pi'" [panelStyleClass]="'panel'" (onChange)="onMpChange($event)" [style]="{'height': '100%', 'border-radius': '0'}"></p-dropdown>
 </form>
