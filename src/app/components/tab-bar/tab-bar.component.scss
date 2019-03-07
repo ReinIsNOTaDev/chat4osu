@@ -33,21 +33,31 @@
 
   .tab {
     padding: 2px 5px;
-    margin: 0 2px;
+    margin: 0 1px;
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
     cursor: pointer;
     height: 25px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
 
     &.active {
       background-color: rgba(255, 255, 255, 0.4);
     }
 
     &.join {
-      background-color: rgba(255, 255, 0, 0.4);
       border-radius: 100px;
       height: 19px;
       line-height: 11px;
+      margin-left: 3px;
+
+      &:hover {
+        background-color: rgba(255, 255, 0, 0.4);
+      }
     }
 
     .leave {
