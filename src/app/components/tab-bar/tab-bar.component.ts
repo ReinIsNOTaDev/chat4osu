@@ -30,9 +30,9 @@ export class TabBarComponent implements OnInit {
   @Output()
   leaveChannel: EventEmitter<string> = new EventEmitter();
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSetChannel(channel: string) {
     this.setChannel.emit(channel);
