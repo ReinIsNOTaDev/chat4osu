@@ -1,4 +1,4 @@
-<div class="tab-container">
+<div #tabContainer class="tab-container" (wheel)="onWheel($event)">
   <div class="tab" *ngFor="let channel of channels" (click)="onSetChannel(channel)"
     [ngClass]="{'active': channel === currentChannel}">
     <span>{{channel}}</span>

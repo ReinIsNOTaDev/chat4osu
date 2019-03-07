@@ -9,6 +9,7 @@ virtual-scroll {
   height: 100%;
   max-height: calc(100vh - 110px);
   word-break: break-word;
+  overflow: hidden;
 }
 
 .parent-container {
