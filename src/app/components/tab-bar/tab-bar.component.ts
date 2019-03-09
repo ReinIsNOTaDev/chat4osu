@@ -4,9 +4,10 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ViewChild,
+  ElementRef
 } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-tab-bar',
@@ -30,9 +31,12 @@ export class TabBarComponent implements OnInit {
   @Output()
   leaveChannel: EventEmitter<string> = new EventEmitter();
 
-  constructor() {}
+  @ViewChild('tabContainer')
+  tabContainer: ElementRef;
 
-  ngOnInit(): void {}
+  constructor() { }
+
+  ngOnInit(): void { }
 
   onSetChannel(channel: string) {
     this.setChannel.emit(channel);
@@ -45,5 +49,10 @@ export class TabBarComponent implements OnInit {
   onLeaveChannel(event, channel: string) {
     event.stopPropagation();
     this.leaveChannel.emit(channel);
+  }
+
+  onWheel(event) {
+    this.tabContainer.nativeElement.scrollLeft =
+      this.tabContainer.nativeElement.scrollLeft + event.deltaY / 5;
   }
 }
