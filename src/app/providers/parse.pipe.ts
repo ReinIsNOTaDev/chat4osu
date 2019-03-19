@@ -49,10 +49,10 @@ export class ParsePipe implements PipeTransform {
 
     let output = '';
     let index = 0;
-    for (const match of matches) {
-      const textBefore = parsedValue.slice(index, match.indexStart);
-      output += textBefore + match.newText;
-      index = match.indexEnd;
+    for (const mch of matches) {
+      const textBefore = parsedValue.slice(index, mch.indexStart);
+      output += textBefore + mch.newText;
+      index = mch.indexEnd;
     }
 
     output += parsedValue.slice(index, parsedValue.length);

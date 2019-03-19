@@ -395,7 +395,7 @@ export class IrcService {
         new LoginSuccess({ username, password }),
         ...channelJoin,
         new SetChannel({ channelName: channels[0] })
-      ])
+      ]);
     });
   }
 
