@@ -9,6 +9,8 @@ import { Login } from './store/actions/auth.actions';
 import { Observable } from 'rxjs';
 import { ToastState } from './store/states/toast.state';
 import { Message } from 'primeng/api';
+import { AddToast } from './store/actions/toast.actions';
+import changelog from '../assets/changelog.json';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +30,23 @@ export class AppComponent {
     this.electronService.setVersion();
     if (AppConfig.production) {
       this.electronService.update();
+
+      if (this.storage.get('updated')) {
+        setTimeout(() => {
+          const changelogList = changelog.map(e => `\n- ${e}`).join('');
+
+          this.store.dispatch(
+            new AddToast({
+              summary: 'c4o! has been updated!',
+              detail: `New in this version:${changelogList}`,
+              key: 'toast',
+              severity: 'success',
+              sticky: true
+            })
+          );
+        }, 500);
+        this.storage.set('updated', false)
+      }
     }
 
     translate.setDefaultLang('en');
