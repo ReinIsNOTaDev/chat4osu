@@ -1,7 +1,7 @@
 image: weboaks/node-karma-protractor-chrome
 
 variables:
-  VERSION_ID: '0.1'
+  VERSION_ID: '0.3'
 
 stages:
   - test
@@ -11,7 +11,7 @@ test:
   stage: test
   script:
     - yarn
-    - yarn ng lint --exclude **/assets/**
+    - yarn lint
     - yarn test
   only:
     - master
