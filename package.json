@@ -34,7 +34,7 @@
     "electron:mac": "npm run build:prod && npx electron-builder build --mac",
     "test": "npm run postinstall:web && ng test",
     "e2e": "npm run postinstall:web && ng e2e",
-    "lint": "ng lint angular-electron --exclude src/assets/changelog.json"
+    "lint": "ng lint angular-electron"
   },
   "dependencies": {
     "@angular/animations": "^7.2.1",
