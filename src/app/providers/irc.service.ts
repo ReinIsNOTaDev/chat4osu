@@ -25,6 +25,7 @@ import {
   SetFreeMod,
   SetBeatmap
 } from '../store/actions/multiplayer.actions';
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class IrcService {
@@ -210,7 +211,8 @@ export class IrcService {
   constructor(
     public store: Store,
     electron: ElectronService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private storage: StorageService
   ) {
     if (electron.isElectron()) {
       this.irc = window.require('irc-upd');
@@ -386,16 +388,24 @@ export class IrcService {
       );
     });
 
-    this.client.connect(0, () =>
+    this.client.connect(0, () => {
+      const channels = this.storage.get('channels') || ['#osu'];
+      const channelJoin = channels.map(name => new JoinChannel({ channelName: name }));
       this.store.dispatch([
         new LoginSuccess({ username, password }),
-        new JoinChannel({ channelName: '#osu' }),
-        new SetChannel({ channelName: '#osu' })
+        ...channelJoin,
+        new SetChannel({ channelName: channels[0] })
       ])
-    );
+    });
   }
 
   joinChannel(channelName: string, setToActive = false) {
+    // Save channel for client reopening
+    const channels = this.storage.get('channels') || ['#osu'];
+    if (channels.indexOf(channelName) === -1) {
+      this.storage.set('channels', [...channels, channelName.toLowerCase()]);
+    }
+
     if (channelName.charAt(0) === '#') {
       this.client.join(channelName, () => {
         if (setToActive) {
@@ -411,6 +421,10 @@ export class IrcService {
   }
 
   partChannel(channelName: string) {
+    // Remove channel for client reopening
+    const channels = this.storage.get('channels') || ['#osu'];
+    this.storage.set('channels', channels.filter(e => e.toLowerCase() !== channelName.toLowerCase()));
+
     if (channelName.charAt(0) === '#') {
       this.client.part(channelName);
     }
