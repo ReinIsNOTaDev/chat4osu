@@ -1,7 +1,7 @@
 image: weboaks/node-karma-protractor-chrome
 
 variables:
-  VERSION_ID: '0.2'
+  VERSION_ID: '0.3'
 
 stages:
   - test
