@@ -11,6 +11,7 @@ import { Store } from '@ngxs/store';
 import { AddToast } from '../store/actions/toast.actions';
 import { SetVersion } from '../store/actions/settings.actions';
 import { AppConfig } from '../../environments/environment';
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class ElectronService {
@@ -23,7 +24,7 @@ export class ElectronService {
   fs: typeof fs;
   shell: typeof shell;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private storage: StorageService) {
     // Conditional imports
     if (this.isElectron()) {
       this.ipcRenderer = window.require('electron').ipcRenderer;
@@ -105,10 +106,10 @@ export class ElectronService {
     this.autoUpdater.on('download-progress', progressObj => {
       let log_message = `Download speed: ${
         progressObj.bytesPerSecond
-      } - Downloaded ${parseInt(progressObj.percent, 10)} %`;
+        } - Downloaded ${parseInt(progressObj.percent, 10)} %`;
       log_message = `${log_message} (${progressObj.transferred}/${
         progressObj.total
-      })`;
+        })`;
       console.log(log_message);
     });
 
@@ -118,12 +119,13 @@ export class ElectronService {
           summary: 'New update!',
           detail: 'A new update was downloaded, restarting...',
           key: 'toast',
-          severity: 'success'
+          severity: 'info'
         })
       );
     });
 
     this.autoUpdater.on('update-downloaded', info => {
+      this.storage.set('updated', true);
       setTimeout(() => {
         this.autoUpdater.quitAndInstall();
       }, 3000);

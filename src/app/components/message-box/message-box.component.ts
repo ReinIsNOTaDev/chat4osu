@@ -7,7 +7,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { VirtualScrollComponent } from 'angular2-virtual-scroll';
 
 @Component({
@@ -32,9 +32,9 @@ export class MessageBoxComponent implements OnInit, OnChanges {
   @ViewChild(VirtualScrollComponent)
   private virtualScroll: VirtualScrollComponent;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnChanges(): void {
     // Dont run if the viewport hasn't been initialized

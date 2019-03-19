@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Pipe({ name: 'parse' })
 export class ParsePipe implements PipeTransform {
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) { }
 
   transform(value: string): any {
     // Parse links
@@ -21,34 +21,41 @@ export class ParsePipe implements PipeTransform {
     parsedValue = parsedValue.replace('<', '&lt;').replace('>', '&gt;');
 
     // Search for all links in a message
-    const pattern = /(\[(https?:\/\/[^\]\s]+)\s(.*(((\[)[^\[\]]*)+((\])[^\[\]]*)+)*)\]|(https?:\/\/[^\]\s]+))/gi;
+    const pattern = /(?:\[(https?:\/\/[^\s]+)\s([^[]+|(?:.*\[.+\][^[]*))\]|(https?:\/\/[^\s]+))/gi;
     let match;
-
-    // Temporary var to store message, prevent infinite loop
-    let output = parsedValue;
+    const matches = [];
 
     // Replace each match with a functional link
     while ((match = pattern.exec(parsedValue)) !== null) {
+      let newText;
+
       // Regular link
-      if (match[9]) {
-        output = output.replace(
-          match[0],
-          `<a href='${match[9]}' title='${
-            match[9]
-          }' class='link' target="_blank">${match[9]}</a>`
-        );
+      if (match[3]) {
+        newText = `<a href='${match[3]}' title='${match[3]}' class='link' target="_blank">${match[3]}</a>`;
       }
 
       // Bracket link
-      if (match[2] && match[3]) {
-        output = output.replace(
-          match[0],
-          `<a href='${match[2]}' title='${
-            match[2]
-          }' class='link' target="_blank">${match[3]}</a>`
-        );
+      if (match[1] && match[2]) {
+        newText = `<a href='${match[1]}' title='${match[1]}' class='link' target="_blank">${match[2]}</a>`;
       }
+
+      matches.push({
+        indexStart: match.index,
+        indexEnd: match.index + match[0].length,
+        oldText: match[0],
+        newText
+      });
     }
+
+    let output = '';
+    let index = 0;
+    for (const match of matches) {
+      const textBefore = parsedValue.slice(index, match.indexStart);
+      output += textBefore + match.newText;
+      index = match.indexEnd;
+    }
+
+    output += parsedValue.slice(index, parsedValue.length);
 
     return output;
   }
