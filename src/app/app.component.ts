@@ -45,7 +45,7 @@ export class AppComponent {
             })
           );
         }, 500);
-        this.storage.set('updated', false)
+        this.storage.set('updated', false);
       }
     }
 
