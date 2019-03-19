@@ -11,7 +11,7 @@ test:
   stage: test
   script:
     - yarn
-    - yarn ng -- lint
+    - yarn ng lint --exclude **/*.json
     - yarn test
   only:
     - master
