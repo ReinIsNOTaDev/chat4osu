@@ -12,7 +12,7 @@ import {
   SendMessage,
   SendMessageToChannel
 } from '../actions/message.actions';
-import { JoinChannelSuccess, LeaveChannel } from '../actions/channel.actions';
+import { JoinChannelSuccess, LeaveChannel, ChangeChannelName } from '../actions/channel.actions';
 import { ChannelState, ChannelStateModel } from './channel.state';
 import { IrcService } from '../../providers/irc.service';
 import { AuthState } from './auth.state';
@@ -46,7 +46,7 @@ export class MessageState {
     return state.messages[channelState.currentChannel];
   }
 
-  constructor(private store: Store, private irc: IrcService) {}
+  constructor(private store: Store, private irc: IrcService) { }
 
   @Action(SendMessage)
   SendMessage(ctx: StateContext<MessageStateModel>, action: SendMessage) {
@@ -139,6 +139,20 @@ export class MessageState {
         if (!draft.messages[action.payload.channelName]) {
           draft.messages[action.payload.channelName] = [];
         }
+      })
+    );
+  }
+
+  @Action(ChangeChannelName)
+  changeChannelName(
+    ctx: StateContext<MessageStateModel>,
+    action: ChangeChannelName
+  ) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.messages[action.payload.newName] = [...draft.messages[action.payload.channelName]];
+        draft.messages[action.payload.channelName] = undefined;
+        delete draft.messages[action.payload.channelName];
       })
     );
   }

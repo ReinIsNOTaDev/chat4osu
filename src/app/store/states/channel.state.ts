@@ -8,7 +8,8 @@ import {
   JoinAndSetChannel,
   LeaveChannel,
   SetChannelUsers,
-  GetChannelUsers
+  GetChannelUsers,
+  ChangeChannelName
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage, SendMessage } from '../actions/message.actions';
@@ -76,11 +77,25 @@ export class ChannelState {
 
   @Action(JoinChannel)
   joinChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.channels.push(action.payload.channelName);
+        draft.writtenMessages[action.payload.channelName] = '';
+      })
+    );
+
     this.irc.joinChannel(action.payload.channelName);
   }
 
   @Action(JoinAndSetChannel)
   joinAndSetChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.channels.push(action.payload.channelName);
+        draft.writtenMessages[action.payload.channelName] = '';
+      })
+    );
+
     this.irc.joinChannel(action.payload.channelName, true);
   }
 
@@ -99,12 +114,15 @@ export class ChannelState {
       this.store.dispatch(new JoinMpLobby(action.payload.channelName));
     }
 
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.channels.push(action.payload.channelName);
-        draft.writtenMessages[action.payload.channelName] = '';
-      })
-    );
+    if (action.payload.channelName.charAt(0) === '#') {
+      this.store.dispatch(new ReceiveMessage({
+        channelName: action.payload.channelName,
+        date: new Date(),
+        sender: 'Joined',
+        message: action.payload.channelName,
+        action: true
+      }));
+    }
   }
 
   @Action(JoinChannelFailed)
@@ -174,6 +192,28 @@ export class ChannelState {
           draft.multiplayer = true;
         } else {
           draft.multiplayer = false;
+        }
+      })
+    );
+  }
+
+  @Action(ChangeChannelName)
+  changeChannelName(ctx: StateContext<ChannelStateModel>, action: ChangeChannelName) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        const index = draft.channels.indexOf(action.payload.channelName);
+
+        if (index === -1) {
+          return;
+        }
+
+        draft.channels[index] = action.payload.newName;
+        draft.writtenMessages[action.payload.newName] = draft.writtenMessages[action.payload.channelName];
+        draft.writtenMessages[action.payload.channelName] = undefined;
+        delete draft.writtenMessages[action.payload.channelName];
+
+        if (draft.currentChannel === action.payload.channelName) {
+          draft.currentChannel = action.payload.newName;
         }
       })
     );

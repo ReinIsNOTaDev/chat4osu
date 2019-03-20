@@ -8,7 +8,8 @@ import {
   JoinAndSetChannel,
   LeaveChannel,
   SetChannelUsers,
-  GetChannelUsers
+  GetChannelUsers,
+  ChangeChannelName
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import {
@@ -32,6 +33,7 @@ import {
   SetBeatmap
 } from '../actions/multiplayer.actions';
 import { ChannelStateModel, ChannelState } from './channel.state';
+import { StorageService } from '../../providers/storage.service';
 
 export interface MpUser {
   username: string;
@@ -68,13 +70,19 @@ export class MultiplayerState {
     return state.multiplayerLobbies[channelState.currentChannel];
   }
 
-  constructor() {}
+  constructor(private storage: StorageService) { }
 
   @Action(JoinMpLobby)
   async joinLobby(
     ctx: StateContext<MultiplayerStateModel>,
     action: JoinMpLobby
   ) {
+    // Save channel for client reopening
+    const channels = this.storage.get('channels') || ['#osu'];
+    if (channels.indexOf(action.payload) === -1) {
+      this.storage.set('channels', [...channels, action.payload]);
+    }
+
     const newLobby: MpLobby = {
       mpId: action.payload,
       roomName: '',
@@ -273,6 +281,22 @@ export class MultiplayerState {
           index,
           1
         );
+      })
+    );
+  }
+
+  @Action(ChangeChannelName)
+  changeChannelName(
+    ctx: StateContext<MultiplayerStateModel>,
+    action: ChangeChannelName
+  ) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.multiplayerLobbies[action.payload.newName] = draft.multiplayerLobbies[action.payload.channelName];
+        draft.multiplayerLobbies[action.payload.channelName] = undefined;
+        delete draft.multiplayerLobbies[action.payload.channelName];
+
+        draft.multiplayerLobbies[action.payload.newName].mpId = action.payload.newName;
       })
     );
   }

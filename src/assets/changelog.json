@@ -1,5 +1,7 @@
 [
-  "Informative changelog",
-  "Better link checking",
-  "Reopen channels from previous session"
+  "Added /savelog command",
+  "Added a changelog",
+  "Improved link checking",
+  "Reopen channels from previous session",
+  "Fix error when doing !mp close"
 ]

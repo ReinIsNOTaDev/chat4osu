@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as irc from 'irc-upd';
 import * as eventToPromise from 'event-to-promise';
+import moment from 'moment';
 import { Store } from '@ngxs/store';
 import { LoginSuccess, LoginFailed } from '../store/actions/auth.actions';
 import { ReceiveMessage, SendMessageSuccess } from '../store/actions/message.actions';
@@ -8,7 +9,8 @@ import {
   JoinChannelSuccess,
   JoinChannel,
   SetChannel,
-  SetChannelUsers
+  SetChannelUsers,
+  ChangeChannelName
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
 import { MessageService } from 'primeng/api';
@@ -205,12 +207,22 @@ export class IrcService {
           })
         );
       }
-    }
+    },
+    matchClosed: {
+      pattern: /^Closed the match$/,
+      command: (channelName, matches) => {
+        setTimeout(() => {
+          const channels = this.storage.get('channels') || ['#osu'];
+          this.storage.set('channels', channels.filter(e => e.toLowerCase() !== channelName.toLowerCase()));
+          this.store.dispatch(new ChangeChannelName({ channelName, newName: '(closed) ' + channelName }));
+        }, 500);
+      }
+    },
   };
 
   constructor(
     public store: Store,
-    electron: ElectronService,
+    public electron: ElectronService,
     private messageService: MessageService,
     private storage: StorageService
   ) {
@@ -229,6 +241,11 @@ export class IrcService {
     });
 
     this.client.addListener('error', error => {
+      // Workaround for weird IRC error
+      if (error.message === `Cannot read property 'trim' of undefined`) {
+        return;
+      }
+
       this.store.dispatch(
         new AddToast({
           key: 'toast',
@@ -403,7 +420,7 @@ export class IrcService {
     // Save channel for client reopening
     const channels = this.storage.get('channels') || ['#osu'];
     if (channels.indexOf(channelName) === -1) {
-      this.storage.set('channels', [...channels, channelName.toLowerCase()]);
+      this.storage.set('channels', [...channels, channelName]);
     }
 
     if (channelName.charAt(0) === '#') {
@@ -484,6 +501,45 @@ export class IrcService {
       case '/me': {
         const message = msg.replace('/me ', '');
         this.sendAction(channel, message);
+        break;
+      }
+
+      case '/savelog':
+      case '/save':
+      case '/log': {
+        const messages = this.store.selectSnapshot(state => state.message.messages)[channel];
+        const lines = messages.map(e => {
+          const tempDate = moment(e.date);
+
+          if (e.action) {
+            return `[${('0' + tempDate.hours()).slice(-2) + ':' + ('0' + tempDate.minutes()).slice(-2)}] ${e.sender} ${e.message}`
+          } else {
+            return `[${('0' + tempDate.hours()).slice(-2) + ':' + ('0' + tempDate.minutes()).slice(-2)}] ${e.sender}: ${e.message}`
+          }
+        });
+
+        this.electron.openSaveDialog({
+          title: 'Save chat log...',
+          defaultPath: channel,
+          filters: [
+            { name: 'Text', extensions: ['txt'] },
+            { name: 'All Files', extensions: ['*'] }
+          ]
+        }, path => {
+          if (path == null) {
+            return;
+          }
+          this.electron.saveFile(path, lines.join('\r\n'), () => {
+            this.store.dispatch(
+              new AddToast({
+                summary: 'Success',
+                detail: `Chat history has been saved at your desired location!`,
+                key: 'toast',
+                severity: 'success'
+              })
+            );
+          })
+        });
         break;
       }
     }
