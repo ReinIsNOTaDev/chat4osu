@@ -3,5 +3,6 @@
   "Added a changelog",
   "Improved link checking",
   "Reopen channels from previous session",
-  "Fix error when doing !mp close"
+  "Fix error when doing !mp close",
+  "Smaller window resize"
 ]
