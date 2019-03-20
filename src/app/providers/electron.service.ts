@@ -80,7 +80,7 @@ export class ElectronService {
     if (this.isElectron()) {
       fs.writeFile(path, content, (err) => {
         if (err) {
-          console.error("An error ocurred creating the file " + err.message)
+          console.error('An error ocurred creating the file ' + err.message);
         } else {
           callback();
         }

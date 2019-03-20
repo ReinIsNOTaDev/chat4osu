@@ -14,13 +14,13 @@ function createWindow() {
   win = new BrowserWindow({
     width: 825,
     height: 600,
-    minWidth: 825,
+    minWidth: 500,
     minHeight: 400,
     autoHideMenuBar: true
   });
 
   // Handle external links
-  win.webContents.on('new-window', function(event, link) {
+  win.webContents.on('new-window', function (event, link) {
     event.preventDefault();
     shell.openExternal(link);
   });
