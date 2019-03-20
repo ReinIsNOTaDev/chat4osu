@@ -229,6 +229,11 @@ export class IrcService {
     });
 
     this.client.addListener('error', error => {
+      // Workaround for weird IRC error
+      if (error.message === `Cannot read property 'trim' of undefined`) {
+        return;
+      }
+
       this.store.dispatch(
         new AddToast({
           key: 'toast',
@@ -403,7 +408,7 @@ export class IrcService {
     // Save channel for client reopening
     const channels = this.storage.get('channels') || ['#osu'];
     if (channels.indexOf(channelName) === -1) {
-      this.storage.set('channels', [...channels, channelName.toLowerCase()]);
+      this.storage.set('channels', [...channels, channelName]);
     }
 
     if (channelName.charAt(0) === '#') {
