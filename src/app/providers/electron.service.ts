@@ -78,7 +78,7 @@ export class ElectronService {
 
   saveFile(path: string, content: string, callback: () => void) {
     if (this.isElectron()) {
-      fs.writeFile(path, content, (err) => {
+      this.fs.writeFile(path, content, (err) => {
         if (err) {
           console.error('An error ocurred creating the file ' + err.message);
         } else {
