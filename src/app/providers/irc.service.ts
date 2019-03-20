@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as irc from 'irc-upd';
 import * as eventToPromise from 'event-to-promise';
+import moment from 'moment';
 import { Store } from '@ngxs/store';
 import { LoginSuccess, LoginFailed } from '../store/actions/auth.actions';
 import { ReceiveMessage, SendMessageSuccess } from '../store/actions/message.actions';
@@ -221,7 +222,7 @@ export class IrcService {
 
   constructor(
     public store: Store,
-    electron: ElectronService,
+    public electron: ElectronService,
     private messageService: MessageService,
     private storage: StorageService
   ) {
@@ -500,6 +501,45 @@ export class IrcService {
       case '/me': {
         const message = msg.replace('/me ', '');
         this.sendAction(channel, message);
+        break;
+      }
+
+      case '/savelog':
+      case '/save':
+      case '/log': {
+        const messages = this.store.selectSnapshot(state => state.message.messages)[channel];
+        const lines = messages.map(e => {
+          const tempDate = moment(e.date);
+
+          if (e.action) {
+            return `[${('0' + tempDate.hours()).slice(-2) + ':' + ('0' + tempDate.minutes()).slice(-2)}] ${e.sender} ${e.message}`
+          } else {
+            return `[${('0' + tempDate.hours()).slice(-2) + ':' + ('0' + tempDate.minutes()).slice(-2)}] ${e.sender}: ${e.message}`
+          }
+        });
+
+        this.electron.openSaveDialog({
+          title: 'Save chat log...',
+          defaultPath: channel,
+          filters: [
+            { name: 'Text', extensions: ['txt'] },
+            { name: 'All Files', extensions: ['*'] }
+          ]
+        }, path => {
+          if (path == null) {
+            return;
+          }
+          this.electron.saveFile(path, lines.join('\r\n'), () => {
+            this.store.dispatch(
+              new AddToast({
+                summary: 'Success',
+                detail: `Chat history has been saved at your desired location!`,
+                key: 'toast',
+                severity: 'success'
+              })
+            );
+          })
+        });
         break;
       }
     }

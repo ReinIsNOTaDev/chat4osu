@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
-import { ipcRenderer, webFrame, remote, shell } from 'electron';
+import { ipcRenderer, webFrame, remote, shell, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import * as childProcess from 'child_process';
@@ -16,6 +16,7 @@ import { StorageService } from './storage.service';
 @Injectable()
 export class ElectronService {
   ipcRenderer: typeof ipcRenderer;
+  dialog: typeof dialog;
   webFrame: typeof webFrame;
   remote: typeof remote;
   childProcess: typeof childProcess;
@@ -36,6 +37,7 @@ export class ElectronService {
 
       // Remote deps
       this.autoUpdater = this.remote.require('electron-updater').autoUpdater;
+      this.dialog = this.remote.dialog;
       this.log = this.remote.require('electron-log');
       this.log.info('Starting...');
 
@@ -65,6 +67,24 @@ export class ElectronService {
   openLinkInBrowser(url: string) {
     if (this.isElectron()) {
       this.shell.openExternal(url);
+    }
+  }
+
+  openSaveDialog(options: Electron.SaveDialogOptions, callback: (filename: string) => void) {
+    if (this.isElectron()) {
+      this.dialog.showSaveDialog(options, callback);
+    }
+  }
+
+  saveFile(path: string, content: string, callback: () => void) {
+    if (this.isElectron()) {
+      fs.writeFile(path, content, (err) => {
+        if (err) {
+          console.error("An error ocurred creating the file " + err.message)
+        } else {
+          callback();
+        }
+      });
     }
   }
 
