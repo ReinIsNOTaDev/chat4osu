@@ -31,7 +31,7 @@ export class AppComponent {
     if (AppConfig.production) {
       this.electronService.update();
 
-      if (this.storage.get('updated')) {
+      if (this.storage.get('updated') === true || this.storage.get('updated') === undefined) {
         setTimeout(() => {
           const changelogList = changelog.map(e => `\n- ${e}`).join('');
 
