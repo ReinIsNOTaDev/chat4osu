@@ -8,7 +8,8 @@ import {
   JoinChannelSuccess,
   JoinChannel,
   SetChannel,
-  SetChannelUsers
+  SetChannelUsers,
+  ChangeChannelName
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
 import { MessageService } from 'primeng/api';
@@ -205,7 +206,17 @@ export class IrcService {
           })
         );
       }
-    }
+    },
+    matchClosed: {
+      pattern: /^Closed the match$/,
+      command: (channelName, matches) => {
+        setTimeout(() => {
+          const channels = this.storage.get('channels') || ['#osu'];
+          this.storage.set('channels', channels.filter(e => e.toLowerCase() !== channelName.toLowerCase()));
+          this.store.dispatch(new ChangeChannelName({ channelName, newName: '(closed) ' + channelName }));
+        }, 500);
+      }
+    },
   };
 
   constructor(
