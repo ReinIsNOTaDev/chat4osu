@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import Store from 'electron-store';
 
 @Injectable()
 export class StorageService {
-  storage: Store<any>;
+  storage: any;
 
   isElectron = () => window && window.process && window.process.type;
 
   constructor() {
     if (this.isElectron()) {
+      const Store = window.require('electron-store');
       this.storage = new Store();
     }
   }
