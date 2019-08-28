@@ -80,7 +80,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       MessageState,
       ToastState,
       MultiplayerState
-    ]),
+    ], { developmentMode: !AppConfig.production }),
     NgxsRouterPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({ disabled: AppConfig.production }),
     BrowserModule,
