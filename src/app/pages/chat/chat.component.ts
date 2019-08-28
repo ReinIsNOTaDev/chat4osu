@@ -50,7 +50,7 @@ export class ChatComponent implements OnInit {
   joinChannelVisible = false;
   joinChannelValue = '';
 
-  @ViewChild('input')
+  @ViewChild('input', { static: true })
   input;
 
   constructor(public store: Store) { }

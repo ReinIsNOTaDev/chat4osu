@@ -29,7 +29,7 @@ export class MessageBoxComponent implements OnInit, OnChanges {
     action?: boolean;
   }[];
 
-  @ViewChild(VirtualScrollComponent)
+  @ViewChild(VirtualScrollComponent, { static: true })
   private virtualScroll: VirtualScrollComponent;
 
   constructor() { }

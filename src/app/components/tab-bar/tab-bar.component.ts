@@ -31,7 +31,7 @@ export class TabBarComponent implements OnInit {
   @Output()
   leaveChannel: EventEmitter<string> = new EventEmitter();
 
-  @ViewChild('tabContainer')
+  @ViewChild('tabContainer', { static: true })
   tabContainer: ElementRef;
 
   constructor() { }
