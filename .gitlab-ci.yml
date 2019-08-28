@@ -13,8 +13,6 @@ test:
     - yarn
     - yarn lint
     - yarn test
-  only:
-    - master
 
 build:
   image: electronuserland/builder:wine
