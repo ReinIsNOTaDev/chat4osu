@@ -14,12 +14,12 @@ describe('AppComponent', () => {
   let _messageService: any;
 
   beforeEach(async(() => {
-    _storageService = jasmine.createSpyObj('StorageService', [
-      'get',
-      'set',
-      'delete'
-    ]);
-    _messageService = jasmine.createSpyObj('MessageService', ['add']);
+    _storageService = {
+      get: () => {},
+      set: () => {},
+      delete: () => {}
+    };
+    _messageService = { add: () => {} };
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],

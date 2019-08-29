@@ -17,13 +17,13 @@ describe('LoginComponent', () => {
   let storageService: any;
 
   beforeEach(async(() => {
-    ircService = jasmine.createSpyObj('IrcService', ['login']);
-    router = jasmine.createSpyObj('Router', ['navigate']);
-    storageService = jasmine.createSpyObj('StorageService', [
-      'get',
-      'set',
-      'delete'
-    ]);
+    ircService = { login: () => {} };
+    router = { navigate: () => {} };
+    storageService = {
+      get: () => {},
+      set: () => {},
+      delete: () => {}
+    };
 
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
