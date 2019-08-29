@@ -22,10 +22,6 @@ virtual-scroll {
   color: #ffffff;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
 
-  &.action {
-    color: rgb(171, 171, 231);
-  }
-
   .date {
     color: #c0c0c0;
     margin-right: 2px;
@@ -37,6 +33,14 @@ virtual-scroll {
 
     &.normal {
       color: #ffc561;
+    }
+  }
+
+  &.action {
+    color: rgb(171, 171, 231);
+
+    .sender {
+      cursor: default;
     }
   }
 }
