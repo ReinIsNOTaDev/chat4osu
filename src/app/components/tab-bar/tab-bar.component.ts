@@ -42,6 +42,12 @@ export class TabBarComponent implements OnInit {
     this.setChannel.emit(channel);
   }
 
+  onMiddleClickChannel(event, channel: string) {
+    if (event.which !== 2) { return; }
+    event.stopPropagation();
+    this.leaveChannel.emit(channel);
+  }
+
   onJoinChannelClick() {
     this.joinChannelClick.emit();
   }
