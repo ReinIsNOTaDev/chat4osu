@@ -408,11 +408,16 @@ export class IrcService {
     this.client.connect(0, () => {
       const channels = this.storage.get('channels') || ['#osu'];
       const channelJoin = channels.map(name => new JoinChannel({ channelName: name }));
-      this.store.dispatch([
+      const initialEvents = [
         new LoginSuccess({ username, password }),
-        ...channelJoin,
-        new SetChannel({ channelName: channels[0] })
-      ]);
+        ...channelJoin
+      ];
+
+      if (channels && channels.length > 0) {
+        initialEvents.push(new SetChannel({ channelName: channels[0] }));
+      }
+
+      this.store.dispatch(initialEvents);
     });
   }
 
