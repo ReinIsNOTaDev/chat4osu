@@ -488,6 +488,42 @@ export class IrcService {
   handleCommand(msg: string, channel?: string) {
     const msgParts = msg.split(' ');
     switch (msgParts[0]) {
+      case '/debug': {
+        if (msgParts[1] === 'action') {
+          const message = msg.replace(`${msgParts[0]} ${msgParts[1]} ${msgParts[2]} `, '');
+          this.store.dispatch(
+            new ReceiveMessage({
+              channelName: channel,
+              sender: msgParts[2],
+              message,
+              date: new Date(),
+              action: true
+            })
+          );
+        } else if (msgParts[1] === 'message') {
+          const message = msg.replace(`${msgParts[0]} ${msgParts[1]} ${msgParts[2]} `, '');
+          this.store.dispatch(
+            new ReceiveMessage({
+              channelName: channel,
+              sender: msgParts[2],
+              message,
+              date: new Date()
+            })
+          );
+        } else {
+          this.store.dispatch(
+            new ReceiveMessage({
+              channelName: channel,
+              sender: 'Error',
+              message: 'processing your command',
+              date: new Date(),
+              action: true
+            })
+          );
+        }
+        break;
+      }
+
       case '/join': {
         this.joinChannel(msgParts[1]);
         break;
@@ -542,6 +578,18 @@ export class IrcService {
         });
         break;
       }
+
+      default:
+        this.store.dispatch(
+          new ReceiveMessage({
+            channelName: channel,
+            sender: 'Error',
+            message: 'processing your command',
+            date: new Date(),
+            action: true
+          })
+        );
+        break;
     }
   }
 
