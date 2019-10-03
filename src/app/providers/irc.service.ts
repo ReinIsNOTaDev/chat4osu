@@ -540,12 +540,12 @@ export class IrcService {
       }
 
       case '/join': {
-        this.joinChannel(msgParts[1]);
+        this.store.dispatch(new JoinChannel({ channelName: msgParts[1] }));
         break;
       }
 
       case '/j': {
-        this.joinChannel(msgParts[1]);
+        this.store.dispatch(new JoinChannel({ channelName: msgParts[1] }));
         break;
       }
 
