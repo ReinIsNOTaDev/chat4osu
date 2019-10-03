@@ -1,6 +1,6 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { MessageService, Message } from 'primeng/api';
-import { AddToast } from '../actions/toast.actions';
+import {AddToast, ClearToasts} from '../actions/toast.actions';
 import produce from 'immer';
 
 export interface ToastStateModel {
@@ -29,5 +29,10 @@ export class ToastState {
         draft.lastToast = action.payload;
       })
     );
+  }
+
+  @Action(ClearToasts)
+  clearToast(ctx: StateContext<ToastStateModel>, action: ClearToasts) {
+    this.messageService.clear(action.payload);
   }
 }

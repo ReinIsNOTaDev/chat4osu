@@ -14,7 +14,7 @@ import {
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
 import { MessageService } from 'primeng/api';
-import { AddToast } from '../store/actions/toast.actions';
+import {AddToast, ClearToasts} from '../store/actions/toast.actions';
 import {
   AddUser,
   RemoveUser,
@@ -33,6 +33,7 @@ import { StorageService } from './storage.service';
 export class IrcService {
   irc: typeof irc;
   client: typeof irc.Client;
+  networkError = false;
 
   mpRegexes = {
     roomName: {
@@ -235,7 +236,8 @@ export class IrcService {
     this.client = new this.irc.Client('irc.ppy.sh', username, {
       password: password,
       autoConnect: false,
-      retryCount: 0,
+      retryCount: 50000,
+      retryDelay: 5000,
       autoRejoin: false,
       debug: false
     });
@@ -248,7 +250,7 @@ export class IrcService {
 
       this.store.dispatch(
         new AddToast({
-          key: 'toast',
+          key: 'errors',
           severity: 'error',
           summary: 'Error',
           detail: error.command
@@ -263,19 +265,27 @@ export class IrcService {
     });
 
     this.client.addListener('netError', error => {
-      this.store.dispatch(
-        new AddToast({
-          severity: 'error',
-          summary: 'Network error',
-          detail: error.command
-        })
-      );
+      if (!this.networkError) {
+        this.store.dispatch(
+          new AddToast({
+            key: 'errors',
+            severity: 'error',
+            summary: 'Network error',
+            detail: 'This could mean your internet connection is failing or Bancho is down. Attempting to reconnect...',
+            sticky: true,
+            closable: false
+          })
+        );
+        this.networkError = true;
+      }
+
       console.error('netError', error);
     });
 
     this.client.addListener('unhandled', message => {
       this.store.dispatch(
         new AddToast({
+          key: 'errors',
           severity: 'warn',
           summary: 'Unhandled message',
           detail:
@@ -309,11 +319,17 @@ export class IrcService {
         return;
       }
 
+      if (message.rawCommand === 'PING' || message.rawCommand === '001') {
+        this.networkError = false;
+        this.store.dispatch(new ClearToasts('errors'));
+      }
+
       console.log('raw', message.rawCommand);
       console.log('args', message.args);
     });
 
     this.client.addListener('message#', (nick: string, to: string, text: string) => {
+      this.networkError = false;
       const mp =
         to
           .trim()
@@ -326,13 +342,15 @@ export class IrcService {
         this.handleMpMessage(to, trimmedText);
       }
 
-      this.store.dispatch(
-        new ReceiveMessage({
-          channelName: to,
-          sender: nick,
-          message: text,
-          date: new Date()
-        })
+      this.store.dispatch([
+          new ReceiveMessage({
+            channelName: to,
+            sender: nick,
+            message: text,
+            date: new Date()
+          }),
+          new ClearToasts('errors')
+        ]
       );
     });
 
@@ -406,10 +424,12 @@ export class IrcService {
     });
 
     this.client.connect(0, () => {
+      this.networkError = false;
       const channels = this.storage.get('channels') || ['#osu'];
       const channelJoin = channels.map(name => new JoinChannel({ channelName: name }));
       const initialEvents = [
         new LoginSuccess({ username, password }),
+        new ClearToasts('errors'),
         ...channelJoin
       ];
 
