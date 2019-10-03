@@ -47,6 +47,7 @@ import { UserBarComponent } from './components/user-bar/user-bar.component';
 import { MultiplayerState } from './store/states/multiplayer.state';
 import { MpUserBarComponent } from './components/mp-user-bar/mp-user-bar.component';
 import { AppConfig } from '../environments/environment';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -86,6 +87,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     VirtualScrollModule,
+    DragDropModule,
     FormsModule,
     ContextMenuModule,
     ReactiveFormsModule,

@@ -8,6 +8,7 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-tab-bar',
@@ -33,6 +34,9 @@ export class TabBarComponent implements OnInit {
 
   @Output()
   leaveChannel: EventEmitter<string> = new EventEmitter();
+
+  @Output()
+  rearrangeChannel: EventEmitter<{ previousIndex: number, currentIndex: number }> = new EventEmitter();
 
   @ViewChild('tabContainer', { static: true })
   tabContainer: ElementRef;
@@ -67,5 +71,9 @@ export class TabBarComponent implements OnInit {
 
   isUnread(channelName: string) {
     return this.unreadChannels ? this.unreadChannels.indexOf(channelName) !== -1 : false;
+  }
+
+  rearrange(event: CdkDragDrop<any>) {
+    this.rearrangeChannel.emit({ previousIndex: event.previousIndex, currentIndex: event.currentIndex });
   }
 }

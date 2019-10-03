@@ -42,3 +42,8 @@ export class ChangeChannelName {
   static readonly type = '[Channel] ChangeChannelName';
   constructor(public payload: { channelName: string; newName: string }) { }
 }
+
+export class RearrangeChannel {
+  static readonly type = '[Channel] RearrangeChannel';
+  constructor(public payload: { previousIndex: number, currentIndex: number }) { }
+}

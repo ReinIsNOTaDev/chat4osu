@@ -9,7 +9,7 @@ import {
   LeaveChannel,
   SetChannelUsers,
   GetChannelUsers,
-  ChangeChannelName
+  ChangeChannelName, RearrangeChannel
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage, SendMessage } from '../actions/message.actions';
@@ -22,6 +22,7 @@ import {
 } from '../actions/multiplayer.actions';
 import { UpdateFormStatus, UpdateFormValue } from '@ngxs/form-plugin';
 import {HideUsersPanel} from '../actions/settings.actions';
+import {moveItemInArray} from '@angular/cdk/drag-drop';
 
 export interface ChannelStateModel {
   channels: string[];
@@ -324,6 +325,15 @@ export class ChannelState {
         })
       );
     }
+  }
+
+  @Action(RearrangeChannel)
+  rearrangeChannel(ctx: StateContext<ChannelStateModel>, action: RearrangeChannel) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        moveItemInArray(draft.channels, action.payload.previousIndex, action.payload.currentIndex);
+      })
+    );
   }
 
   @Action(Logout)

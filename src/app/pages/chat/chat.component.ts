@@ -8,7 +8,7 @@ import {
   SetChannel,
   JoinChannel,
   JoinAndSetChannel,
-  LeaveChannel
+  LeaveChannel, RearrangeChannel
 } from '../../store/actions/channel.actions';
 import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
@@ -112,5 +112,9 @@ export class ChatComponent implements OnInit {
 
   onAbort() {
     this.store.dispatch(new SendMessage({ message: '!mp abort', date: new Date() }));
+  }
+
+  onRearrangeChannel(previousIndex: number, currentIndex: number) {
+    this.store.dispatch(new RearrangeChannel({ previousIndex, currentIndex }));
   }
 }
