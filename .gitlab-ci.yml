@@ -1,7 +1,7 @@
 image: weboaks/node-karma-protractor-chrome
 
 variables:
-  VERSION_ID: '0.3'
+  VERSION_ID: '0.4'
 
 stages:
   - test
@@ -13,8 +13,6 @@ test:
     - yarn
     - yarn lint
     - yarn test
-  only:
-    - master
 
 build:
   image: electronuserland/builder:wine

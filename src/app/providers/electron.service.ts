@@ -70,9 +70,10 @@ export class ElectronService {
     }
   }
 
-  openSaveDialog(options: Electron.SaveDialogOptions, callback: (filename: string) => void) {
+  async openSaveDialog(options: Electron.SaveDialogOptions, callback: (filename: string) => void) {
     if (this.isElectron()) {
-      this.dialog.showSaveDialog(options, callback);
+      const file = await this.dialog.showSaveDialog(options);
+      callback(file.filePath);
     }
   }
 

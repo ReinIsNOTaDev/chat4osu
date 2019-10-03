@@ -1,4 +1,4 @@
 <div class="control-bar">
-  <i class="pi pi-users users" (click)="onUsersClicked()"></i>
+  <i *ngIf="showUsers" class="pi pi-users users" (click)="onUsersClicked()"></i>
   <i class="pi pi-power-off logout" (click)="onLogoutClicked()"></i>
 </div>

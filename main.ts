@@ -7,8 +7,8 @@ const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
 function createWindow() {
-  const electronScreen = screen;
-  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+  // const electronScreen = screen;
+  // const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
   // Create the browser window.
   win = new BrowserWindow({
@@ -16,7 +16,10 @@ function createWindow() {
     height: 600,
     minWidth: 500,
     minHeight: 400,
-    autoHideMenuBar: true
+    autoHideMenuBar: !serve,
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   // Handle external links

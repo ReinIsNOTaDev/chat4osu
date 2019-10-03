@@ -9,12 +9,14 @@
 
 <div class="chat-container">
   <div class="main">
-    <app-control-bar (logout)="onLogout()" (users)="onUsers()"></app-control-bar>
+    <app-control-bar [showUsers]="(channels$ | async) && (channels$ | async).length > 0" (logout)="onLogout()" (users)="onUsers()"></app-control-bar>
     <app-tab-bar [channels]="channels$ | async" [currentChannel]="currentChannel$ | async"
-      (setChannel)="onSetChannel($event)" (joinChannelClick)="onJoinChannelClick()"
-      (leaveChannel)="onLeaveChannel($event)"></app-tab-bar>
-    <app-message-box [messages]="messages$ | async" (openProfile)="onOpenProfile($event)"></app-message-box>
-    <app-input-bar (send)="onSendMessage($event)"></app-input-bar>
+      [unreadChannels]="unreadChannels$ | async" (setChannel)="onSetChannel($event)" (joinChannelClick)="onJoinChannelClick()"
+      (leaveChannel)="onLeaveChannel($event)" (rearrangeChannel)="onRearrangeChannel($event.previousIndex, $event.currentIndex)"></app-tab-bar>
+      <app-message-box [messages]="messages$ | async" (openProfile)="onOpenProfile($event)"></app-message-box>
+    <ng-container *ngIf="(currentChannel$ | async)  && (currentChannel$ | async) !== ''">
+      <app-input-bar (send)="onSendMessage($event)"></app-input-bar>
+    </ng-container>
   </div>
   <ng-container *ngIf="(usersVisible$ | async)">
     <ng-container *ngIf="!(multiplayer$ | async)">

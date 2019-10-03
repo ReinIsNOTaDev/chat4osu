@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 
 @Component({
   selector: 'app-control-bar',
@@ -6,11 +6,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./control-bar.component.scss']
 })
 export class ControlBarComponent implements OnInit {
-  @Output()
-  logout: EventEmitter<any> = new EventEmitter();
-
-  @Output()
-  users: EventEmitter<any> = new EventEmitter();
+  @Input() showUsers: boolean;
+  @Output() logout: EventEmitter<any> = new EventEmitter();
+  @Output() users: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 

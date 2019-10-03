@@ -29,7 +29,7 @@ export class MessageBoxComponent implements OnInit, OnChanges {
     action?: boolean;
   }[];
 
-  @ViewChild(VirtualScrollComponent)
+  @ViewChild(VirtualScrollComponent, { static: true })
   private virtualScroll: VirtualScrollComponent;
 
   constructor() { }
@@ -57,11 +57,13 @@ export class MessageBoxComponent implements OnInit, OnChanges {
 
   parseDate(date: Date): string {
     const tempDate = moment(date);
-    return ('0' + tempDate.hours()).slice(-2) + ':' + ('0' + tempDate.minutes()).slice(-2);
+    return `${('0' + tempDate.hours()).slice(-2)}:${('0' + tempDate.minutes()).slice(-2)}:${('0' + tempDate.seconds()).slice(-2)}`;
   }
 
   scrollToBottom() {
-    this.virtualScroll.scrollToIndex(this.messages.length - 1, true, 0, 0);
+    if (this.virtualScroll) {
+      this.virtualScroll.scrollToIndex(this.messages.length - 1, true, 0, 0);
+    }
   }
 
   clickUser(username: string) {

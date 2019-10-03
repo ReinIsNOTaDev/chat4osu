@@ -9,7 +9,7 @@ import {
   LeaveChannel,
   SetChannelUsers,
   GetChannelUsers,
-  ChangeChannelName
+  ChangeChannelName, RearrangeChannel
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage, SendMessage } from '../actions/message.actions';
@@ -21,9 +21,12 @@ import {
   LeaveMpLobby
 } from '../actions/multiplayer.actions';
 import { UpdateFormStatus, UpdateFormValue } from '@ngxs/form-plugin';
+import {HideUsersPanel} from '../actions/settings.actions';
+import {moveItemInArray} from '@angular/cdk/drag-drop';
 
 export interface ChannelStateModel {
   channels: string[];
+  unreadChannels: string[];
   users: { [channel: string]: string[] };
   writtenMessages: { [channel: string]: string };
   writtenMessageForm: any;
@@ -35,6 +38,7 @@ export interface ChannelStateModel {
   name: 'channel',
   defaults: {
     channels: [],
+    unreadChannels: [],
     users: {},
     writtenMessages: {},
     currentChannel: '',
@@ -51,6 +55,11 @@ export class ChannelState {
   @Selector()
   static channels(state: ChannelStateModel) {
     return state.channels;
+  }
+
+  @Selector()
+  static unreadChannels(state: ChannelStateModel) {
+    return state.unreadChannels;
   }
 
   @Selector()
@@ -164,13 +173,18 @@ export class ChannelState {
       key => key.toLowerCase() === action.payload.channelName.toLowerCase()
     );
 
-    if (!channelKey) {
-      ctx.setState(
-        produce(state, draft => {
+    ctx.setState(
+      produce(state, draft => {
+        const messageChannel = action.payload.channelName.toLowerCase();
+        if (!channelKey) {
           draft.channels.push(action.payload.channelName);
-        })
-      );
-    }
+        }
+
+        if (state.currentChannel.toLowerCase() !== messageChannel && state.unreadChannels.indexOf(messageChannel) === -1) {
+          draft.unreadChannels.push(action.payload.channelName);
+        }
+      })
+    );
   }
 
   @Action(SetChannel)
@@ -182,6 +196,12 @@ export class ChannelState {
 
         // Change form
         draft.writtenMessageForm.model.message = draft.writtenMessages[channel];
+
+        // Remove from unread channels
+        const channelNameIndex = draft.unreadChannels.indexOf(channel);
+        if (channelNameIndex !== -1) {
+          draft.unreadChannels.splice(channelNameIndex, 1);
+        }
 
         if (
           channel
@@ -239,9 +259,16 @@ export class ChannelState {
         draft.channels.splice(index, 1);
         delete draft.writtenMessages[action.payload.channelName];
 
+        // Remove from unread channels
+        const channelNameIndex = draft.unreadChannels.indexOf(action.payload.channelName);
+        if (channelNameIndex !== -1) {
+          draft.unreadChannels.splice(channelNameIndex, 1);
+        }
+
         if (draft.channels.length === 0) {
           draft.currentChannel = '';
           draft.writtenMessageForm.model.message = '';
+          ctx.dispatch(new HideUsersPanel());
         } else if (
           draft.channels.indexOf(draft.currentChannel) === -1 &&
           draft.channels[index]
@@ -298,6 +325,15 @@ export class ChannelState {
         })
       );
     }
+  }
+
+  @Action(RearrangeChannel)
+  rearrangeChannel(ctx: StateContext<ChannelStateModel>, action: RearrangeChannel) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        moveItemInArray(draft.channels, action.payload.previousIndex, action.payload.currentIndex);
+      })
+    );
   }
 
   @Action(Logout)

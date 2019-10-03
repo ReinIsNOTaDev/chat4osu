@@ -8,7 +8,7 @@ import {
   SetChannel,
   JoinChannel,
   JoinAndSetChannel,
-  LeaveChannel
+  LeaveChannel, RearrangeChannel
 } from '../../store/actions/channel.actions';
 import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
@@ -25,6 +25,9 @@ import { MultiplayerState, MpLobby } from '../../store/states/multiplayer.state'
 export class ChatComponent implements OnInit {
   @Select(ChannelState.channels)
   channels$: Observable<string[]>;
+
+  @Select(ChannelState.unreadChannels)
+  unreadChannels$: Observable<string[]>;
 
   @Select(ChannelState.currentChannel)
   currentChannel$: Observable<string>;
@@ -50,7 +53,7 @@ export class ChatComponent implements OnInit {
   joinChannelVisible = false;
   joinChannelValue = '';
 
-  @ViewChild('input')
+  @ViewChild('input', { static: true })
   input;
 
   constructor(public store: Store) { }
@@ -109,5 +112,9 @@ export class ChatComponent implements OnInit {
 
   onAbort() {
     this.store.dispatch(new SendMessage({ message: '!mp abort', date: new Date() }));
+  }
+
+  onRearrangeChannel(previousIndex: number, currentIndex: number) {
+    this.store.dispatch(new RearrangeChannel({ previousIndex, currentIndex }));
   }
 }

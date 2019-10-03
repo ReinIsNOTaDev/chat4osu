@@ -114,17 +114,19 @@ export class MessageState {
         );
 
         // Create the channel array if it doesn't exist yet
-        if (!channelKey) {
+        if (!channelKey || !draft.messages[channelKey]) {
           draft.messages[action.payload.channelName] = [];
           channelKey = action.payload.channelName;
         }
 
-        draft.messages[channelKey].push({
-          message: action.payload.message,
-          sender: action.payload.sender,
-          date: action.payload.date,
-          action: action.payload.action
-        });
+        if (draft.messages[channelKey]) {
+          draft.messages[channelKey].push({
+            message: action.payload.message,
+            sender: action.payload.sender,
+            date: action.payload.date,
+            action: action.payload.action
+          });
+        }
       })
     );
   }

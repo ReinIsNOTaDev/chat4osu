@@ -8,6 +8,7 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-tab-bar',
@@ -18,6 +19,9 @@ import {
 export class TabBarComponent implements OnInit {
   @Input()
   channels: string[];
+
+  @Input()
+  unreadChannels: string[];
 
   @Input()
   currentChannel: string;
@@ -31,7 +35,10 @@ export class TabBarComponent implements OnInit {
   @Output()
   leaveChannel: EventEmitter<string> = new EventEmitter();
 
-  @ViewChild('tabContainer')
+  @Output()
+  rearrangeChannel: EventEmitter<{ previousIndex: number, currentIndex: number }> = new EventEmitter();
+
+  @ViewChild('tabContainer', { static: true })
   tabContainer: ElementRef;
 
   constructor() { }
@@ -40,6 +47,12 @@ export class TabBarComponent implements OnInit {
 
   onSetChannel(channel: string) {
     this.setChannel.emit(channel);
+  }
+
+  onMiddleClickChannel(event, channel: string) {
+    if (event.which !== 2) { return; }
+    event.stopPropagation();
+    this.leaveChannel.emit(channel);
   }
 
   onJoinChannelClick() {
@@ -54,5 +67,13 @@ export class TabBarComponent implements OnInit {
   onWheel(event) {
     this.tabContainer.nativeElement.scrollLeft =
       this.tabContainer.nativeElement.scrollLeft + event.deltaY / 5;
+  }
+
+  isUnread(channelName: string) {
+    return this.unreadChannels ? this.unreadChannels.indexOf(channelName) !== -1 : false;
+  }
+
+  rearrange(event: CdkDragDrop<any>) {
+    this.rearrangeChannel.emit({ previousIndex: event.previousIndex, currentIndex: event.currentIndex });
   }
 }

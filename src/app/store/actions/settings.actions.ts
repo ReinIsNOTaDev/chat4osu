@@ -11,3 +11,7 @@ export class OpenExternalUrl {
 export class ToggleUsersPanel {
   static readonly type = '[Settings] ToggleUsersPanel';
 }
+
+export class HideUsersPanel {
+  static readonly type = '[Settings] HideUsersPanel';
+}
