@@ -2,7 +2,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import {
   SetVersion,
   OpenExternalUrl,
-  ToggleUsersPanel
+  ToggleUsersPanel, HideUsersPanel
 } from '../actions/settings.actions';
 import produce from 'immer';
 import { ElectronService } from '../../providers/electron.service';
@@ -51,6 +51,15 @@ export class SettingsState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.usersVisible = !draft.usersVisible;
+      })
+    );
+  }
+
+  @Action(HideUsersPanel)
+  hideUsersPanel(ctx: StateContext<SettingsStateModel>) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.usersVisible = false;
       })
     );
   }

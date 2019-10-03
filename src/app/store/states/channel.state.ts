@@ -21,6 +21,7 @@ import {
   LeaveMpLobby
 } from '../actions/multiplayer.actions';
 import { UpdateFormStatus, UpdateFormValue } from '@ngxs/form-plugin';
+import {HideUsersPanel} from '../actions/settings.actions';
 
 export interface ChannelStateModel {
   channels: string[];
@@ -242,6 +243,7 @@ export class ChannelState {
         if (draft.channels.length === 0) {
           draft.currentChannel = '';
           draft.writtenMessageForm.model.message = '';
+          ctx.dispatch(new HideUsersPanel());
         } else if (
           draft.channels.indexOf(draft.currentChannel) === -1 &&
           draft.channels[index]
