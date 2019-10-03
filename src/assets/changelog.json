@@ -1,8 +1,9 @@
 [
-  "Added /savelog command",
-  "Added a changelog",
-  "Improved link checking",
-  "Reopen channels from previous session",
-  "Fix error when doing !mp close",
-  "Smaller window resize"
+  "Middle click closing of tabs",
+  "Small redesign",
+  "Unread tab color",
+  "Rearrange tabs",
+  "Seconds now visible",
+  "Reconnect on network error",
+  "Fix join command"
 ]
