@@ -515,6 +515,16 @@ export class IrcService {
               date: new Date()
             })
           );
+        } else if (msgParts[1] === 'channelmessage') {
+          const message = msg.replace(`${msgParts[0]} ${msgParts[1]} ${msgParts[2]} ${msgParts[3]} `, '');
+          this.store.dispatch(
+            new ReceiveMessage({
+              channelName: msgParts[2],
+              sender: msgParts[3],
+              message,
+              date: new Date()
+            })
+          );
         } else {
           this.store.dispatch(
             new ReceiveMessage({

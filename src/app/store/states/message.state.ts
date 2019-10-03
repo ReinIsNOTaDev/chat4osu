@@ -114,7 +114,7 @@ export class MessageState {
         );
 
         // Create the channel array if it doesn't exist yet
-        if (!channelKey) {
+        if (!channelKey || !draft.messages[channelKey]) {
           draft.messages[action.payload.channelName] = [];
           channelKey = action.payload.channelName;
         }
