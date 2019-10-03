@@ -57,7 +57,7 @@ export class MessageBoxComponent implements OnInit, OnChanges {
 
   parseDate(date: Date): string {
     const tempDate = moment(date);
-    return ('0' + tempDate.hours()).slice(-2) + ':' + ('0' + tempDate.minutes()).slice(-2);
+    return `${('0' + tempDate.hours()).slice(-2)}:${('0' + tempDate.minutes()).slice(-2)}:${('0' + tempDate.seconds()).slice(-2)}`;
   }
 
   scrollToBottom() {
