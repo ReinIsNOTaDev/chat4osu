@@ -20,6 +20,9 @@ export class TabBarComponent implements OnInit {
   channels: string[];
 
   @Input()
+  unreadChannels: string[];
+
+  @Input()
   currentChannel: string;
 
   @Output()
@@ -60,5 +63,9 @@ export class TabBarComponent implements OnInit {
   onWheel(event) {
     this.tabContainer.nativeElement.scrollLeft =
       this.tabContainer.nativeElement.scrollLeft + event.deltaY / 5;
+  }
+
+  isUnread(channelName: string) {
+    return this.unreadChannels ? this.unreadChannels.indexOf(channelName) !== -1 : false;
   }
 }

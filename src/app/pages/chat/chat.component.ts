@@ -26,6 +26,9 @@ export class ChatComponent implements OnInit {
   @Select(ChannelState.channels)
   channels$: Observable<string[]>;
 
+  @Select(ChannelState.unreadChannels)
+  unreadChannels$: Observable<string[]>;
+
   @Select(ChannelState.currentChannel)
   currentChannel$: Observable<string>;
 
