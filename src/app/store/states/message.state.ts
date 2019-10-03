@@ -119,12 +119,14 @@ export class MessageState {
           channelKey = action.payload.channelName;
         }
 
-        draft.messages[channelKey].push({
-          message: action.payload.message,
-          sender: action.payload.sender,
-          date: action.payload.date,
-          action: action.payload.action
-        });
+        if (draft.messages[channelKey]) {
+          draft.messages[channelKey].push({
+            message: action.payload.message,
+            sender: action.payload.sender,
+            date: action.payload.date,
+            action: action.payload.action
+          });
+        }
       })
     );
   }

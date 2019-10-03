@@ -1,5 +1,5 @@
 <div class="parent-container">
-  <virtual-scroll *ngIf="messages && messages.length > 0; else empty" [items]="messages" [enableUnequalChildrenSizes]="true" (vsUpdate)="viewPortItems = $event">
+  <virtual-scroll [items]="messages" [enableUnequalChildrenSizes]="true" (vsUpdate)="viewPortItems = $event">
     <div class="message" [ngClass]="{ action: msg.action }" *ngFor="let msg of viewPortItems">
       <span class="date">[{{ parseDate(msg.date) }}]</span>
       <span class="sender normal" *ngIf="!msg.action" (click)="clickUser(msg.sender)">
@@ -10,7 +10,5 @@
     </div>
   </virtual-scroll>
 
-  <ng-template #empty>
-    <div class="empty">There are no messages to display</div>
-  </ng-template>
+  <div *ngIf="!messages || messages.length === 0" class="empty">There are no messages to display</div>
 </div>
