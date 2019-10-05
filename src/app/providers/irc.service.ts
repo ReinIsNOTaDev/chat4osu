@@ -583,9 +583,9 @@ export class IrcService {
           const tempDate = moment(e.date);
 
           if (e.action) {
-            return `[${('0' + tempDate.hours()).slice(-2) + ':' + ('0' + tempDate.minutes()).slice(-2)}] ${e.sender} ${e.message}`;
+            return `[${('0' + tempDate.hours()).slice(-2)}:${('0' + tempDate.minutes()).slice(-2)}:${('0' + tempDate.seconds()).slice(-2)}] ${e.sender} ${e.message}`;
           } else {
-            return `[${('0' + tempDate.hours()).slice(-2) + ':' + ('0' + tempDate.minutes()).slice(-2)}] ${e.sender}: ${e.message}`;
+            return `[${('0' + tempDate.hours()).slice(-2)}:${('0' + tempDate.minutes()).slice(-2)}:${('0' + tempDate.seconds()).slice(-2)}] ${e.sender}: ${e.message}`;
           }
         });
 
