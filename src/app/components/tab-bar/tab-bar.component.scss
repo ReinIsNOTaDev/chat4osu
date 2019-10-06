@@ -47,16 +47,19 @@
     }
 
     &.unread {
-      background-color: rgba(255, 154, 37, 0.75);
+      background-color: rgba(255, 154, 37, 0.6);
     }
 
     &.active {
-      background-color: rgba(255, 255, 255, 0.4);
+      background-color: white;
+      color: rgba(36, 36, 63, .8);
+      font-weight: 600;
     }
 
     &.join {
       border-radius: 100px;
       height: 19px;
+      width: 19px;
       line-height: 11px;
       margin-left: 3px;
       padding: 2px 5px;
@@ -64,7 +67,7 @@
       background: none;
 
       &:hover {
-        background-color: rgba(255, 255, 0, 0.2);
+        background-color: #2a9a32;
         transition-duration: .2s;
       }
     }
@@ -75,8 +78,10 @@
       margin-left: 3px;
     }
 
-    &:hover .leave {
-      visibility: visible;
+    &:hover {
+      .leave {
+        visibility: visible;
+      }
     }
   }
 }

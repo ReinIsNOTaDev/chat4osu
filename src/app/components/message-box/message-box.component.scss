@@ -22,15 +22,29 @@ virtual-scroll {
 .message {
   color: #ffffff;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+  display: flex;
 
   .date {
+    margin-top: 3px;
+    margin-right: 8px;
     color: #c0c0c0;
-    margin-right: 2px;
+    font-family: Consolas, monospace;
+    font-size: 11px;
+    word-break: keep-all;
   }
 
   .sender {
-    margin-right: 4px;
+    margin-right: 8px;
     cursor: pointer;
+    word-break: keep-all;
+    width: 20%;
+    max-width: 150px;
+    text-align: right;
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 
     &.normal {
       color: #ffc561;
