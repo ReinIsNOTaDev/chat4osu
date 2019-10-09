@@ -8,7 +8,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import moment from 'moment';
-import { VirtualScrollComponent } from 'angular2-virtual-scroll';
+import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
 
 @Component({
   selector: 'app-message-box',
@@ -29,8 +29,8 @@ export class MessageBoxComponent implements OnInit, OnChanges {
     action?: boolean;
   }[];
 
-  @ViewChild(VirtualScrollComponent, { static: true })
-  private virtualScroll: VirtualScrollComponent;
+  @ViewChild('scroll', { static: true })
+  private virtualScroll: VirtualScrollerComponent;
 
   constructor() { }
 

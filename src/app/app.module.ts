@@ -36,7 +36,7 @@ import { MessageState } from './store/states/message.state';
 import { IrcService } from './providers/irc.service';
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
-import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import { InputBarComponent } from './components/input-bar/input-bar.component';
 import { StorageService } from './providers/storage.service';
 import { ToastState } from './store/states/toast.state';
@@ -86,7 +86,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxsLoggerPluginModule.forRoot({ disabled: AppConfig.production }),
     BrowserModule,
     BrowserAnimationsModule,
-    VirtualScrollModule,
+    VirtualScrollerModule,
     DragDropModule,
     FormsModule,
     ContextMenuModule,
