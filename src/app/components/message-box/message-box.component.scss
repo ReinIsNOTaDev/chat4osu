@@ -45,6 +45,7 @@ virtual-scroll {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    font-weight: bold;
 
     &.normal {
       color: #ffc561;
