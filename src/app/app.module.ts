@@ -48,6 +48,7 @@ import { MultiplayerState } from './store/states/multiplayer.state';
 import { MpUserBarComponent } from './components/mp-user-bar/mp-user-bar.component';
 import { AppConfig } from '../environments/environment';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {RolePipe} from './providers/role.pipe';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -71,7 +72,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ChatComponent,
 
     // Pipes
-    ParsePipe
+    ParsePipe,
+    RolePipe
   ],
   imports: [
     NgxsModule.forRoot([

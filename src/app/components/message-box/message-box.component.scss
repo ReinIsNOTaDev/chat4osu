@@ -47,8 +47,40 @@ virtual-scroller {
     white-space: nowrap;
     font-weight: bold;
 
+    &.self {
+      color: white;
+    }
+
+    &.operator {
+      color: #ff5232;
+    }
+
     &.normal {
       color: #ffc561;
+    }
+
+    &.bancho {
+      color: #f1b7c2;
+    }
+
+    &.peppy {
+      color: #41d4ef;
+    }
+
+    &.author {
+      color: #39ef82;
+    }
+
+    &.team-red span {
+      background-color: rgb(255, 0, 0);
+      padding: 0 4px;
+      border-radius: 4px;
+    }
+
+    &.team-blue span {
+      background-color: rgb(47, 47, 255);
+      padding: 0 4px;
+      border-radius: 4px;
     }
   }
 

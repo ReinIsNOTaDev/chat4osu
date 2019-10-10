@@ -19,6 +19,9 @@ export class MessageBoxComponent implements OnInit, OnChanges {
   @Input()
   messages: { sender: string; message: string; date: Date; action?: boolean }[];
 
+  @Input()
+  currentChannel: string;
+
   @Output()
   openProfile = new EventEmitter<string>();
 

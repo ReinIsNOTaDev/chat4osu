@@ -9,7 +9,7 @@ import {
   LeaveChannel,
   SetChannelUsers,
   GetChannelUsers,
-  ChangeChannelName, RearrangeChannel
+  ChangeChannelName, RearrangeChannel, SetOperators
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage, SendMessage } from '../actions/message.actions';
@@ -27,6 +27,7 @@ import {moveItemInArray} from '@angular/cdk/drag-drop';
 export interface ChannelStateModel {
   channels: string[];
   unreadChannels: string[];
+  operators: string[];
   users: { [channel: string]: string[] };
   writtenMessages: { [channel: string]: string };
   writtenMessageForm: any;
@@ -40,6 +41,7 @@ export interface ChannelStateModel {
     channels: [],
     unreadChannels: [],
     users: {},
+    operators: [],
     writtenMessages: {},
     currentChannel: '',
     multiplayer: false,
@@ -75,6 +77,11 @@ export class ChannelState {
   @Selector()
   static users(state: ChannelStateModel) {
     return state.users[state.currentChannel];
+  }
+
+  @Selector()
+  static operators(state: ChannelStateModel) {
+    return state.operators;
   }
 
   @Selector()
@@ -325,6 +332,18 @@ export class ChannelState {
         })
       );
     }
+  }
+
+  @Action(SetOperators)
+  async setOperators(
+    ctx: StateContext<ChannelStateModel>,
+    action: SetOperators
+  ) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.operators = action.payload.operators;
+      })
+    );
   }
 
   @Action(RearrangeChannel)
