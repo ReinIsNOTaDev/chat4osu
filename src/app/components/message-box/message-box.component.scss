@@ -91,6 +91,16 @@ virtual-scroller {
       cursor: default;
     }
   }
+
+  &.highlight {
+    .message-text {
+      padding: 0 4px;
+      background-color: #a5a5a5;
+      color: white;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+  }
 }
 
 .empty {

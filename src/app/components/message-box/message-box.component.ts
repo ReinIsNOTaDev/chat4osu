@@ -22,6 +22,9 @@ export class MessageBoxComponent implements OnInit, OnChanges {
   @Input()
   currentChannel: string;
 
+  @Input()
+  myUsername: string;
+
   @Output()
   openProfile = new EventEmitter<string>();
 
@@ -71,5 +74,9 @@ export class MessageBoxComponent implements OnInit, OnChanges {
 
   clickUser(username: string) {
     this.openProfile.emit(username);
+  }
+
+  includesCaseInsensitive(textToCheck: string, value: string) {
+    return textToCheck.toUpperCase().includes(value.toUpperCase());
   }
 }
