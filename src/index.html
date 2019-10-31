@@ -11,7 +11,46 @@
 </head>
 
 <body>
-  <app-root>Loading...</app-root>
+  <app-root>
+    <style>
+      app-root {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #444461;
+        font-family: exo-main, "Segoe UI", Roboto, Helvetica, sans-serif;
+        font-size: 24px;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      }
+      body {
+        background: linear-gradient(135deg, rgba(36, 36, 63, 0.8) 15%, rgba(36, 36, 63, 0.8) 70%, rgba(36, 36, 63, 0.8) 110%), url(/assets/bg.png);
+        margin: 0;
+        padding: 0;
+      }
+
+      @keyframes dots {
+        50% {
+          transform: translateY(-.3rem);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      .d {
+        animation: dots 1.3s ease-out infinite;
+      }
+      .d-2 {
+        animation-delay: .25s;
+      }
+      .d-3 {
+        animation-delay: 0.5s;
+      }
+    </style>
+
+    Loading<span class="d">.</span><span class="d d-2">.</span><span class="d d-3">.</span>
+  </app-root>
 </body>
 
 </html>

@@ -36,7 +36,7 @@ import { MessageState } from './store/states/message.state';
 import { IrcService } from './providers/irc.service';
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
-import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import { InputBarComponent } from './components/input-bar/input-bar.component';
 import { StorageService } from './providers/storage.service';
 import { ToastState } from './store/states/toast.state';
@@ -48,6 +48,7 @@ import { MultiplayerState } from './store/states/multiplayer.state';
 import { MpUserBarComponent } from './components/mp-user-bar/mp-user-bar.component';
 import { AppConfig } from '../environments/environment';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {RolePipe} from './providers/role.pipe';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -71,7 +72,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ChatComponent,
 
     // Pipes
-    ParsePipe
+    ParsePipe,
+    RolePipe
   ],
   imports: [
     NgxsModule.forRoot([
@@ -86,7 +88,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxsLoggerPluginModule.forRoot({ disabled: AppConfig.production }),
     BrowserModule,
     BrowserAnimationsModule,
-    VirtualScrollModule,
+    VirtualScrollerModule,
     DragDropModule,
     FormsModule,
     ContextMenuModule,

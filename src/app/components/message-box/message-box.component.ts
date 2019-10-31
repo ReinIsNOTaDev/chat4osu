@@ -8,7 +8,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import moment from 'moment';
-import { VirtualScrollComponent } from 'angular2-virtual-scroll';
+import { VirtualScrollerComponent } from 'ngx-virtual-scroller';
 
 @Component({
   selector: 'app-message-box',
@@ -18,6 +18,12 @@ import { VirtualScrollComponent } from 'angular2-virtual-scroll';
 export class MessageBoxComponent implements OnInit, OnChanges {
   @Input()
   messages: { sender: string; message: string; date: Date; action?: boolean }[];
+
+  @Input()
+  currentChannel: string;
+
+  @Input()
+  myUsername: string;
 
   @Output()
   openProfile = new EventEmitter<string>();
@@ -29,8 +35,8 @@ export class MessageBoxComponent implements OnInit, OnChanges {
     action?: boolean;
   }[];
 
-  @ViewChild(VirtualScrollComponent, { static: true })
-  private virtualScroll: VirtualScrollComponent;
+  @ViewChild('scroll', { static: true })
+  private virtualScroll: VirtualScrollerComponent;
 
   constructor() { }
 
@@ -68,5 +74,9 @@ export class MessageBoxComponent implements OnInit, OnChanges {
 
   clickUser(username: string) {
     this.openProfile.emit(username);
+  }
+
+  includesCaseInsensitive(textToCheck: string, value: string) {
+    return textToCheck.toUpperCase().includes(value.toUpperCase());
   }
 }

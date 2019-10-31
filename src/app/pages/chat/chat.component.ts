@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit {
   currentChannel$: Observable<string>;
 
   @Select(MessageState.currentChannelMessages)
-  messages$: Observable<{ sender: string; message: string }[]>;
+  messages$: Observable<{ sender: string; message: string; date: Date; action?: boolean }[]>;
 
   @Select(AuthState.username)
   username$: Observable<string>;

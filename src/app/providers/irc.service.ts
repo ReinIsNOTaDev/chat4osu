@@ -10,7 +10,7 @@ import {
   JoinChannel,
   SetChannel,
   SetChannelUsers,
-  ChangeChannelName
+  ChangeChannelName, SetOperators
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
 import { MessageService } from 'primeng/api';
@@ -28,12 +28,14 @@ import {
   SetBeatmap
 } from '../store/actions/multiplayer.actions';
 import { StorageService } from './storage.service';
+import {operators} from 'rxjs/internal/Rx';
 
 @Injectable()
 export class IrcService {
   irc: typeof irc;
   client: typeof irc.Client;
   networkError = false;
+  operators: string[] = [];
 
   mpRegexes = {
     roomName: {
@@ -421,6 +423,25 @@ export class IrcService {
           users
         })
       );
+
+      users.every(nick => {
+        if (nick.charAt(0) !== '@') {
+          return true;
+        }
+
+        const newNick = nick.slice(1);
+        if (this.operators.indexOf(newNick) !== -1) {
+          return true;
+        }
+
+        this.operators.push(newNick);
+        return true;
+      });
+      this.store.dispatch(
+        new SetOperators({
+          operators: [...this.operators]
+        })
+      );
     });
 
     this.client.connect(0, () => {
@@ -527,6 +548,18 @@ export class IrcService {
           );
         } else if (msgParts[1] === 'message') {
           const message = msg.replace(`${msgParts[0]} ${msgParts[1]} ${msgParts[2]} `, '');
+          const mp =
+            channel
+              .trim()
+              .toLowerCase()
+              .indexOf('#mp_') !== -1;
+
+          if (msgParts[2] === 'BanchoBot' && mp) {
+            // Fixes a bug where banchobot will send untrimmed messages
+            const trimmedText = message.trim();
+            this.handleMpMessage(channel, trimmedText);
+          }
+
           this.store.dispatch(
             new ReceiveMessage({
               channelName: channel,

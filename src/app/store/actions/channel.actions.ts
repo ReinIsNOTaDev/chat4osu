@@ -38,6 +38,11 @@ export class SetChannelUsers {
   constructor(public payload: { channelName: string; users: string[] }) { }
 }
 
+export class SetOperators {
+  static readonly type = '[Channel] SetOperators';
+  constructor(public payload: { operators: string[] }) { }
+}
+
 export class ChangeChannelName {
   static readonly type = '[Channel] ChangeChannelName';
   constructor(public payload: { channelName: string; newName: string }) { }

@@ -107,6 +107,7 @@ export class MessageState {
 
   @Action(ReceiveMessage)
   receiveMessage(ctx: StateContext<MessageStateModel>, action: ReceiveMessage) {
+    const myUsername = this.store.selectSnapshot(AuthState.username);
     ctx.setState(
       produce(ctx.getState(), draft => {
         let channelKey = Object.keys(draft.messages).find(
@@ -126,6 +127,17 @@ export class MessageState {
             date: action.payload.date,
             action: action.payload.action
           });
+        }
+
+        // Highlights
+        if (!action.payload.action && action.payload.message.toUpperCase().includes(myUsername.toUpperCase())) {
+          this.store.dispatch(new ReceiveMessage({
+            action: true,
+            channelName: '#highlights',
+            sender: 'Highlighted',
+            message: `in ${action.payload.channelName} by ${action.payload.sender}: ${action.payload.message}`,
+            date: action.payload.date
+          }));
         }
       })
     );

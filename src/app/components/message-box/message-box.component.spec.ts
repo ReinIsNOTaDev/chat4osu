@@ -3,6 +3,7 @@ import { MessageBoxComponent } from './message-box.component';
 import { NgxsModule } from '@ngxs/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ParsePipe } from '../../providers/parse.pipe';
+import {RolePipe} from '../../providers/role.pipe';
 
 describe('MessageBoxComponent', () => {
   let component: MessageBoxComponent;
@@ -10,7 +11,7 @@ describe('MessageBoxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MessageBoxComponent, ParsePipe],
+      declarations: [MessageBoxComponent, ParsePipe, RolePipe],
       imports: [NgxsModule.forRoot()],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
