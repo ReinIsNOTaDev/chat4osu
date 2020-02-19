@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -10,6 +10,14 @@ function createWindow() {
   // const electronScreen = screen;
   // const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
+  let iconPath: string;
+
+  if (serve) {
+    iconPath = path.join(__dirname, '/src/favicon.512x512.png');
+   } else {
+    iconPath = path.join(__dirname, '/dist/favicon.512x512.png');
+  }
+
   // Create the browser window.
   win = new BrowserWindow({
     width: 825,
@@ -19,7 +27,8 @@ function createWindow() {
     autoHideMenuBar: !serve,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    icon: iconPath
   });
 
   // Handle external links

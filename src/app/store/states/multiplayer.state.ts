@@ -1,22 +1,7 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import produce from 'immer';
-import {
-  JoinChannel,
-  JoinChannelSuccess,
-  JoinChannelFailed,
-  SetChannel,
-  JoinAndSetChannel,
-  LeaveChannel,
-  SetChannelUsers,
-  GetChannelUsers,
-  ChangeChannelName
-} from '../actions/channel.actions';
-import { IrcService } from '../../providers/irc.service';
-import {
-  ReceiveMessage,
-  SendMessage,
-  SendMessageToChannel
-} from '../actions/message.actions';
+import { ChangeChannelName } from '../actions/channel.actions';
+import { SendMessageToChannel } from '../actions/message.actions';
 import { Logout } from '../actions/auth.actions';
 import {
   AddUser,

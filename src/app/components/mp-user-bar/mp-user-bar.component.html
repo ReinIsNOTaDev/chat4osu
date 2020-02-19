@@ -14,10 +14,10 @@
     <a (click)="abort.emit()">abort</a>
   </div>
   <hr>
-  <virtual-scroll [items]="mpLobby?.players" [enableUnequalChildrenSizes]="false" (vsUpdate)="viewPortItems = $event">
+  <virtual-scroller [items]="mpLobby?.players" [enableUnequalChildrenSizes]="false" (vsUpdate)="viewPortItems = $event">
     <div class="user" *ngFor="let player of viewPortItems">
       {{player.slot}}: <span class="name"
         [ngClass]="{'red': player.team === 'red', 'blue': player.team === 'blue'}">{{player.username}}</span>
     </div>
-  </virtual-scroll>
+  </virtual-scroller>
 </div>
