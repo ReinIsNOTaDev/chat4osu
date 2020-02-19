@@ -1,9 +1,9 @@
 [
-  "Middle click closing of tabs",
-  "Small redesign",
-  "Unread tab color",
-  "Rearrange tabs",
-  "Seconds now visible",
-  "Reconnect on network error",
-  "Fix join command"
+  "Redesigned tabs",
+  "Huge redesign to the chat",
+  "Seconds in /savelog command",
+  "Initial loading page revamp",
+  "Different colored usernames for mods",
+  "Red/Blue colored usernames in TeamVS lobbies",
+  "Mentions/highlights"
 ]
