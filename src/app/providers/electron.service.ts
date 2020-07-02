@@ -13,7 +13,7 @@ import { SetVersion } from '../store/actions/settings.actions';
 import { AppConfig } from '../../environments/environment';
 import { StorageService } from './storage.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ElectronService {
   ipcRenderer: typeof ipcRenderer;
   dialog: typeof dialog;

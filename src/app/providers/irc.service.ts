@@ -30,7 +30,7 @@ import {
 import { StorageService } from './storage.service';
 import {operators} from 'rxjs/internal/Rx';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class IrcService {
   irc: typeof irc;
   client: typeof irc.Client;

@@ -110,7 +110,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [MessageService, StorageService, ElectronService, IrcService],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
