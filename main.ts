@@ -2,9 +2,9 @@ import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
-let win, serve;
+let win;
 const args = process.argv.slice(1);
-serve = args.some(val => val === '--serve');
+const serve = args.some(val => val === '--serve');
 
 function createWindow() {
   // const electronScreen = screen;
@@ -26,7 +26,9 @@ function createWindow() {
     minHeight: 400,
     autoHideMenuBar: !serve,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      allowRunningInsecureContent: (serve),
+      enableRemoteModule: true
     },
     icon: iconPath
   });
@@ -38,6 +40,8 @@ function createWindow() {
   });
 
   if (serve) {
+    win.webContents.openDevTools();
+
     require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/node_modules/electron`)
     });
@@ -62,10 +66,12 @@ function createWindow() {
 }
 
 try {
+  app.allowRendererProcessReuse = true;
+
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
-  app.on('ready', createWindow);
+  app.on('ready', () => setTimeout(createWindow, 400));
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
@@ -87,7 +93,3 @@ try {
   // Catch Error
   // throw e;
 }
-
-ipcMain.on('dev-tools', () => {
-  win.webContents.openDevTools();
-});

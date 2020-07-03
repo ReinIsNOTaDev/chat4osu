@@ -1,3 +1,5 @@
+@import './fonts.scss';
+
 /**
 * Generated theme by Material Theme Generator
 * https://materialtheme.arcsine.dev
@@ -9,7 +11,6 @@
 
 // Fonts
 @import 'https://fonts.googleapis.com/css?family=Material+Icons';
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 
 $fontConfig: (
   display-4: mat-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
@@ -246,17 +247,6 @@ $altTheme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
 }
 
 @import '../node_modules/primeng/resources/themes/nova-dark/theme.css';
-
-@font-face {
-  font-family: exo-main;
-  src: url('assets/fonts/Exo2-Light.otf') format('opentype');
-}
-
-@font-face {
-  font-family: exo-main;
-  font-weight: bold;
-  src: url('assets/fonts/Exo2-SemiBold.otf') format('opentype');
-}
 
 * {
   box-sizing: border-box;
