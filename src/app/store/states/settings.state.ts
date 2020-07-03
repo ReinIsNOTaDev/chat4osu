@@ -6,6 +6,7 @@ import {
 } from '../actions/settings.actions';
 import produce from 'immer';
 import { ElectronService } from '../../providers/electron.service';
+import { Injectable } from '@angular/core';
 
 export interface SettingsStateModel {
   version: string;
@@ -19,6 +20,7 @@ export interface SettingsStateModel {
     usersVisible: false
   }
 })
+@Injectable()
 export class SettingsState {
   @Selector()
   static version(state: SettingsStateModel) {

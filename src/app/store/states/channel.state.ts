@@ -21,8 +21,9 @@ import {
   LeaveMpLobby
 } from '../actions/multiplayer.actions';
 import { UpdateFormStatus, UpdateFormValue } from '@ngxs/form-plugin';
-import {HideUsersPanel} from '../actions/settings.actions';
-import {moveItemInArray} from '@angular/cdk/drag-drop';
+import { HideUsersPanel } from '../actions/settings.actions';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { Injectable } from '@angular/core';
 
 export interface ChannelStateModel {
   channels: string[];
@@ -53,6 +54,7 @@ export interface ChannelStateModel {
     }
   }
 })
+@Injectable()
 export class ChannelState {
   @Selector()
   static channels(state: ChannelStateModel) {

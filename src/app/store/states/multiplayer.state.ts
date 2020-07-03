@@ -19,6 +19,7 @@ import {
 } from '../actions/multiplayer.actions';
 import { ChannelStateModel, ChannelState } from './channel.state';
 import { StorageService } from '../../providers/storage.service';
+import { Injectable } from '@angular/core';
 
 export interface MpUser {
   username: string;
@@ -49,6 +50,7 @@ export interface MultiplayerStateModel {
     multiplayerLobbies: {}
   }
 })
+@Injectable()
 export class MultiplayerState {
   @Selector([ChannelState])
   static lobby(state: MultiplayerStateModel, channelState: ChannelStateModel) {

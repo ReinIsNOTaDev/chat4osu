@@ -1,7 +1,8 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { MessageService, Message } from 'primeng/api';
-import {AddToast, ClearToasts} from '../actions/toast.actions';
+import { AddToast, ClearToasts } from '../actions/toast.actions';
 import produce from 'immer';
+import { Injectable } from '@angular/core';
 
 export interface ToastStateModel {
   lastToast: Message;
@@ -13,6 +14,7 @@ export interface ToastStateModel {
     lastToast: undefined
   }
 })
+@Injectable()
 export class ToastState {
   @Selector()
   static lastToast(state: ToastStateModel) {

@@ -17,6 +17,7 @@ import { ChannelState, ChannelStateModel } from './channel.state';
 import { IrcService } from '../../providers/irc.service';
 import { AuthState } from './auth.state';
 import { Logout } from '../actions/auth.actions';
+import { Injectable } from '@angular/core';
 
 export interface MessageStateModel {
   messages: {
@@ -37,6 +38,7 @@ export interface MessageStateModel {
     history: []
   }
 })
+@Injectable()
 export class MessageState {
   @Selector([ChannelState])
   static currentChannelMessages(
