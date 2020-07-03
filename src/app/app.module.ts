@@ -25,20 +25,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { ElectronService } from './providers/electron.service';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { AuthState } from './store/states/auth.state';
 import { ChannelState } from './store/states/channel.state';
 import { MessageState } from './store/states/message.state';
-import { IrcService } from './providers/irc.service';
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import { InputBarComponent } from './components/input-bar/input-bar.component';
-import { StorageService } from './providers/storage.service';
 import { ToastState } from './store/states/toast.state';
 import { SettingsState } from './store/states/settings.state';
 import { ControlBarComponent } from './components/control-bar/control-bar.component';
@@ -47,8 +43,9 @@ import { UserBarComponent } from './components/user-bar/user-bar.component';
 import { MultiplayerState } from './store/states/multiplayer.state';
 import { MpUserBarComponent } from './components/mp-user-bar/mp-user-bar.component';
 import { AppConfig } from '../environments/environment';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import {RolePipe} from './providers/role.pipe';
+import { RolePipe } from './providers/role.pipe';
+import { MaterialModule } from './material.module';
+import { JoinChannelComponent } from './components/join-channel/join-channel.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -58,22 +55,17 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-
-    // Components
     TabBarComponent,
     MessageBoxComponent,
     InputBarComponent,
     ControlBarComponent,
     UserBarComponent,
     MpUserBarComponent,
-
-    // Pages
     LoginComponent,
     ChatComponent,
-
-    // Pipes
     ParsePipe,
-    RolePipe
+    RolePipe,
+    JoinChannelComponent
   ],
   imports: [
     NgxsModule.forRoot([
@@ -89,7 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     VirtualScrollerModule,
-    DragDropModule,
+    MaterialModule,
     FormsModule,
     ContextMenuModule,
     ReactiveFormsModule,

@@ -1,37 +1,33 @@
-<div class="version">Ver {{version$ | async}}</div>
+<div class="version">
+  Created by hallowatcher | Version {{version$ | async}}
+</div>
 <div class="container">
   <div class="login-box">
     <div class="spinner" *ngIf="loggingIn$ | async">
-      <p-progressSpinner class="spinner-element" [strokeWidth]="3"></p-progressSpinner>
+      <mat-progress-spinner
+        class="example-margin"
+        color="primary"
+        mode="indeterminate">
+      </mat-progress-spinner>
     </div>
 
-    <form [formGroup]="loginForm" *ngIf="!(loggingIn$ | async)">
-      <div class="ui-g">
-        <div class="ui-g-12">
-          <h3 class="title">chat4osu</h3>
-        </div>
+    <form [formGroup]="loginForm" *ngIf="!(loggingIn$ | async)" class="login-form">
+      <img class="logo" alt="logo" src="/assets/logo.png" />
 
-        <div class="ui-g-12">
-          <span class="ui-float-label">
-            <input id="float-input" type="text" formControlName="username" pInputText>
-            <label for="float-input">Username</label>
-          </span>
-        </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Username" formControlName="username" required>
+      </mat-form-field>
 
-        <div class="ui-g-12">
-          <span class="ui-float-label">
-            <input id="float-input" type="password" formControlName="password" pInputText>
-            <label for="float-input">IRC Password</label>
-          </span>
-        </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" required>
+      </mat-form-field>
 
-        <div class="ui-g-12">
-          <p-button label="Login" styleClass="ui-button-success" (click)="login()"></p-button>
-        </div>
+      <button mat-raised-button color="primary" (click)="login()" [disabled]="!loginForm.controls.username.valid || !loginForm.controls.password.valid">Login</button>
 
-        <div class="ui-g-12 irc-help-container">
-          <span class="irc-help">Get your IRC password <a href="#" (click)="openIrcPage($event)">HERE</a>!</span>
-        </div>
+      <div class="irc-help-container">
+        <span class="irc-help">Get your IRC password <a href="#" class="link" (click)="openIrcPage($event)">HERE!</a></span>
       </div>
     </form>
   </div>

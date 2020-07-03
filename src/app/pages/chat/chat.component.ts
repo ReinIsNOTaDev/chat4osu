@@ -16,6 +16,8 @@ import { Logout } from '../../store/actions/auth.actions';
 import { ToggleUsersPanel, OpenExternalUrl } from '../../store/actions/settings.actions';
 import { SettingsState } from '../../store/states/settings.state';
 import { MultiplayerState, MpLobby } from '../../store/states/multiplayer.state';
+import { MatDialog } from '@angular/material/dialog';
+import { JoinChannelComponent } from '../../components/join-channel/join-channel.component';
 
 @Component({
   selector: 'app-chat',
@@ -56,7 +58,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('input', { static: true })
   input;
 
-  constructor(public store: Store) { }
+  constructor(public store: Store, private dialog: MatDialog) { }
 
   ngOnInit(): void { }
 
@@ -65,17 +67,22 @@ export class ChatComponent implements OnInit {
   }
 
   onJoinChannelClick() {
-    this.joinChannelVisible = true;
+    const dialogRef = this.dialog.open(JoinChannelComponent, {
+      width: '300px',
+      panelClass: 'no-padding'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      this.joinChannel(result);
+    });
   }
 
-  joinChannel() {
-    this.joinChannelVisible = false;
-
-    this.store
-      .dispatch([new JoinAndSetChannel({ channelName: this.joinChannelValue })])
-      .subscribe(() => {
-        this.joinChannelValue = '';
-      });
+  joinChannel(channel: string) {
+    this.store.dispatch(new JoinAndSetChannel({ channelName: channel }));
   }
 
   onSendMessage(message: string) {

@@ -193,7 +193,7 @@
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-9.1.11.tgz#7a92d27292212ed381be15f9000d4019867f1c7c"
   integrity sha512-KAlEedBo761O1aeoTJVziOSHi8Fttk9ipvbDZXYT/o0W/KdVwubxP34g9t5aD8LCcF8+L0z4VLw++HjdJAUpwg==
 
-"@angular/forms@9.1.11":
+"@angular/forms@^9.1.11":
   version "9.1.11"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-9.1.11.tgz#fa246144649236613598a0471aa7f39b60f986b5"
   integrity sha512-t4WHrh6ot1r8zdV+3fJz7g9rCok77c9CiIevhH2dR/idxD+HtFR0wqmcBQzsn+rNVB0f0TiSHDrj+TeELIFyWw==
@@ -202,6 +202,11 @@
   version "9.1.11"
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-9.1.11.tgz#a2afed4f0167e6f4d3d748214b8e1c27980703ce"
   integrity sha512-jfm4etbqldj6MTwECwyoAs7tXEAR8K/8P8dBZnsELhY+V8oFidTJI3NY52PB3Ym7leSPorYdOAeUMMuQfPaVxg==
+
+"@angular/material@9.2.4":
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-9.2.4.tgz#2666ef606fbb88d60f8e2f18c5e4f94a3dd572d8"
+  integrity sha512-LkoTXE6B0slvMhvfZDdPWaz4yaYLkaAp5VSPunI9pxGsPxzqEV9e210wC1/sjG/76Nk8Ep7/2z9XKac8Q9bMwA==
 
 "@angular/platform-browser-dynamic@9.1.11":
   version "9.1.11"
