@@ -262,6 +262,7 @@ export class IrcService {
       switch (error.command) {
         case 'err_passwdmismatch': {
           this.store.dispatch(new LoginFailed(error));
+          this.logout();
         }
       }
     });
