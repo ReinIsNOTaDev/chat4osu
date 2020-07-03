@@ -1,25 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgxsModule } from '@ngxs/store';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MaterialModule } from '../../material.module';
 import { JoinChannelComponent } from './join-channel.component';
+import { FormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 describe('JoinChannelComponent', () => {
-  let component: JoinChannelComponent;
-  let fixture: ComponentFixture<JoinChannelComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ JoinChannelComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(JoinChannelComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<JoinChannelComponent>;
+  const createComponent = createComponentFactory({
+    component: JoinChannelComponent,
+    imports: [
+      FormsModule,
+      NgxsModule.forRoot(),
+      MaterialModule
+    ],
+    declarations: [],
+    mocks: [MatDialogRef]
   });
+
+  beforeEach(() => spectator = createComponent());
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });
+

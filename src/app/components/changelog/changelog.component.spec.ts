@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgxsModule } from '@ngxs/store';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ChangelogComponent } from './changelog.component';
+import { MaterialModule } from '../../material.module';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('ChangelogComponent', () => {
-  let component: ChangelogComponent;
-  let fixture: ComponentFixture<ChangelogComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ChangelogComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ChangelogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<ChangelogComponent>;
+  const createComponent = createComponentFactory({
+    component: ChangelogComponent,
+    imports: [
+      NgxsModule.forRoot(),
+      MaterialModule
+    ],
+    declarations: [],
+    providers: [{ provide: MAT_DIALOG_DATA, useValue: { changes: [] } }]
   });
+
+  beforeEach(() => spectator = createComponent());
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });
+

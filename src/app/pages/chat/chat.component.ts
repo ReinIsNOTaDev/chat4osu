@@ -6,11 +6,9 @@ import { MessageState } from '../../store/states/message.state';
 import { AuthState } from '../../store/states/auth.state';
 import {
   SetChannel,
-  JoinChannel,
   JoinAndSetChannel,
   LeaveChannel, RearrangeChannel
 } from '../../store/actions/channel.actions';
-import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
 import { Logout } from '../../store/actions/auth.actions';
 import { ToggleUsersPanel, OpenExternalUrl } from '../../store/actions/settings.actions';
