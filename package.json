@@ -2,7 +2,7 @@
   "name": "chat4osu",
   "version": "0.0.0",
   "description": "An IRC chat for osu!",
-  "homepage": "https://hwchr.com/",
+  "homepage": "https://gitlab.com/hallowatcher/chat4osu",
   "author": {
     "name": "Uwe Wiemer <hallowatcher>",
     "email": "hallowatcher@gmail.com"
@@ -14,7 +14,6 @@
     "chat4osu"
   ],
   "main": "main.js",
-  "private": true,
   "scripts": {
     "postinstall": "npm run postinstall:electron && npx electron-builder install-app-deps",
     "postinstall:web": "node postinstall-web",
