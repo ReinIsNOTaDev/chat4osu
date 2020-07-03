@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>chat4osu has been updated!</h1>
+<mat-dialog-content>
+  <p>Here's what changed:</p>
+  <ul>
+    <li *ngFor="let change of changes">{{change}}</li>
+  </ul>
+
+  <p>If you have any feature requests, feel free to leave a comment on the <a href="#" class="link" (click)="openForumLink($event)">forum post</a> or <a href="#" class="link" (click)="openDiscordInvite($event)">join my Discord.</a></p>
+</mat-dialog-content>
+
+<mat-dialog-actions style="margin-top: 10px; display: flex; justify-content: flex-end;">
+  <button mat-button color="primary" mat-dialog-close>Alright, leave me alone</button>
+</mat-dialog-actions>

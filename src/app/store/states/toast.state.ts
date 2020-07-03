@@ -2,10 +2,11 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { MessageService, Message } from 'primeng/api';
 import { AddToast, ClearToasts } from '../actions/toast.actions';
 import produce from 'immer';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 export interface ToastStateModel {
-  lastToast: Message;
+  lastToast: MatSnackBarRef<any>;
 }
 
 @State<ToastStateModel>({
@@ -21,20 +22,23 @@ export class ToastState {
     return state.lastToast;
   }
 
-  constructor(public messageService: MessageService) {}
+  constructor(private snackBar: MatSnackBar, private ngZone: NgZone) {}
 
   @Action(AddToast)
   addToast(ctx: StateContext<ToastStateModel>, action: AddToast) {
-    this.messageService.add(action.payload);
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.lastToast = action.payload;
-      })
-    );
+    this.ngZone.run(() => {
+      setTimeout(() => {
+        this.snackBar.open(action.payload.detail, 'OK', {
+          duration: action.payload.sticky ? null : action.payload.life || 6000,
+          horizontalPosition: 'right',
+          panelClass: action.payload.severity
+        });
+      }, 0);
+    });
   }
 
   @Action(ClearToasts)
-  clearToast(ctx: StateContext<ToastStateModel>, action: ClearToasts) {
-    this.messageService.clear(action.payload);
+  clearToast() {
+    // this.snackBar.dismiss();
   }
 }

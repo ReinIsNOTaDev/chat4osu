@@ -1,9 +1,8 @@
 [
-  "Redesigned tabs",
-  "Huge redesign to the chat",
-  "Seconds in /savelog command",
-  "Initial loading page revamp",
-  "Different colored usernames for mods",
-  "Red/Blue colored usernames in TeamVS lobbies",
-  "Mentions/highlights"
+  "Fancy new modal dialogs",
+  "Framework updates",
+  "Update login page to include the c4o logo",
+  "Fix a bug where having too many tabs open would prevent middle click close",
+  "Fix a bug where typing the wrong password would keep trying to reconnect",
+  "Font updates"
 ]

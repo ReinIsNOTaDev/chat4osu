@@ -52,9 +52,6 @@ export class ChatComponent implements OnInit {
   @Select(MultiplayerState.lobby)
   lobby$: Observable<MpLobby>;
 
-  joinChannelVisible = false;
-  joinChannelValue = '';
-
   @ViewChild('input', { static: true })
   input;
 
@@ -87,10 +84,6 @@ export class ChatComponent implements OnInit {
 
   onSendMessage(message: string) {
     this.store.dispatch(new SendMessage({ message, date: new Date() }));
-  }
-
-  focusInput() {
-    this.input.nativeElement.focus();
   }
 
   onLeaveChannel(channelName: string) {

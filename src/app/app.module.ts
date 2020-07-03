@@ -46,6 +46,7 @@ import { AppConfig } from '../environments/environment';
 import { RolePipe } from './providers/role.pipe';
 import { MaterialModule } from './material.module';
 import { JoinChannelComponent } from './components/join-channel/join-channel.component';
+import { ChangelogComponent } from './components/changelog/changelog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -65,7 +66,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ChatComponent,
     ParsePipe,
     RolePipe,
-    JoinChannelComponent
+    JoinChannelComponent,
+    ChangelogComponent
   ],
   imports: [
     NgxsModule.forRoot([
