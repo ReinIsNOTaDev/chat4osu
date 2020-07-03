@@ -51,8 +51,14 @@ export class TabBarComponent implements OnInit {
 
   onMiddleClickChannel(event, channel: string) {
     if (event.which !== 2) { return; }
+    event.preventDefault();
     event.stopPropagation();
     this.leaveChannel.emit(channel);
+  }
+
+  removeMouseDown(event) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   onJoinChannelClick() {

@@ -1,7 +1,7 @@
 <div #tabContainer class="tab-container" (wheel)="onWheel($event)" cdkDropList (cdkDropListDropped)="rearrange($event)" cdkDropListOrientation="horizontal">
   <div class="tab" *ngFor="let channel of channels" (click)="onSetChannel(channel)" (auxclick)="onMiddleClickChannel($event, channel)"
-    [ngClass]="{'active': channel === currentChannel, 'unread': isUnread(channel)}" cdkDrag>
-    <span>{{channel}}</span>
+    [ngClass]="{'active': channel === currentChannel, 'unread': isUnread(channel)}" cdkDrag (mousedown)="removeMouseDown($event)">
+    <span class="channel-text">{{channel}}</span>
     <span class="leave" (click)="onLeaveChannel($event, channel)">x</span>
   </div>
   <div class="tab join" (click)="onJoinChannelClick()">+</div>
