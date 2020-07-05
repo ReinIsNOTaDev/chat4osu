@@ -1,25 +1,23 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgxsModule } from '@ngxs/store';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NotificationsComponent } from './notifications.component';
+import { MaterialModule } from '../../../../material.module';
 
 describe('NotificationsComponent', () => {
-  let component: NotificationsComponent;
-  let fixture: ComponentFixture<NotificationsComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ NotificationsComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(NotificationsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<NotificationsComponent>;
+  const createComponent = createComponentFactory({
+    component: NotificationsComponent,
+    imports: [
+      NgxsModule.forRoot(),
+      MaterialModule
+    ],
+    declarations: []
   });
+
+  beforeEach(() => spectator = createComponent());
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });
+

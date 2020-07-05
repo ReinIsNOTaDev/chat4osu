@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgxsModule } from '@ngxs/store';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MaterialModule } from '../../material.module';
 import { SettingsComponent } from './settings.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SettingsComponent', () => {
-  let component: SettingsComponent;
-  let fixture: ComponentFixture<SettingsComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SettingsComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SettingsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<SettingsComponent>;
+  const createComponent = createComponentFactory({
+    component: SettingsComponent,
+    imports: [
+      NgxsModule.forRoot(),
+      MaterialModule,
+      RouterTestingModule.withRoutes([])
+    ],
+    declarations: []
   });
+
+  beforeEach(() => spectator = createComponent());
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });
+
