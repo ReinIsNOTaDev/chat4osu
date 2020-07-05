@@ -349,38 +349,38 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 // Snackbars
 snack-bar-container {
   &.success {
-    color: #285b2a;
-    background-color: #dbefdc;
+    color: #dbefdc;
+    background-color: #285b2a;
 
     .mat-simple-snackbar-action {
-      color: #285b2a;
+      color: #dbefdc;
     }
   }
 
   &.error {
-    color: #7f231c;
-    background-color: #fdd9d7;
+    color: #fdd9d7;
+    background-color: #7f231c;
 
     .mat-simple-snackbar-action {
-      color: #7f231c;
+      color: #fdd9d7;
     }
   }
 
   &.info {
-    color: #02587f;
-    background-color: #cdeefd;
+    color: #cdeefd;
+    background-color: #02587f;
 
     .mat-simple-snackbar-action {
-      color: #02587f;
+      color: #cdeefd;
     }
   }
 
   &.warning {
-    color: #852d12;
-    background-color: #ffddd3;
+    color: #ffddd3;
+    background-color: #852d12;
 
     .mat-simple-snackbar-action {
-      color: #852d12;
+      color: #ffddd3;
     }
   }
 }
