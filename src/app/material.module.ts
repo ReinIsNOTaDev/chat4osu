@@ -10,6 +10,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const modules = [
   DragDropModule,
@@ -22,7 +24,9 @@ const modules = [
   MatRippleModule,
   MatCheckboxModule,
   MatSelectModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatIconModule,
+  MatTooltipModule
 ];
 
 @NgModule({

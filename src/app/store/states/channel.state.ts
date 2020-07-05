@@ -15,12 +15,10 @@ import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage, SendMessage } from '../actions/message.actions';
 import { Logout } from '../actions/auth.actions';
 import {
-  AddUser,
-  RemoveUser,
   JoinMpLobby,
   LeaveMpLobby
 } from '../actions/multiplayer.actions';
-import { UpdateFormStatus, UpdateFormValue } from '@ngxs/form-plugin';
+import { UpdateFormValue } from '@ngxs/form-plugin';
 import { HideUsersPanel, PlayNotificationSound } from '../actions/settings.actions';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';

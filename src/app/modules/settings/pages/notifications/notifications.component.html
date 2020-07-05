@@ -1,18 +1,23 @@
 <div class="notifications">
   <h1>Notifications</h1>
   <form class="settings">
-    <mat-checkbox [checked]="soundEnabled$ | async" (change)="changeSetting('notificationSoundEnabled', $event.checked)" class="enable-sounds" color="primary">
+    <mat-checkbox [checked]="soundEnabled$ | async" (change)="changeSetting('notificationSoundEnabled', $event.checked)"
+      class="enable-sounds" color="primary" matTooltip="A sound will play whenever you receive a private message or get highlighted in a channel." matTooltipPosition="right">
       Enable notification sounds
     </mat-checkbox>
-    <mat-form-field class="notification-sound-select">
-      <mat-label>Notification sound</mat-label>
-      <mat-select [value]="selectedSound$ | async" (valueChange)="changeSetting('selectedSound', $event)" [disabled]="!(soundEnabled$ | async)">
-        <mat-option value="bonk">bonk</mat-option>
-        <mat-option value="click">click</mat-option>
-        <mat-option value="hitnormal">hitnormal</mat-option>
-        <mat-option value="hitwhistle">hitwhistle</mat-option>
-        <mat-option value="snapshot">snapshot</mat-option>
-      </mat-select>
-    </mat-form-field>
+
+    <div class="sound-picker">
+      <mat-form-field class="notification-sound-select">
+        <mat-label>Notification sound</mat-label>
+        <mat-select [value]="selectedSound$ | async" (valueChange)="changeSetting('selectedSound', $event)" [disabled]="!(soundEnabled$ | async)">
+          <mat-option value="bonk">bonk</mat-option>
+          <mat-option value="click">click</mat-option>
+          <mat-option value="hitnormal">hitnormal</mat-option>
+          <mat-option value="hitwhistle">hitwhistle</mat-option>
+          <mat-option value="snapshot">snapshot</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button [disabled]="!(soundEnabled$ | async)" (click)="playNotificationSound()"><mat-icon>play_arrow</mat-icon></button>
+    </div>
   </form>
 </div>

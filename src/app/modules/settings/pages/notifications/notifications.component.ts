@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { ChangeSetting } from '../../../../store/actions/settings.actions';
+import { ChangeSetting, PlayNotificationSound } from '../../../../store/actions/settings.actions';
 import { SettingsState } from '../../../../store/states/settings.state';
 import { Observable } from 'rxjs';
 
@@ -23,5 +23,9 @@ export class NotificationsComponent implements OnInit {
 
   changeSetting(key: string, value: any) {
     this.store.dispatch(new ChangeSetting({ key, value }));
+  }
+
+  playNotificationSound() {
+    this.store.dispatch(new PlayNotificationSound());
   }
 }

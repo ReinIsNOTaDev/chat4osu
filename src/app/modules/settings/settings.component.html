@@ -5,6 +5,10 @@
         <li matRipple routerLink="./" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">General</li>
         <li matRipple routerLink="./notifications" routerLinkActive="active">Notifications</li>
       </ul>
+
+      <div class="version">
+        Version {{version$ | async}}
+      </div>
     </div>
 
     <div class="content">
