@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SettingsComponent } from "./settings.component";
-import { GeneralComponent } from "./pages/general/general.component";
-import { NotificationsComponent } from "./pages/notifications/notifications.component";
+import { SettingsComponent } from './settings.component';
+import { GeneralComponent } from './pages/general/general.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 const routes: Routes = [
   {
