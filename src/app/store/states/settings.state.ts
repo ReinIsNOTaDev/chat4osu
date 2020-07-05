@@ -57,9 +57,7 @@ export class SettingsState {
     return state.appSettings.selectedSound;
   }
 
-  constructor(private electron: ElectronService, private storage: StorageService, private sounds: SoundService) {
-    console.log(soundDb);
-  }
+  constructor(private electron: ElectronService, private storage: StorageService, private sounds: SoundService) { }
 
   @Action(SetVersion)
   setVersion(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
