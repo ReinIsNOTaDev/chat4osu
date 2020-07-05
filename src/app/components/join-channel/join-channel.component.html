@@ -1,0 +1,7 @@
+<form (ngSubmit)="joinChannel()" class="join-channel-form">
+  <mat-form-field appearance="standard">
+    <mat-label>#channel or user</mat-label>
+    <input matInput name="channel" [(ngModel)]="channel">
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit" class="input-submit">Join</button>
+</form>

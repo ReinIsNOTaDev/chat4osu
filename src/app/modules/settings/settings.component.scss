@@ -1,0 +1,77 @@
+$border-radius: 5px;
+
+.settings-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  // background-color: rgb(36, 36, 63);
+  background: linear-gradient(135deg, rgba(36, 36, 63, .8) 15%, rgba(36, 36, 63, .8) 70%, rgba(36, 36, 63, .8) 110%),
+  url("assets/bg.png");
+}
+
+.main {
+  width: 90%;
+  height: 90%;
+  background-color: #333354;
+  display: flex;
+  flex-direction: row;
+  border-radius: $border-radius;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.navigation {
+  border-top-left-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  width: 150px;
+  height: 100%;
+
+  ul {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+
+    li {
+      padding: 10px;
+      margin: 0;
+      outline: none !important;
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.02);
+      }
+
+      &.active {
+        font-weight: bold;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+  }
+}
+
+.content {
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  flex-grow: 1;
+  background-color: rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+
+  .router {
+    flex-grow: 1;
+  }
+}
+
+.actions {
+  display: flex;
+  padding-bottom: 10px;
+  padding-right: 10px;
+
+  button {
+    margin: 0 5px;
+  }
+}

@@ -1,49 +1,26 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LoginComponent } from './login.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
-import { AuthState } from '../../store/states/auth.state';
-import { IrcService } from '../../providers/irc.service';
-import { Router } from '@angular/router';
-import { StorageService } from '../../providers/storage.service';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MaterialModule } from '../../material.module';
+import { LoginComponent } from './login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
-  let ircService: any;
-  let router: any;
-  let storageService: any;
-
-  beforeEach(async(() => {
-    ircService = { login: () => {} };
-    router = { navigate: () => {} };
-    storageService = {
-      get: () => {},
-      set: () => {},
-      delete: () => {}
-    };
-
-    TestBed.configureTestingModule({
-      declarations: [LoginComponent],
-      imports: [NgxsModule.forRoot([AuthState])],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [
-        { provide: IrcService, useValue: ircService },
-        { provide: Router, useValue: router },
-        { provide: StorageService, useValue: storageService }
-      ]
-    }).compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<LoginComponent>;
+  const createComponent = createComponentFactory({
+    component: LoginComponent,
+    imports: [
+      FormsModule,
+      ReactiveFormsModule,
+      NgxsModule.forRoot(),
+      MaterialModule
+    ],
+    declarations: []
   });
+
+  beforeEach(() => spectator = createComponent());
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });
+

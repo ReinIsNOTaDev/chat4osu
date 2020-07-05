@@ -21,8 +21,10 @@ import {
   LeaveMpLobby
 } from '../actions/multiplayer.actions';
 import { UpdateFormStatus, UpdateFormValue } from '@ngxs/form-plugin';
-import {HideUsersPanel} from '../actions/settings.actions';
-import {moveItemInArray} from '@angular/cdk/drag-drop';
+import { HideUsersPanel, PlayNotificationSound } from '../actions/settings.actions';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { Injectable } from '@angular/core';
+import { ElectronService } from '../../providers/electron.service';
 
 export interface ChannelStateModel {
   channels: string[];
@@ -53,6 +55,7 @@ export interface ChannelStateModel {
     }
   }
 })
+@Injectable()
 export class ChannelState {
   @Selector()
   static channels(state: ChannelStateModel) {
@@ -89,7 +92,7 @@ export class ChannelState {
     return state.writtenMessages[state.currentChannel];
   }
 
-  constructor(public irc: IrcService, public store: Store) { }
+  constructor(private irc: IrcService, private store: Store, private electron: ElectronService) { }
 
   @Action(JoinChannel)
   joinChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
@@ -185,6 +188,12 @@ export class ChannelState {
         const messageChannel = action.payload.channelName.toLowerCase();
         if (!channelKey) {
           draft.channels.push(action.payload.channelName);
+        }
+
+        if (!document.hasFocus() && (messageChannel === '#highlights' || messageChannel.charAt(0) !== '#')) {
+          ctx.dispatch(new PlayNotificationSound());
+        } else if (state.currentChannel.toLowerCase() !== messageChannel && (messageChannel === '#highlights' || messageChannel.charAt(0) !== '#')) {
+          ctx.dispatch(new PlayNotificationSound());
         }
 
         if (state.currentChannel.toLowerCase() !== messageChannel && state.unreadChannels.indexOf(messageChannel) === -1) {

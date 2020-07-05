@@ -30,7 +30,7 @@ import {
 import { StorageService } from './storage.service';
 import {operators} from 'rxjs/internal/Rx';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class IrcService {
   irc: typeof irc;
   client: typeof irc.Client;
@@ -250,19 +250,37 @@ export class IrcService {
         return;
       }
 
-      this.store.dispatch(
-        new AddToast({
-          key: 'errors',
-          severity: 'error',
-          summary: 'Error',
-          detail: error.command
-        })
-      );
       console.error('error', error);
       switch (error.command) {
-        case 'err_passwdmismatch': {
+        case 'err_passwdmismatch':
           this.store.dispatch(new LoginFailed(error));
-        }
+          this.logout();
+          this.store.dispatch(
+            new AddToast({
+              severity: 'error',
+              detail: 'Login failed! Please try again.'
+            })
+          );
+          break;
+
+        case 'err_nosuchchannel':
+          this.store.dispatch(
+            new AddToast({
+              severity: 'error',
+              detail: 'Invalid channel!'
+            })
+          );
+          break;
+
+        default:
+          this.store.dispatch(
+            new AddToast({
+              key: 'errors',
+              severity: 'error',
+              summary: 'Error',
+              detail: error.command
+            })
+          );
       }
     });
 

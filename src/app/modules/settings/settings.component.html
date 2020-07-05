@@ -1,0 +1,22 @@
+<div class="settings-container">
+  <div class="main">
+    <div class="navigation">
+      <ul>
+        <li matRipple routerLink="./" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">General</li>
+        <li matRipple routerLink="./notifications" routerLinkActive="active">Notifications</li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <div class="router">
+        <router-outlet></router-outlet>
+      </div>
+
+      <div class="actions">
+        <div style="flex-grow: 1;"></div>
+        <button mat-button (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="saveSettings()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

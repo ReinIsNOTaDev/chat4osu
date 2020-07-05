@@ -1,0 +1,18 @@
+<div class="notifications">
+  <h1>Notifications</h1>
+  <form class="settings">
+    <mat-checkbox [checked]="soundEnabled$ | async" (change)="changeSetting('notificationSoundEnabled', $event.checked)" class="enable-sounds" color="primary">
+      Enable notification sounds
+    </mat-checkbox>
+    <mat-form-field class="notification-sound-select">
+      <mat-label>Notification sound</mat-label>
+      <mat-select [value]="selectedSound$ | async" (valueChange)="changeSetting('selectedSound', $event)" [disabled]="!(soundEnabled$ | async)">
+        <mat-option value="bonk">bonk</mat-option>
+        <mat-option value="click">click</mat-option>
+        <mat-option value="hitnormal">hitnormal</mat-option>
+        <mat-option value="hitwhistle">hitwhistle</mat-option>
+        <mat-option value="snapshot">snapshot</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>

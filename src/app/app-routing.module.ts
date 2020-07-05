@@ -11,11 +11,16 @@ const routes: Routes = [
   {
     path: 'chat',
     component: ChatComponent
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

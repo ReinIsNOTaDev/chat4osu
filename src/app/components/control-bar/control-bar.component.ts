@@ -9,6 +9,7 @@ export class ControlBarComponent implements OnInit {
   @Input() showUsers: boolean;
   @Output() logout: EventEmitter<any> = new EventEmitter();
   @Output() users: EventEmitter<any> = new EventEmitter();
+  @Output() settings: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
@@ -20,5 +21,9 @@ export class ControlBarComponent implements OnInit {
 
   onUsersClicked() {
     this.users.emit();
+  }
+
+  onSettingsClicked() {
+    this.settings.emit();
   }
 }

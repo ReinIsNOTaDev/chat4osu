@@ -1,0 +1,22 @@
+.join-channel-form {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  .input-text {
+    height: 100%;
+    outline: none;
+    border: none;
+    padding: 6px;
+    font-family: exo-main;
+    flex-grow: 1;
+  }
+
+  .input-submit {
+    width: 100%;
+    color: white;
+    outline: none;
+    border: none;
+  }
+}
