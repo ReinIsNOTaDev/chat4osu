@@ -96,26 +96,42 @@ export class ChannelState {
 
   @Action(JoinChannel)
   joinChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.channels.push(action.payload.channelName);
-        draft.writtenMessages[action.payload.channelName] = '';
-      })
-    );
+    try {
+      ctx.setState(
+        produce(ctx.getState(), draft => {
+          if (draft.channels.findIndex(e => e.toLowerCase() === action.payload.channelName.toLowerCase()) !== -1) {
+            throw new Error('You are already in this channel!');
+          }
 
-    this.irc.joinChannel(action.payload.channelName);
+          draft.channels.push(action.payload.channelName);
+          draft.writtenMessages[action.payload.channelName] = '';
+        })
+      );
+
+      this.irc.joinChannel(action.payload.channelName);
+    } catch {
+      ctx.dispatch(new SetChannel({ channelName: action.payload.channelName }));
+    }
   }
 
   @Action(JoinAndSetChannel)
   joinAndSetChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.channels.push(action.payload.channelName);
-        draft.writtenMessages[action.payload.channelName] = '';
-      })
-    );
+    try {
+      ctx.setState(
+        produce(ctx.getState(), draft => {
+          if (draft.channels.findIndex(e => e.toLowerCase() === action.payload.channelName.toLowerCase()) !== -1) {
+            throw new Error('You are already in this channel!');
+          }
 
-    this.irc.joinChannel(action.payload.channelName, true);
+          draft.channels.push(action.payload.channelName);
+          draft.writtenMessages[action.payload.channelName] = '';
+        })
+      );
+
+      this.irc.joinChannel(action.payload.channelName, true);
+    } catch {
+      ctx.dispatch(new SetChannel({ channelName: action.payload.channelName }));
+    }
   }
 
   @Action(JoinChannelSuccess)
@@ -210,8 +226,8 @@ export class ChannelState {
   setChannel(ctx: StateContext<ChannelStateModel>, action: SetChannel) {
     ctx.setState(
       produce(ctx.getState(), draft => {
-        draft.currentChannel = action.payload.channelName;
-        const channel = action.payload.channelName;
+        const channel = draft.channels.find(e => e.toLowerCase() === action.payload.channelName.toLowerCase());
+        draft.currentChannel = channel;
 
         // Change form
         draft.writtenMessageForm.model.message = draft.writtenMessages[channel];
@@ -248,7 +264,6 @@ export class ChannelState {
 
         draft.channels[index] = action.payload.newName;
         draft.writtenMessages[action.payload.newName] = draft.writtenMessages[action.payload.channelName];
-        draft.writtenMessages[action.payload.channelName] = undefined;
         delete draft.writtenMessages[action.payload.channelName];
 
         if (draft.currentChannel === action.payload.channelName) {

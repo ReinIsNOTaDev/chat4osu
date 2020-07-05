@@ -106,7 +106,6 @@ export class MultiplayerState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         delete draft.multiplayerLobbies[action.payload];
-        draft.multiplayerLobbies[action.payload] = undefined;
       })
     );
   }
@@ -280,7 +279,6 @@ export class MultiplayerState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.multiplayerLobbies[action.payload.newName] = draft.multiplayerLobbies[action.payload.channelName];
-        draft.multiplayerLobbies[action.payload.channelName] = undefined;
         delete draft.multiplayerLobbies[action.payload.channelName];
 
         draft.multiplayerLobbies[action.payload.newName].mpId = action.payload.newName;
