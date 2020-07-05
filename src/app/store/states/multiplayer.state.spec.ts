@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Actions, NgxsModule, ofActionDispatched, Store } from "@ngxs/store";
-import { MultiplayerState, MultiplayerStateModel } from "./multiplayer.state";
-import { mockProvider } from "@ngneat/spectator";
-import { StorageService } from "../../providers/storage.service";
-import { of } from "rxjs";
-import { AddUser, JoinMpLobby } from "../actions/multiplayer.actions";
-import { SendMessageToChannel } from "../actions/message.actions";
+import { Actions, NgxsModule, ofActionDispatched, Store } from '@ngxs/store';
+import { MultiplayerState, MultiplayerStateModel } from './multiplayer.state';
+import { mockProvider } from '@ngneat/spectator';
+import { StorageService } from '../../providers/storage.service';
+import { AddUser, JoinMpLobby } from '../actions/multiplayer.actions';
+import { SendMessageToChannel } from '../actions/message.actions';
 
 describe('MultiplayerState', () => {
   let store: Store;

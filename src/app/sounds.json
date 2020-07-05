@@ -1,0 +1,16 @@
+[{
+  "name": "bonk",
+  "file": "assets/sounds/bonk.mp3"
+}, {
+  "name": "click",
+  "file": "assets/sounds/click.wav"
+}, {
+  "name": "hitnormal",
+  "file": "assets/sounds/hitnormal.wav"
+}, {
+  "name": "hitwhistle",
+  "file": "assets/sounds/hitwhistle.wav"
+}, {
+  "name": "snapshot",
+  "file": "assets/sounds/snapshot.wav"
+}]

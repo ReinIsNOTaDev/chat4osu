@@ -6,6 +6,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
+import { MatRippleModule } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 const modules = [
   DragDropModule,
@@ -14,7 +18,11 @@ const modules = [
   MatProgressSpinnerModule,
   MatDialogModule,
   MatSnackBarModule,
-  MatListModule
+  MatListModule,
+  MatRippleModule,
+  MatCheckboxModule,
+  MatSelectModule,
+  MatFormFieldModule
 ];
 
 @NgModule({

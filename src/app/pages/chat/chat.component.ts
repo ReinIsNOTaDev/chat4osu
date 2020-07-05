@@ -16,6 +16,7 @@ import { SettingsState } from '../../store/states/settings.state';
 import { MultiplayerState, MpLobby } from '../../store/states/multiplayer.state';
 import { MatDialog } from '@angular/material/dialog';
 import { JoinChannelComponent } from '../../components/join-channel/join-channel.component';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   selector: 'app-chat',
@@ -94,6 +95,10 @@ export class ChatComponent implements OnInit {
 
   onUsers() {
     this.store.dispatch(new ToggleUsersPanel());
+  }
+
+  onSettings() {
+    this.store.dispatch(new Navigate(['/settings']));
   }
 
   onOpenProfile(username: string) {

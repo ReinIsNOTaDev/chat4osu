@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
@@ -9,21 +9,26 @@ import { Login } from './store/actions/auth.actions';
 import changelog from '../assets/changelog.json';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangelogComponent } from './components/changelog/changelog.component';
+import { LoadSettings } from './store/actions/settings.actions';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(
     public electronService: ElectronService,
     private translate: TranslateService,
     private store: Store,
     private storage: StorageService,
     private matDialog: MatDialog
-  ) {
+  ) { }
+
+  ngOnInit() {
+    this.store.dispatch(new LoadSettings());
     this.electronService.setVersion();
+
     if (AppConfig.production) {
       this.electronService.update();
 
@@ -38,9 +43,9 @@ export class AppComponent {
       }
     }
 
-    translate.setDefaultLang('en');
+    this.translate.setDefaultLang('en');
 
-    if (electronService.isElectron()) {
+    if (this.electronService.isElectron()) {
       // Check storage for settings, etc
       const username = this.storage.get('username');
       const password = this.storage.get('password');
