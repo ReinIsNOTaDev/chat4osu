@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as irc from 'irc-upd';
-import * as eventToPromise from 'event-to-promise';
 import moment from 'moment';
 import { Store } from '@ngxs/store';
 import { LoginSuccess, LoginFailed } from '../store/actions/auth.actions';
-import { ReceiveMessage, SendMessageSuccess } from '../store/actions/message.actions';
+import { ReceiveMessage } from '../store/actions/message.actions';
 import {
   JoinChannelSuccess,
   JoinChannel,
@@ -28,7 +27,6 @@ import {
   SetBeatmap
 } from '../store/actions/multiplayer.actions';
 import { StorageService } from './storage.service';
-import {operators} from 'rxjs/internal/Rx';
 
 @Injectable({ providedIn: 'root' })
 export class IrcService {

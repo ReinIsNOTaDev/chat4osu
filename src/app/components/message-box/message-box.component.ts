@@ -40,7 +40,17 @@ export class MessageBoxComponent implements OnInit, OnChanges {
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    // Scroll to bottom once messages loaded (for example when navigating from settings page)
+    setTimeout(() => {
+      // Dont run if the viewport hasn't been initialized
+      if (!this.viewPortItems || !this.messages) {
+        return;
+      }
+
+      this.scrollToBottom();
+    }, 100);
+  }
 
   ngOnChanges(): void {
     // Dont run if the viewport hasn't been initialized
