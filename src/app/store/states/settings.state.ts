@@ -25,7 +25,7 @@ export interface SettingsStateModel {
 const defaultAppSettings: Settings = {
   notificationSoundEnabled: true,
   selectedSound: 'click'
-}
+};
 
 @State<SettingsStateModel>({
   name: 'settings',
@@ -108,7 +108,7 @@ export class SettingsState {
       draft.appSettings = {
         ...draft.appSettings,
         [action.payload.key]: action.payload.value
-      }
+      };
     });
     ctx.setState(newState);
   }
@@ -116,7 +116,7 @@ export class SettingsState {
   @Action(SaveSettings)
   saveSettings(ctx: StateContext<SettingsStateModel>) {
     const settings = ctx.getState().appSettings;
-    this.storage.set('app-settings', settings)
+    this.storage.set('app-settings', settings);
   }
 
   @Action(PlayNotificationSound)

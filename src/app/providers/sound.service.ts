@@ -6,10 +6,11 @@ export class SoundService {
   constructor() { }
 
   playSound(sound: string) {
-    new Howl({
+    const s = new Howl({
       src: sound,
-      autoplay: true,
       volume: .5
     });
+
+    s.play();
   }
 }

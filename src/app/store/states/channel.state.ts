@@ -192,7 +192,10 @@ export class ChannelState {
 
         if (!document.hasFocus() && (messageChannel === '#highlights' || messageChannel.charAt(0) !== '#')) {
           ctx.dispatch(new PlayNotificationSound());
-        } else if (state.currentChannel.toLowerCase() !== messageChannel && (messageChannel === '#highlights' || messageChannel.charAt(0) !== '#')) {
+        } else if (
+          state.currentChannel.toLowerCase() !== messageChannel
+          && (messageChannel === '#highlights' || messageChannel.charAt(0) !== '#')
+        ) {
           ctx.dispatch(new PlayNotificationSound());
         }
 
