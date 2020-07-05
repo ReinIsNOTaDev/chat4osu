@@ -6,16 +6,17 @@ import { MessageState } from '../../store/states/message.state';
 import { AuthState } from '../../store/states/auth.state';
 import {
   SetChannel,
-  JoinChannel,
   JoinAndSetChannel,
   LeaveChannel, RearrangeChannel
 } from '../../store/actions/channel.actions';
-import { ConfirmationService } from 'primeng/api';
 import { SendMessage } from '../../store/actions/message.actions';
 import { Logout } from '../../store/actions/auth.actions';
 import { ToggleUsersPanel, OpenExternalUrl } from '../../store/actions/settings.actions';
 import { SettingsState } from '../../store/states/settings.state';
 import { MultiplayerState, MpLobby } from '../../store/states/multiplayer.state';
+import { MatDialog } from '@angular/material/dialog';
+import { JoinChannelComponent } from '../../components/join-channel/join-channel.component';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   selector: 'app-chat',
@@ -50,13 +51,10 @@ export class ChatComponent implements OnInit {
   @Select(MultiplayerState.lobby)
   lobby$: Observable<MpLobby>;
 
-  joinChannelVisible = false;
-  joinChannelValue = '';
-
   @ViewChild('input', { static: true })
   input;
 
-  constructor(public store: Store) { }
+  constructor(public store: Store, private dialog: MatDialog) { }
 
   ngOnInit(): void { }
 
@@ -65,25 +63,26 @@ export class ChatComponent implements OnInit {
   }
 
   onJoinChannelClick() {
-    this.joinChannelVisible = true;
+    const dialogRef = this.dialog.open(JoinChannelComponent, {
+      width: '300px',
+      panelClass: 'no-padding'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      this.joinChannel(result);
+    });
   }
 
-  joinChannel() {
-    this.joinChannelVisible = false;
-
-    this.store
-      .dispatch([new JoinAndSetChannel({ channelName: this.joinChannelValue })])
-      .subscribe(() => {
-        this.joinChannelValue = '';
-      });
+  joinChannel(channel: string) {
+    this.store.dispatch(new JoinAndSetChannel({ channelName: channel }));
   }
 
   onSendMessage(message: string) {
     this.store.dispatch(new SendMessage({ message, date: new Date() }));
-  }
-
-  focusInput() {
-    this.input.nativeElement.focus();
   }
 
   onLeaveChannel(channelName: string) {
@@ -96,6 +95,10 @@ export class ChatComponent implements OnInit {
 
   onUsers() {
     this.store.dispatch(new ToggleUsersPanel());
+  }
+
+  onSettings() {
+    this.store.dispatch(new Navigate(['/settings']));
   }
 
   onOpenProfile(username: string) {

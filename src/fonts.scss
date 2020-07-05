@@ -1,0 +1,35 @@
+@import 'assets/fonts/MaterialIcons/material-icons.css';
+
+@font-face {
+  font-family: exo-main;
+  src: url('assets/fonts/Exo2/Exo2-Light.otf') format('opentype');
+}
+@font-face {
+  font-family: exo-main;
+  font-weight: bold;
+  src: url('assets/fonts/Exo2/Exo2-SemiBold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  src: url('assets/fonts/Roboto/Roboto-Italic.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: bold;
+  src: url('assets/fonts/Roboto/Roboto-Bold.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: bold;
+  font-style: italic;
+  src: url('assets/fonts/Roboto/Roboto-BoldItalic.ttf') format('opentype');
+}

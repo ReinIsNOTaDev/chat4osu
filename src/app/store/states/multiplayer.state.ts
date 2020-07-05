@@ -19,6 +19,7 @@ import {
 } from '../actions/multiplayer.actions';
 import { ChannelStateModel, ChannelState } from './channel.state';
 import { StorageService } from '../../providers/storage.service';
+import { Injectable } from '@angular/core';
 
 export interface MpUser {
   username: string;
@@ -49,6 +50,7 @@ export interface MultiplayerStateModel {
     multiplayerLobbies: {}
   }
 })
+@Injectable()
 export class MultiplayerState {
   @Selector([ChannelState])
   static lobby(state: MultiplayerStateModel, channelState: ChannelStateModel) {
@@ -104,7 +106,6 @@ export class MultiplayerState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         delete draft.multiplayerLobbies[action.payload];
-        draft.multiplayerLobbies[action.payload] = undefined;
       })
     );
   }
@@ -278,7 +279,6 @@ export class MultiplayerState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.multiplayerLobbies[action.payload.newName] = draft.multiplayerLobbies[action.payload.channelName];
-        draft.multiplayerLobbies[action.payload.channelName] = undefined;
         delete draft.multiplayerLobbies[action.payload.channelName];
 
         draft.multiplayerLobbies[action.payload.newName].mpId = action.payload.newName;

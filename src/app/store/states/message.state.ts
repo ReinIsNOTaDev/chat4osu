@@ -17,6 +17,7 @@ import { ChannelState, ChannelStateModel } from './channel.state';
 import { IrcService } from '../../providers/irc.service';
 import { AuthState } from './auth.state';
 import { Logout } from '../actions/auth.actions';
+import { Injectable } from '@angular/core';
 
 export interface MessageStateModel {
   messages: {
@@ -37,6 +38,7 @@ export interface MessageStateModel {
     history: []
   }
 })
+@Injectable()
 export class MessageState {
   @Selector([ChannelState])
   static currentChannelMessages(
@@ -113,6 +115,9 @@ export class MessageState {
         let channelKey = Object.keys(draft.messages).find(
           key => key.toLowerCase() === action.payload.channelName.toLowerCase()
         );
+        console.log('channel key', channelKey);
+        console.log('channel name', action.payload.channelName);
+        console.log('messages', draft.messages);
 
         // Create the channel array if it doesn't exist yet
         if (!channelKey || !draft.messages[channelKey]) {
@@ -165,7 +170,6 @@ export class MessageState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.messages[action.payload.newName] = [...draft.messages[action.payload.channelName]];
-        draft.messages[action.payload.channelName] = undefined;
         delete draft.messages[action.payload.channelName];
       })
     );
@@ -176,7 +180,6 @@ export class MessageState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         delete draft.messages[action.payload.channelName];
-        draft.messages[action.payload.channelName] = undefined;
       })
     );
   }

@@ -15,14 +15,14 @@ import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage, SendMessage } from '../actions/message.actions';
 import { Logout } from '../actions/auth.actions';
 import {
-  AddUser,
-  RemoveUser,
   JoinMpLobby,
   LeaveMpLobby
 } from '../actions/multiplayer.actions';
-import { UpdateFormStatus, UpdateFormValue } from '@ngxs/form-plugin';
-import {HideUsersPanel} from '../actions/settings.actions';
-import {moveItemInArray} from '@angular/cdk/drag-drop';
+import { UpdateFormValue } from '@ngxs/form-plugin';
+import { HideUsersPanel, PlayNotificationSound } from '../actions/settings.actions';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { Injectable } from '@angular/core';
+import { ElectronService } from '../../providers/electron.service';
 
 export interface ChannelStateModel {
   channels: string[];
@@ -53,6 +53,7 @@ export interface ChannelStateModel {
     }
   }
 })
+@Injectable()
 export class ChannelState {
   @Selector()
   static channels(state: ChannelStateModel) {
@@ -89,30 +90,46 @@ export class ChannelState {
     return state.writtenMessages[state.currentChannel];
   }
 
-  constructor(public irc: IrcService, public store: Store) { }
+  constructor(private irc: IrcService, private store: Store, private electron: ElectronService) { }
 
   @Action(JoinChannel)
   joinChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.channels.push(action.payload.channelName);
-        draft.writtenMessages[action.payload.channelName] = '';
-      })
-    );
+    try {
+      ctx.setState(
+        produce(ctx.getState(), draft => {
+          if (draft.channels.findIndex(e => e.toLowerCase() === action.payload.channelName.toLowerCase()) !== -1) {
+            throw new Error('You are already in this channel!');
+          }
 
-    this.irc.joinChannel(action.payload.channelName);
+          draft.channels.push(action.payload.channelName);
+          draft.writtenMessages[action.payload.channelName] = '';
+        })
+      );
+
+      this.irc.joinChannel(action.payload.channelName);
+    } catch {
+      ctx.dispatch(new SetChannel({ channelName: action.payload.channelName }));
+    }
   }
 
   @Action(JoinAndSetChannel)
   joinAndSetChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.channels.push(action.payload.channelName);
-        draft.writtenMessages[action.payload.channelName] = '';
-      })
-    );
+    try {
+      ctx.setState(
+        produce(ctx.getState(), draft => {
+          if (draft.channels.findIndex(e => e.toLowerCase() === action.payload.channelName.toLowerCase()) !== -1) {
+            throw new Error('You are already in this channel!');
+          }
 
-    this.irc.joinChannel(action.payload.channelName, true);
+          draft.channels.push(action.payload.channelName);
+          draft.writtenMessages[action.payload.channelName] = '';
+        })
+      );
+
+      this.irc.joinChannel(action.payload.channelName, true);
+    } catch {
+      ctx.dispatch(new SetChannel({ channelName: action.payload.channelName }));
+    }
   }
 
   @Action(JoinChannelSuccess)
@@ -187,6 +204,15 @@ export class ChannelState {
           draft.channels.push(action.payload.channelName);
         }
 
+        if (!document.hasFocus() && (messageChannel === '#highlights' || messageChannel.charAt(0) !== '#')) {
+          ctx.dispatch(new PlayNotificationSound());
+        } else if (
+          state.currentChannel.toLowerCase() !== messageChannel
+          && (messageChannel === '#highlights' || messageChannel.charAt(0) !== '#')
+        ) {
+          ctx.dispatch(new PlayNotificationSound());
+        }
+
         if (state.currentChannel.toLowerCase() !== messageChannel && state.unreadChannels.indexOf(messageChannel) === -1) {
           draft.unreadChannels.push(action.payload.channelName);
         }
@@ -198,8 +224,8 @@ export class ChannelState {
   setChannel(ctx: StateContext<ChannelStateModel>, action: SetChannel) {
     ctx.setState(
       produce(ctx.getState(), draft => {
-        draft.currentChannel = action.payload.channelName;
-        const channel = action.payload.channelName;
+        const channel = draft.channels.find(e => e.toLowerCase() === action.payload.channelName.toLowerCase());
+        draft.currentChannel = channel;
 
         // Change form
         draft.writtenMessageForm.model.message = draft.writtenMessages[channel];
@@ -236,7 +262,6 @@ export class ChannelState {
 
         draft.channels[index] = action.payload.newName;
         draft.writtenMessages[action.payload.newName] = draft.writtenMessages[action.payload.channelName];
-        draft.writtenMessages[action.payload.channelName] = undefined;
         delete draft.writtenMessages[action.payload.channelName];
 
         if (draft.currentChannel === action.payload.channelName) {

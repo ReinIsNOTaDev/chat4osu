@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as irc from 'irc-upd';
-import * as eventToPromise from 'event-to-promise';
 import moment from 'moment';
 import { Store } from '@ngxs/store';
 import { LoginSuccess, LoginFailed } from '../store/actions/auth.actions';
-import { ReceiveMessage, SendMessageSuccess } from '../store/actions/message.actions';
+import { ReceiveMessage } from '../store/actions/message.actions';
 import {
   JoinChannelSuccess,
   JoinChannel,
@@ -28,9 +27,8 @@ import {
   SetBeatmap
 } from '../store/actions/multiplayer.actions';
 import { StorageService } from './storage.service';
-import {operators} from 'rxjs/internal/Rx';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class IrcService {
   irc: typeof irc;
   client: typeof irc.Client;
@@ -250,19 +248,37 @@ export class IrcService {
         return;
       }
 
-      this.store.dispatch(
-        new AddToast({
-          key: 'errors',
-          severity: 'error',
-          summary: 'Error',
-          detail: error.command
-        })
-      );
       console.error('error', error);
       switch (error.command) {
-        case 'err_passwdmismatch': {
+        case 'err_passwdmismatch':
           this.store.dispatch(new LoginFailed(error));
-        }
+          this.logout();
+          this.store.dispatch(
+            new AddToast({
+              severity: 'error',
+              detail: 'Login failed! Please try again.'
+            })
+          );
+          break;
+
+        case 'err_nosuchchannel':
+          this.store.dispatch(
+            new AddToast({
+              severity: 'error',
+              detail: 'Invalid channel!'
+            })
+          );
+          break;
+
+        default:
+          this.store.dispatch(
+            new AddToast({
+              key: 'errors',
+              severity: 'error',
+              summary: 'Error',
+              detail: error.command
+            })
+          );
       }
     });
 

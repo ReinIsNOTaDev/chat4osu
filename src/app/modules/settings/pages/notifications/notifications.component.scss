@@ -1,0 +1,26 @@
+.notifications {
+  height: 100%;
+  padding: 20px 0 0 50px;
+
+  h1 {
+    margin-bottom: 30px;
+  }
+
+  .settings {
+    display: flex;
+    flex-direction: column;
+
+    .enable-sounds {
+      margin-bottom: 15px;
+      width: 200px;
+    }
+
+    .sound-picker button {
+      margin-left: 10px;
+    }
+
+    .notification-sound-select {
+      max-width: 200px;
+    }
+  }
+}

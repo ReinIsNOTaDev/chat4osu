@@ -37,6 +37,7 @@
   },
   "linux": {
     "icon": "dist",
+    "artifactName": "${productName}-linux.${ext}",
     "target": ["AppImage"]
   }
 }

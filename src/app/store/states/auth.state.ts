@@ -9,6 +9,7 @@ import produce from 'immer';
 import { IrcService } from '../../providers/irc.service';
 import { Navigate } from '@ngxs/router-plugin';
 import { StorageService } from '../../providers/storage.service';
+import { Injectable } from '@angular/core';
 
 export interface AuthStateModel {
   username: string;
@@ -24,6 +25,7 @@ export interface AuthStateModel {
     loggingIn: false
   }
 })
+@Injectable()
 export class AuthState {
   @Selector()
   static username(state: AuthStateModel) {

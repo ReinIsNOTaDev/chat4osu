@@ -1,57 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
-import { Store, Select } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
 import { StorageService } from './providers/storage.service';
 import { Login } from './store/actions/auth.actions';
-import { Observable } from 'rxjs';
-import { ToastState } from './store/states/toast.state';
-import { Message } from 'primeng/api';
-import { AddToast } from './store/actions/toast.actions';
 import changelog from '../assets/changelog.json';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangelogComponent } from './components/changelog/changelog.component';
+import { LoadSettings } from './store/actions/settings.actions';
+import { fadeInAnimation } from './app.animations';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    fadeInAnimation
+  ]
 })
-export class AppComponent {
-  @Select(ToastState.lastToast)
-  lastToast$: Observable<Message>;
-
+export class AppComponent implements OnInit {
   constructor(
     public electronService: ElectronService,
     private translate: TranslateService,
     private store: Store,
-    private storage: StorageService
-  ) {
+    private storage: StorageService,
+    private matDialog: MatDialog
+  ) { }
+
+  ngOnInit() {
+    this.store.dispatch(new LoadSettings());
     this.electronService.setVersion();
+
     if (AppConfig.production) {
       this.electronService.update();
 
       if (this.storage.get('updated') === true || this.storage.get('updated') === undefined) {
-        setTimeout(() => {
-          const changelogList = changelog.map(e => `\n- ${e}`).join('');
-
-          this.store.dispatch(
-            new AddToast({
-              summary: 'c4o! has been updated!',
-              detail: `New in this version:${changelogList}`,
-              key: 'toast',
-              severity: 'success',
-              sticky: true
-            })
-          );
-        }, 500);
+        this.matDialog.open(ChangelogComponent, {
+          width: '600px',
+          data: {
+            changes: changelog
+          }
+        });
         this.storage.set('updated', false);
       }
     }
 
-    translate.setDefaultLang('en');
+    this.translate.setDefaultLang('en');
 
-    if (electronService.isElectron()) {
+    if (this.electronService.isElectron()) {
       // Check storage for settings, etc
       const username = this.storage.get('username');
       const password = this.storage.get('password');
@@ -61,15 +60,12 @@ export class AppComponent {
       } else {
         this.store.dispatch(new Navigate(['']));
       }
-
-      if (!AppConfig.production) {
-        this.electronService.ipcRenderer.send('dev-tools');
-      }
     } else {
       this.store.dispatch(new Navigate(['']));
     }
+  }
 
-    // Hack to show toast
-    this.lastToast$.subscribe();
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 }
