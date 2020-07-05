@@ -8,6 +8,7 @@ const routes: Routes = [
   {
     path: '',
     component: SettingsComponent,
+    data: { animation: 'SettingsPage' },
     children: [{
       path: '',
       component: GeneralComponent

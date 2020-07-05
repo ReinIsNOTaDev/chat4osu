@@ -10,11 +10,16 @@ import changelog from '../assets/changelog.json';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangelogComponent } from './components/changelog/changelog.component';
 import { LoadSettings } from './store/actions/settings.actions';
+import { fadeInAnimation } from './app.animations';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    fadeInAnimation
+  ]
 })
 export class AppComponent implements OnInit {
   constructor(
@@ -58,5 +63,9 @@ export class AppComponent implements OnInit {
     } else {
       this.store.dispatch(new Navigate(['']));
     }
+  }
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 }

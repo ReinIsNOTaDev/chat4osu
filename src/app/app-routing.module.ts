@@ -10,7 +10,8 @@ const routes: Routes = [
   },
   {
     path: 'chat',
-    component: ChatComponent
+    component: ChatComponent,
+    data: { animation: 'ChatPage' }
   },
   {
     path: 'settings',
