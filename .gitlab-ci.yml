@@ -20,6 +20,7 @@ build:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/release/*.*
+    expire_in: never
   script:
     - export DATE=$(date +%Y%m%d%H%M)
     - sed "s/0.0.0/${VERSION_ID}.${DATE}/g" package.json > _package.json && mv _package.json package.json
