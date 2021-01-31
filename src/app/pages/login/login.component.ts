@@ -5,7 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthState } from '../../store/states/auth.state';
 import { SettingsState } from '../../store/states/settings.state';
-import { OpenExternalUrl } from '../../store/actions/settings.actions';
+import { ChangeSetting, OpenExternalUrl, SaveSettings } from '../../store/actions/settings.actions';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +18,9 @@ export class LoginComponent implements OnInit {
 
   @Select(SettingsState.version)
   version$: Observable<string>;
+
+  @Select(SettingsState.rememberCredentials)
+  rememberCredentials$: Observable<boolean>;
 
   loginForm: FormGroup;
 
@@ -45,5 +48,12 @@ export class LoginComponent implements OnInit {
   openIrcPage(event) {
     event.preventDefault();
     this.store.dispatch(new OpenExternalUrl('https://osu.ppy.sh/p/irc'));
+  }
+
+  changeRememberCredentials(value: any) {
+    this.store.dispatch(new ChangeSetting({ key: 'rememberCredentials', value }));
+    setTimeout(() => {
+      this.store.dispatch(new SaveSettings());
+    }, 100);
   }
 }

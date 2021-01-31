@@ -243,8 +243,14 @@ export class IrcService {
     });
 
     this.client.addListener('error', error => {
-      // Workaround for weird IRC error
-      if (error.message === `Cannot read property 'trim' of undefined`) {
+      // Blacklist weird IRC errors
+      const blacklistedErrors = [
+        'Cannot read property \'trim\' of undefined',
+        'Cannot read property \'key\' of undefined'
+      ];
+
+      // Workaround for weird IRC errors
+      if (blacklistedErrors.some(e => error.message.toLowerCase().includes(e.toLowerCase()))) {
         return;
       }
 
@@ -486,11 +492,11 @@ export class IrcService {
     }
 
     if (channelName.charAt(0) === '#') {
-      this.client.join(channelName, () => {
+      this.client.join(channelName, (() => {
         if (setToActive) {
           this.store.dispatch(new SetChannel({ channelName }));
         }
-      });
+      }) as any);
     } else {
       this.store.dispatch(new JoinChannelSuccess({ channelName }));
       if (setToActive) {
@@ -504,7 +510,7 @@ export class IrcService {
     const channels = this.storage.get('channels') || ['#osu'];
     this.storage.set('channels', channels.filter(e => e.toLowerCase() !== channelName.toLowerCase()));
 
-    if (channelName.charAt(0) === '#') {
+    if (channelName.charAt(0) === '#' && channelName.toLowerCase() !== '#highlights') {
       this.client.part(channelName);
     }
   }

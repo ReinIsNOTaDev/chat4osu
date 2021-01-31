@@ -1,20 +1,31 @@
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import {
   SetVersion,
   OpenExternalUrl,
-  ToggleUsersPanel, HideUsersPanel, LoadSettings, ChangeSetting, SaveSettings, PlayNotificationSound
+  ToggleUsersPanel,
+  HideUsersPanel,
+  LoadSettings,
+  ChangeSetting,
+  SaveSettings,
+  PlayNotificationSound,
+  OpenChangelog
 } from '../actions/settings.actions';
 import produce from 'immer';
 import { ElectronService } from '../../providers/electron.service';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { StorageService } from '../../providers/storage.service';
 import soundDb from '../../sounds.json';
 import { SoundService } from '../../providers/sound.service';
+import { ChangelogComponent } from '../../components/changelog/changelog.component';
+import changelog from '../../../assets/changelog.json';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthState } from './auth.state';
 
 export interface Settings {
   notificationSoundEnabled: boolean;
   selectedSound: string;
   notificationKeywords: string;
+  rememberCredentials: boolean;
 }
 
 export interface SettingsStateModel {
@@ -26,7 +37,8 @@ export interface SettingsStateModel {
 const defaultAppSettings: Settings = {
   notificationSoundEnabled: true,
   selectedSound: 'click',
-  notificationKeywords: ''
+  notificationKeywords: '',
+  rememberCredentials: false
 };
 
 @State<SettingsStateModel>({
@@ -64,7 +76,19 @@ export class SettingsState {
     return state.appSettings.notificationKeywords;
   }
 
-  constructor(private electron: ElectronService, private storage: StorageService, private sounds: SoundService) { }
+  @Selector()
+  static rememberCredentials(state: SettingsStateModel) {
+    return state.appSettings.rememberCredentials;
+  }
+
+  constructor(
+    private electron: ElectronService,
+    private storage: StorageService,
+    private sounds: SoundService,
+    private ngZone: NgZone,
+    private dialog: MatDialog,
+    private store: Store
+  ) { }
 
   @Action(SetVersion)
   setVersion(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
@@ -103,6 +127,13 @@ export class SettingsState {
     const appSettings = this.storage.get('app-settings') || defaultAppSettings;
     const newState = produce(ctx.getState(), draft => {
       draft.appSettings = appSettings;
+
+      // Set remember credentials to true if there's already a username and password stored
+      const username = this.storage.get('username');
+      const password = this.storage.get('password');
+      if (username && username !== '' && password && password !== '') {
+        draft.appSettings.rememberCredentials = true;
+      }
     });
     ctx.setState(newState);
   }
@@ -122,6 +153,19 @@ export class SettingsState {
   saveSettings(ctx: StateContext<SettingsStateModel>) {
     const settings = ctx.getState().appSettings;
     this.storage.set('app-settings', settings);
+
+    // Handlers for changed settings
+    const username = this.store.selectSnapshot(AuthState.username);
+    const password = this.store.selectSnapshot(AuthState.password);
+
+    // Save credentials every time we save settings and 'rememberCredentials' is true
+    if (settings.rememberCredentials) {
+      this.storage.set('username', username);
+      this.storage.set('password', password);
+    } else {
+      this.storage.delete('username');
+      this.storage.delete('password');
+    }
   }
 
   @Action(PlayNotificationSound)
@@ -130,5 +174,18 @@ export class SettingsState {
     if (settings.notificationSoundEnabled) {
       this.sounds.playSound(soundDb.find(e => e.name === settings.selectedSound).file);
     }
+  }
+
+  @Action(OpenChangelog)
+  openChangelog() {
+    this.ngZone.run(() => {
+      this.dialog.open(ChangelogComponent, {
+        width: '600px',
+        autoFocus: false,
+        data: {
+          changes: changelog
+        }
+      });
+    });
   }
 }

@@ -1,10 +1,15 @@
 [
+  "You can disable auto-login in the General settings now, or when logging in (don't know why you would)",
   "Added custom highlight keywords, check it out in the Options menu -> Notifications",
   "Added the following keyboard shortcuts:",
   "Ctrl + N: Join a channel",
   "Ctrl + W: Leave active channel",
   "Ctrl + Tab or Ctrl + Right arrow: Cycle to next channel",
   "Ctrl + Shift + Tab or Ctrl + Left arrow: Cycle to previous channel",
+  "Added ability to open the latest changelog through the General settings. Changelog history coming in a later version",
   "Fixed a bug where usernames with spaces would not show up in the correct teams for TeamVS",
-  "Fixed a bug where channel names would get cut off and the X would be hidden"
+  "Fixed a bug where channel names would get cut off and the X would be hidden",
+  "Fixed a bug where an empty error would be displayed when closing channels",
+  "Fixed a bug where you would hear a notification sound for all messages",
+  "Fixed a bug when closing a channel and receiving a message after closing it, it would reopen that tab with that message even though you left the channel"
 ]

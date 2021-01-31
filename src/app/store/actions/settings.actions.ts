@@ -32,3 +32,7 @@ export class LoadSettings {
 export class PlayNotificationSound {
   static readonly type = '[Settings] PlayNotificationSound';
 }
+
+export class OpenChangelog {
+  static readonly type = '[Settings] OpenChangelog';
+}

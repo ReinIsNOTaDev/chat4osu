@@ -1,4 +1,4 @@
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import {
   Login,
   LoginSuccess,
@@ -10,9 +10,11 @@ import { IrcService } from '../../providers/irc.service';
 import { Navigate } from '@ngxs/router-plugin';
 import { StorageService } from '../../providers/storage.service';
 import { Injectable } from '@angular/core';
+import { SettingsState } from './settings.state';
 
 export interface AuthStateModel {
   username: string;
+  password: string;
   loggedIn: boolean;
   loggingIn: boolean;
 }
@@ -21,6 +23,7 @@ export interface AuthStateModel {
   name: 'auth',
   defaults: {
     username: '',
+    password: '',
     loggedIn: false,
     loggingIn: false
   }
@@ -33,11 +36,16 @@ export class AuthState {
   }
 
   @Selector()
+  static password(state: AuthStateModel) {
+    return state.password;
+  }
+
+  @Selector()
   static loggingIn(state: AuthStateModel) {
     return state.loggingIn;
   }
 
-  constructor(private irc: IrcService, private storage: StorageService) {}
+  constructor(private irc: IrcService, private storage: StorageService, private store: Store) {}
 
   @Action(Login)
   async login(ctx: StateContext<AuthStateModel>, action: Login) {
@@ -61,13 +69,18 @@ export class AuthState {
       produce(ctx.getState(), draft => {
         draft.loggedIn = true;
         draft.username = action.payload.username;
+        draft.password = action.payload.password;
         draft.loggingIn = false;
       })
     );
 
-    // Save auth in storage
-    this.storage.set('username', action.payload.username);
-    this.storage.set('password', action.payload.password);
+    // Save auth in storage ONLY if remember credentials is set to true
+    const saveCredentials = this.store.selectSnapshot(SettingsState.rememberCredentials) || false;
+
+    if (saveCredentials) {
+      this.storage.set('username', action.payload.username);
+      this.storage.set('password', action.payload.password);
+    }
   }
 
   @Action(LoginFailed)

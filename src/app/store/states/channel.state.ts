@@ -218,8 +218,14 @@ export class ChannelState {
 
     ctx.setState(
       produce(state, draft => {
-        const messageChannel = action.payload.channelName.toLowerCase();
+        const messageChannel = action.payload.channelName.trim().toLowerCase();
         if (!channelKey) {
+          // If the channel to create is an actual channel, don't create it.
+          // This is because it might be a message in an already closed channel
+          if (messageChannel.charAt(0) === '#' && messageChannel !== '#highlights') {
+            return;
+          }
+
           draft.channels.push(action.payload.channelName);
         }
 
