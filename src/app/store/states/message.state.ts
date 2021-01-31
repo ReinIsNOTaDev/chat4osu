@@ -142,12 +142,17 @@ export class MessageState {
 
     const message = action.payload.message.toLowerCase();
     const myUsername = this.store.selectSnapshot(AuthState.username).toLowerCase();
-    const keywords = this.store.selectSnapshot(SettingsState.notificationKeywords).toLowerCase().split(',');
+
+    let keywords;
+
+    if (this.store.selectSnapshot(SettingsState.notificationKeywords).trim() !== '') {
+      keywords = this.store.selectSnapshot(SettingsState.notificationKeywords).toLowerCase().split(',');
+    }
 
     const highlightCriteria = {
       includesUsername: message.includes(myUsername.replace('_', ' '))
         || message.includes(myUsername.replace(' ', '_')),
-      includesKeyword: keywords.some(keyword => message.includes(keyword))
+      includesKeyword: keywords != null ? keywords.some(keyword => message.includes(keyword)) : false
     };
 
     if (highlightCriteria.includesUsername || highlightCriteria.includesKeyword) {
