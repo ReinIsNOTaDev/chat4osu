@@ -9,7 +9,7 @@ import {
   LeaveChannel,
   SetChannelUsers,
   GetChannelUsers,
-  ChangeChannelName, RearrangeChannel, SetOperators
+  ChangeChannelName, RearrangeChannel, SetOperators, OpenChannelDialog, CycleToNextChannel, CycleToPreviousChannel
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage, SendMessage } from '../actions/message.actions';
@@ -21,8 +21,9 @@ import {
 import { UpdateFormValue } from '@ngxs/form-plugin';
 import { HideUsersPanel, PlayNotificationSound } from '../actions/settings.actions';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { Injectable } from '@angular/core';
-import { ElectronService } from '../../providers/electron.service';
+import { Injectable, NgZone } from '@angular/core';
+import { JoinChannelComponent } from '../../components/join-channel/join-channel.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface ChannelStateModel {
   channels: string[];
@@ -90,7 +91,25 @@ export class ChannelState {
     return state.writtenMessages[state.currentChannel];
   }
 
-  constructor(private irc: IrcService, private store: Store, private electron: ElectronService) { }
+  constructor(private irc: IrcService, private store: Store, private dialog: MatDialog, private ngZone: NgZone) { }
+
+  @Action(OpenChannelDialog)
+  openChannelDialog(ctx: StateContext<ChannelStateModel>) {
+    this.ngZone.run(() => {
+      const dialogRef = this.dialog.open(JoinChannelComponent, {
+        width: '300px',
+        panelClass: 'no-padding'
+      });
+
+      dialogRef.afterClosed().subscribe(channelName => {
+        if (!channelName) {
+          return;
+        }
+
+        ctx.dispatch(new JoinAndSetChannel({ channelName }));
+      });
+    });
+  }
 
   @Action(JoinChannel)
   joinChannel(ctx: StateContext<ChannelStateModel>, action: JoinChannel) {
@@ -218,6 +237,42 @@ export class ChannelState {
         }
       })
     );
+  }
+
+  @Action(CycleToNextChannel)
+  cycleToNextChannel(ctx: StateContext<ChannelStateModel>) {
+    const state = ctx.getState();
+    const currentChannelIndex = state.channels.findIndex(e => e.toLowerCase() === state.currentChannel);
+    const channelsOpen = state.channels.length;
+
+    if (channelsOpen <= 1) {
+      return;
+    }
+
+    let nextIndex = currentChannelIndex + 1;
+    if (nextIndex === channelsOpen) {
+      nextIndex = 0;
+    }
+
+    ctx.dispatch(new SetChannel({ channelName: state.channels[nextIndex] }));
+  }
+
+  @Action(CycleToPreviousChannel)
+  cycleToPreviousChannel(ctx: StateContext<ChannelStateModel>) {
+    const state = ctx.getState();
+    const currentChannelIndex = state.channels.findIndex(e => e.toLowerCase() === state.currentChannel);
+    const channelsOpen = state.channels.length;
+
+    if (channelsOpen <= 1) {
+      return;
+    }
+
+    let nextIndex = currentChannelIndex - 1;
+    if (nextIndex < 0) {
+      nextIndex = channelsOpen - 1;
+    }
+
+    ctx.dispatch(new SetChannel({ channelName: state.channels[nextIndex] }));
   }
 
   @Action(SetChannel)

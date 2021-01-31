@@ -7,7 +7,7 @@ import { AuthState } from '../../store/states/auth.state';
 import {
   SetChannel,
   JoinAndSetChannel,
-  LeaveChannel, RearrangeChannel
+  LeaveChannel, RearrangeChannel, OpenChannelDialog
 } from '../../store/actions/channel.actions';
 import { SendMessage } from '../../store/actions/message.actions';
 import { Logout } from '../../store/actions/auth.actions';
@@ -63,22 +63,7 @@ export class ChatComponent implements OnInit {
   }
 
   onJoinChannelClick() {
-    const dialogRef = this.dialog.open(JoinChannelComponent, {
-      width: '300px',
-      panelClass: 'no-padding'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) {
-        return;
-      }
-
-      this.joinChannel(result);
-    });
-  }
-
-  joinChannel(channel: string) {
-    this.store.dispatch(new JoinAndSetChannel({ channelName: channel }));
+    this.store.dispatch(new OpenChannelDialog());
   }
 
   onSendMessage(message: string) {
