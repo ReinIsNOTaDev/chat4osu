@@ -23,7 +23,7 @@ export class RolePipe implements PipeTransform {
       // Multiplayer logic
       const lobby: MpLobby = this.store.selectSnapshot(MultiplayerState.lobby);
       for (const player of lobby.players) {
-        if (player.username.toLowerCase() === value.toLowerCase()) {
+        if (player.username.toLowerCase().replace(' ', '_') === value.toLowerCase().replace(' ', '_')) {
           if (player.team) {
             return `team-${player.team}`;
           } else {

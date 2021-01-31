@@ -1,3 +1,10 @@
 [
-  "I fixed the download on the GitLab page. It was down for 3 days. Sorry!!"
+  "Added custom highlight keywords, check it out in the Options menu -> Notifications",
+  "Added the following keyboard shortcuts:",
+  "Ctrl + N: Join a channel",
+  "Ctrl + W: Leave active channel",
+  "Ctrl + Tab or Ctrl + Right arrow: Cycle to next channel",
+  "Ctrl + Shift + Tab or Ctrl + Left arrow: Cycle to previous channel",
+  "Fixed a bug where usernames with spaces would not show up in the correct teams for TeamVS",
+  "Fixed a bug where channel names would get cut off and the X would be hidden"
 ]

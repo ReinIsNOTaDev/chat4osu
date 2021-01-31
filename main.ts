@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -38,6 +38,9 @@ function createWindow() {
     event.preventDefault();
     shell.openExternal(link);
   });
+
+  // Set the menu to null so we can remove default shortcuts like CTRL + W
+  win.setMenu(null);
 
   if (serve) {
     win.webContents.openDevTools();

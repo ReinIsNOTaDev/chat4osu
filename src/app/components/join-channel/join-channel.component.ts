@@ -14,6 +14,6 @@ export class JoinChannelComponent implements OnInit {
   ngOnInit(): void { }
 
   joinChannel() {
-    this.ref.close(this.channel);
+    this.ref.close(this.channel.trim().replace(' ', '_'));
   }
 }

@@ -19,5 +19,11 @@
       </mat-form-field>
       <button mat-icon-button [disabled]="!(soundEnabled$ | async)" (click)="playNotificationSound()"><mat-icon>play_arrow</mat-icon></button>
     </div>
+
+    <mat-form-field class="notification-keywords" matTooltip="You will receive a highlight notification if any of these words get mentioned in chat. All words are case-insensitive and comma-separated." matTooltipPosition="right">
+      <mat-label>Custom highlight keywords</mat-label>
+      <input [ngModel]="notificationKeywords$ | async" (ngModelChange)="changeSetting('notificationKeywords', $event)" matInput [ngModelOptions]="{ standalone: true }" />
+      <mat-hint>Separate each keyword with a comma</mat-hint>
+    </mat-form-field>
   </form>
 </div>

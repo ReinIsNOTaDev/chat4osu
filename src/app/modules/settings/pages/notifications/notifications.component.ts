@@ -17,6 +17,11 @@ export class NotificationsComponent implements OnInit {
   @Select(SettingsState.selectedSound)
   selectedSound$: Observable<string>;
 
+  @Select(SettingsState.notificationKeywords)
+  notificationKeywords$: Observable<string>;
+
+  keywords: string;
+
   constructor(private store: Store) { }
 
   ngOnInit(): void { }

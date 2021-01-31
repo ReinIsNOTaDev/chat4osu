@@ -1,3 +1,7 @@
+export class OpenChannelDialog {
+  static readonly type = '[Channel] OpenChannelDialog';
+}
+
 export class JoinChannel {
   static readonly type = '[Channel] JoinChannel';
   constructor(public payload: { channelName: string }) { }
@@ -21,6 +25,14 @@ export class JoinChannelFailed {
 export class SetChannel {
   static readonly type = '[Channel] SetChannel';
   constructor(public payload: { channelName: string }) { }
+}
+
+export class CycleToNextChannel {
+  static readonly type = '[Channel] CycleToNextChannel';
+}
+
+export class CycleToPreviousChannel {
+  static readonly type = '[Channel] CycleToPreviousChannel';
 }
 
 export class LeaveChannel {
