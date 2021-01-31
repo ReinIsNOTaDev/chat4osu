@@ -18,6 +18,7 @@ import { IrcService } from '../../providers/irc.service';
 import { AuthState } from './auth.state';
 import { Logout } from '../actions/auth.actions';
 import { Injectable } from '@angular/core';
+import { SettingsState } from './settings.state';
 
 export interface MessageStateModel {
   messages: {
@@ -109,15 +110,11 @@ export class MessageState {
 
   @Action(ReceiveMessage)
   receiveMessage(ctx: StateContext<MessageStateModel>, action: ReceiveMessage) {
-    const myUsername = this.store.selectSnapshot(AuthState.username);
     ctx.setState(
       produce(ctx.getState(), draft => {
         let channelKey = Object.keys(draft.messages).find(
           key => key.toLowerCase() === action.payload.channelName.toLowerCase()
         );
-        console.log('channel key', channelKey);
-        console.log('channel name', action.payload.channelName);
-        console.log('messages', draft.messages);
 
         // Create the channel array if it doesn't exist yet
         if (!channelKey || !draft.messages[channelKey]) {
@@ -133,19 +130,35 @@ export class MessageState {
             action: action.payload.action
           });
         }
-
-        // Highlights
-        if (!action.payload.action && action.payload.message.toUpperCase().includes(myUsername.toUpperCase())) {
-          this.store.dispatch(new ReceiveMessage({
-            action: true,
-            channelName: '#highlights',
-            sender: 'Highlighted',
-            message: `in ${action.payload.channelName} by ${action.payload.sender}: ${action.payload.message}`,
-            date: action.payload.date
-          }));
-        }
       })
     );
+  }
+
+  @Action(ReceiveMessage)
+  handleHighlights(ctx: StateContext<MessageStateModel>, action: ReceiveMessage) {
+    if (action.payload.action) {
+      return;
+    }
+
+    const message = action.payload.message.toLowerCase();
+    const myUsername = this.store.selectSnapshot(AuthState.username).toLowerCase();
+    const keywords = this.store.selectSnapshot(SettingsState.notificationKeywords).toLowerCase().split(',');
+
+    const highlightCriteria = {
+      includesUsername: message.includes(myUsername.replace('_', ' '))
+        || message.includes(myUsername.replace(' ', '_')),
+      includesKeyword: keywords.some(keyword => message.includes(keyword))
+    };
+
+    if (highlightCriteria.includesUsername || highlightCriteria.includesKeyword) {
+      this.store.dispatch(new ReceiveMessage({
+        action: true,
+        channelName: '#highlights',
+        sender: 'Highlighted',
+        message: `in ${action.payload.channelName} by ${action.payload.sender}: ${action.payload.message}`,
+        date: action.payload.date
+      }));
+    }
   }
 
   @Action(JoinChannelSuccess)

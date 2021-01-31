@@ -14,6 +14,7 @@ import { SoundService } from '../../providers/sound.service';
 export interface Settings {
   notificationSoundEnabled: boolean;
   selectedSound: string;
+  notificationKeywords: string;
 }
 
 export interface SettingsStateModel {
@@ -24,7 +25,8 @@ export interface SettingsStateModel {
 
 const defaultAppSettings: Settings = {
   notificationSoundEnabled: true,
-  selectedSound: 'click'
+  selectedSound: 'click',
+  notificationKeywords: ''
 };
 
 @State<SettingsStateModel>({
@@ -55,6 +57,11 @@ export class SettingsState {
   @Selector()
   static selectedSound(state: SettingsStateModel) {
     return state.appSettings.selectedSound;
+  }
+
+  @Selector()
+  static notificationKeywords(state: SettingsStateModel) {
+    return state.appSettings.notificationKeywords;
   }
 
   constructor(private electron: ElectronService, private storage: StorageService, private sounds: SoundService) { }
