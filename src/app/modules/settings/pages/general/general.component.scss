@@ -8,3 +8,23 @@
   font-size: 18px;
   cursor: default;
 }
+
+.general {
+  height: 100%;
+  padding: 20px 50px;
+
+  h1 {
+    margin-bottom: 30px;
+  }
+
+  .settings {
+    display: flex;
+    flex-direction: column;
+
+    .remember-credentials {
+      margin-bottom: 15px;
+      max-width: 300px;
+      width: 100%;
+    }
+  }
+}

@@ -116,8 +116,14 @@ export class MessageState {
           key => key.toLowerCase() === action.payload.channelName.toLowerCase()
         );
 
-        // Create the channel array if it doesn't exist yet
-        if (!channelKey || !draft.messages[channelKey]) {
+        // Create the channel array if it doesn't exist yet, for PMs
+        if ((!channelKey || !draft.messages[channelKey])) {
+          // If the channel to create is an actual channel, don't create it.
+          // This is because it might be a message in an already closed channel
+          if (action.payload.channelName.trim().charAt(0) === '#' && action.payload.channelName.trim() !== '#highlights') {
+            return;
+          }
+
           draft.messages[action.payload.channelName] = [];
           channelKey = action.payload.channelName;
         }
@@ -142,10 +148,10 @@ export class MessageState {
 
     const message = action.payload.message.toLowerCase();
     const myUsername = this.store.selectSnapshot(AuthState.username).toLowerCase();
+    const keywordsSetting = this.store.selectSnapshot(SettingsState.notificationKeywords);
 
     let keywords;
-
-    if (this.store.selectSnapshot(SettingsState.notificationKeywords).trim() !== '') {
+    if (keywordsSetting && keywordsSetting.trim() !== '') {
       keywords = this.store.selectSnapshot(SettingsState.notificationKeywords).toLowerCase().split(',');
     }
 

@@ -1,3 +1,15 @@
-<div class="coming-soon-container mat-typography">
-  There are no general settings yet. Stay tuned!
+<!--<div class="coming-soon-container mat-typography">-->
+<!--  There are no general settings yet. Stay tuned!-->
+<!--</div>-->
+
+<div class="general">
+  <h1>General</h1>
+
+  <form class="settings">
+    <mat-checkbox [checked]="rememberCredentials$ | async" (change)="changeSetting('rememberCredentials', $event.checked)" class="remember-credentials" color="primary" matTooltip="You will be automatically logged in if this is checked." matTooltipPosition="right">
+      Remember credentials
+    </mat-checkbox>
+
+    <button mat-raised-button (click)="openChangelog()">Open latest changelog</button>
+  </form>
 </div>

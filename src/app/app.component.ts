@@ -9,7 +9,7 @@ import { Login } from './store/actions/auth.actions';
 import changelog from '../assets/changelog.json';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangelogComponent } from './components/changelog/changelog.component';
-import { LoadSettings } from './store/actions/settings.actions';
+import { LoadSettings, OpenChangelog } from './store/actions/settings.actions';
 import { fadeInAnimation } from './app.animations';
 import { RouterOutlet } from '@angular/router';
 
@@ -38,12 +38,7 @@ export class AppComponent implements OnInit {
       this.electronService.update();
 
       if (this.storage.get('updated') === true || this.storage.get('updated') === undefined) {
-        this.matDialog.open(ChangelogComponent, {
-          width: '600px',
-          data: {
-            changes: changelog
-          }
-        });
+        this.store.dispatch(new OpenChangelog());
         this.storage.set('updated', false);
       }
     }
@@ -55,7 +50,7 @@ export class AppComponent implements OnInit {
       const username = this.storage.get('username');
       const password = this.storage.get('password');
 
-      if (username && password) {
+      if (username && username !== '' && password && password !== '') {
         this.store.dispatch(new Login({ username, password }));
       } else {
         this.store.dispatch(new Navigate(['']));

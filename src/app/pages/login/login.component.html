@@ -26,6 +26,10 @@
 
       <button mat-raised-button color="primary" (click)="login()" [disabled]="!loginForm.controls.username.valid || !loginForm.controls.password.valid">Login</button>
 
+      <mat-checkbox [checked]="rememberCredentials$ | async" (change)="changeRememberCredentials($event.checked)" class="remember-credentials" color="primary">
+        Remember credentials
+      </mat-checkbox>
+
       <div class="irc-help-container">
         <span class="irc-help">Get your IRC password <a href="#" class="link" (click)="openIrcPage($event)">HERE!</a></span>
       </div>
