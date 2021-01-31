@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgxsModule } from '@ngxs/store';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { GeneralComponent } from './general.component';
+import { MaterialModule } from '../../../../material.module';
+import { FormsModule } from '@angular/forms';
 
 describe('GeneralComponent', () => {
-  let component: GeneralComponent;
-  let fixture: ComponentFixture<GeneralComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ GeneralComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(GeneralComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<GeneralComponent>;
+  const createComponent = createComponentFactory({
+    component: GeneralComponent,
+    imports: [
+      NgxsModule.forRoot(),
+      FormsModule,
+      MaterialModule
+    ],
+    declarations: []
   });
+
+  beforeEach(() => spectator = createComponent());
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });
+
