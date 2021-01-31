@@ -2,6 +2,7 @@ import { NgxsModule } from '@ngxs/store';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NotificationsComponent } from './notifications.component';
 import { MaterialModule } from '../../../../material.module';
+import { FormsModule } from '@angular/forms';
 
 describe('NotificationsComponent', () => {
   let spectator: Spectator<NotificationsComponent>;
@@ -9,6 +10,7 @@ describe('NotificationsComponent', () => {
     component: NotificationsComponent,
     imports: [
       NgxsModule.forRoot(),
+      FormsModule,
       MaterialModule
     ],
     declarations: []
