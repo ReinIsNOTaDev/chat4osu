@@ -6,9 +6,6 @@ import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
 import { StorageService } from './providers/storage.service';
 import { Login } from './store/actions/auth.actions';
-import changelog from '../assets/changelog.json';
-import { MatDialog } from '@angular/material/dialog';
-import { ChangelogComponent } from './components/changelog/changelog.component';
 import { LoadSettings, OpenChangelog } from './store/actions/settings.actions';
 import { fadeInAnimation } from './app.animations';
 import { RouterOutlet } from '@angular/router';
@@ -26,8 +23,7 @@ export class AppComponent implements OnInit {
     public electronService: ElectronService,
     private translate: TranslateService,
     private store: Store,
-    private storage: StorageService,
-    private matDialog: MatDialog
+    private storage: StorageService
   ) { }
 
   ngOnInit() {

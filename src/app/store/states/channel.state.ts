@@ -216,13 +216,19 @@ export class ChannelState {
       key => key.toLowerCase() === action.payload.channelName.toLowerCase()
     );
 
+    const mp =
+      action.payload.channelName
+        .trim()
+        .toLowerCase()
+        .indexOf('#mp_') !== -1;
+
     ctx.setState(
       produce(state, draft => {
         const messageChannel = action.payload.channelName.trim().toLowerCase();
         if (!channelKey) {
           // If the channel to create is an actual channel, don't create it.
           // This is because it might be a message in an already closed channel
-          if (messageChannel.charAt(0) === '#' && messageChannel !== '#highlights') {
+          if (messageChannel.charAt(0) === '#' && messageChannel !== '#highlights' && !mp) {
             return;
           }
 
