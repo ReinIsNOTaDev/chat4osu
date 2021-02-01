@@ -116,11 +116,17 @@ export class MessageState {
           key => key.toLowerCase() === action.payload.channelName.toLowerCase()
         );
 
+        const mp =
+          action.payload.channelName
+            .trim()
+            .toLowerCase()
+            .indexOf('#mp_') !== -1;
+
         // Create the channel array if it doesn't exist yet, for PMs
         if ((!channelKey || !draft.messages[channelKey])) {
           // If the channel to create is an actual channel, don't create it.
           // This is because it might be a message in an already closed channel
-          if (action.payload.channelName.trim().charAt(0) === '#' && action.payload.channelName.trim() !== '#highlights') {
+          if (action.payload.channelName.trim().charAt(0) === '#' && action.payload.channelName.trim() !== '#highlights' && !mp) {
             return;
           }
 
