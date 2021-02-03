@@ -1,3 +1,5 @@
+import { Hotkey } from '../../providers/hotkeys.service';
+
 export class SetVersion {
   static readonly type = '[Settings] SetVersion';
   constructor(public readonly payload: string) {}
@@ -35,4 +37,14 @@ export class PlayNotificationSound {
 
 export class OpenChangelog {
   static readonly type = '[Settings] OpenChangelog';
+}
+
+export class CreateHotkey {
+  static readonly type = '[Settings] CreateHotkey';
+  constructor(public payload: { hotkey: Hotkey; command: string }) { }
+}
+
+export class DeleteHotkey {
+  static readonly type = '[Settings] DeleteHotkey';
+  constructor(public hotkeyString: string) { }
 }

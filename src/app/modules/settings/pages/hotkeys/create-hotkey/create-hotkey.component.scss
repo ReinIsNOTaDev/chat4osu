@@ -1,0 +1,74 @@
+.create-hotkey {
+  padding: 25px 50px;
+}
+
+.listening {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.red-dot {
+  width: 16px;
+  height: 16px;
+  background-color: red;
+  border-radius: 100px;
+  margin-right: 10px;
+}
+
+.creating {
+  .hotkey {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    span {
+      margin-right: 5px;
+      display: flex;
+      align-items: center;
+    }
+
+    kbd {
+      display: inline-block;
+      border: 1px solid #2a2a4a;
+      border-radius: 4px;
+      padding: 0.1em 0.5em;
+      margin: 0 0.2em;
+      box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), -1px -1px 0 1px #8282bf inset;
+      background-color: #6363ad;
+      color: white;
+    }
+  }
+}
+
+.hotkey-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.hint-text {
+  margin-top: 15px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.hotkey-command {
+  margin-right: 15px;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
+  button {
+    margin: 0 5px;
+  }
+}
+
+

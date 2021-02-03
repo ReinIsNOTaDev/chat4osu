@@ -11,6 +11,7 @@ import { Navigate } from '@ngxs/router-plugin';
 import { StorageService } from '../../providers/storage.service';
 import { Injectable } from '@angular/core';
 import { SettingsState } from './settings.state';
+import { HotkeysService } from '../../providers/hotkeys.service';
 
 export interface AuthStateModel {
   username: string;
@@ -45,7 +46,7 @@ export class AuthState {
     return state.loggingIn;
   }
 
-  constructor(private irc: IrcService, private storage: StorageService, private store: Store) {}
+  constructor(private irc: IrcService, private storage: StorageService, private store: Store, private hotkeys: HotkeysService) {}
 
   @Action(Login)
   async login(ctx: StateContext<AuthStateModel>, action: Login) {
@@ -81,6 +82,9 @@ export class AuthState {
       this.storage.set('username', action.payload.username);
       this.storage.set('password', action.payload.password);
     }
+
+    // Register hotkeys once logged in
+    this.hotkeys.registerHotkeys();
   }
 
   @Action(LoginFailed)

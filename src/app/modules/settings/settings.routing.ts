@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SettingsComponent } from './settings.component';
 import { GeneralComponent } from './pages/general/general.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { HotkeysComponent } from './pages/hotkeys/hotkeys.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,9 @@ const routes: Routes = [
     }, {
       path: 'notifications',
       component: NotificationsComponent
+    }, {
+      path: 'hotkeys',
+      component: HotkeysComponent
     }]
   }
 ];

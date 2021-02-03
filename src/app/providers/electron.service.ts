@@ -12,9 +12,6 @@ import { AddToast } from '../store/actions/toast.actions';
 import { SetVersion } from '../store/actions/settings.actions';
 import { AppConfig } from '../../environments/environment';
 import { StorageService } from './storage.service';
-import * as localShortcut from 'electron-localshortcut';
-import { CycleToNextChannel, CycleToPreviousChannel, LeaveChannel, OpenChannelDialog } from '../store/actions/channel.actions';
-import { ChannelState } from '../store/states/channel.state';
 
 @Injectable({ providedIn: 'root' })
 export class ElectronService {
@@ -54,9 +51,6 @@ export class ElectronService {
           'https://gitlab.com/hallowatcher/chat4osu/-/jobs/artifacts/master/raw/release?job=build'
       });
 
-      // Hotkey settings
-      this.registerHotkeys();
-
       if (AppConfig.production) {
         this.autoUpdateListeners();
       }
@@ -81,32 +75,6 @@ export class ElectronService {
       const file = await this.dialog.showSaveDialog(options);
       callback(file.filePath);
     }
-  }
-
-  registerHotkeys() {
-    // CTRL + W: Close tab
-    localShortcut.register(this.remote.getCurrentWindow(), 'Ctrl+W', () => {
-      const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
-
-      if (currentChannel && currentChannel !== '') {
-        this.store.dispatch(new LeaveChannel({ channelName: currentChannel }));
-      }
-    });
-
-    // CTRL + N: Open new channel
-    localShortcut.register(this.remote.getCurrentWindow(), 'CommandOrControl+N', () => {
-      this.store.dispatch(new OpenChannelDialog());
-    });
-
-    // CTRL + Tab or CTRL + Right: Cycle to next tab
-    localShortcut.register(this.remote.getCurrentWindow(), ['CommandOrControl+Tab', 'CommandOrControl+Right'], () => {
-      this.store.dispatch(new CycleToNextChannel());
-    });
-
-    // CTRL + Shift + Tab or CTRL + Left: Cycle to previous tab
-    localShortcut.register(this.remote.getCurrentWindow(), ['CommandOrControl+Shift+Tab', 'CommandOrControl+Left'], () => {
-      this.store.dispatch(new CycleToPreviousChannel());
-    });
   }
 
   saveFile(path: string, content: string, callback: () => void) {
