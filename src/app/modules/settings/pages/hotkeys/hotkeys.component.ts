@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateHotkeyComponent } from './create-hotkey/create-hotkey.component';
-import { HotkeysService } from '../../../../providers/hotkeys.service';
 import { Select, Store } from '@ngxs/store';
 import { CreateHotkey, DeleteHotkey } from '../../../../store/actions/settings.actions';
 import { SettingsState } from '../../../../store/states/settings.state';
