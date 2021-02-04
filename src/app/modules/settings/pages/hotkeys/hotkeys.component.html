@@ -7,23 +7,45 @@
       <p>Note: These hotkeys cannot be changed for now.</p>
       <ul>
         <li>
-          <kbd>Ctrl</kbd>+<kbd>N</kbd>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>N</kbd>
+          </div>
           <span class="command">Join channel</span>
         </li>
 
         <li>
-          <kbd>Ctrl</kbd>+<kbd>W</kbd>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>W</kbd>
+          </div>
           <span class="command">Leave channel</span>
         </li>
 
         <li>
-          <kbd>Ctrl</kbd>+<kbd>→</kbd> / <kbd>Ctrl</kbd>+<kbd>Tab</kbd>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>→</kbd> / <kbd>Ctrl</kbd>+<kbd>Tab</kbd>
+          </div>
           <span class="command">Cycle to next channel</span>
         </li>
 
         <li>
-          <kbd>Ctrl</kbd>+<kbd>←</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>←</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd>
+          </div>
           <span class="command">Cycle to previous channel</span>
+        </li>
+
+        <li>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>1</kbd> - <kbd>8</kbd>
+          </div>
+          <span class="command">Cycle to a specific tab (1-8)</span>
+        </li>
+
+        <li>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>9</kbd>
+          </div>
+          <span class="command">Cycle to the last tab</span>
         </li>
       </ul>
     </div>
@@ -40,7 +62,7 @@
 
           <span class="command">Send in chat: <code>{{hotkey.command}}</code></span>
 
-          <button mat-icon-button matTooltip="Delete this hotkey" matTooltipPosition="left" (click)="removeHotkey(hotkey.hotkeyString)"><mat-icon>delete</mat-icon></button>
+          <button mat-icon-button matTooltip="Delete this hotkey" matTooltipPosition="right" (click)="removeHotkey(hotkey.hotkeyString)"><mat-icon>delete</mat-icon></button>
         </li>
       </ul>
     </div>

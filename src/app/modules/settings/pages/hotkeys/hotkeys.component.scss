@@ -20,6 +20,15 @@
 
       ul {
         padding: 0;
+
+        li {
+          display: flex;
+          flex-direction: row;
+
+          .keys {
+            flex-grow: 1;
+          }
+        }
       }
     }
 
@@ -38,7 +47,7 @@
 
 .command {
   margin-left: 20px;
-  flex-grow: 1;
+  width: 200px;
 }
 
 .custom-hotkey {

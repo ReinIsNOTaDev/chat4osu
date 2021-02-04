@@ -9,7 +9,14 @@ import {
   LeaveChannel,
   SetChannelUsers,
   GetChannelUsers,
-  ChangeChannelName, RearrangeChannel, SetOperators, OpenChannelDialog, CycleToNextChannel, CycleToPreviousChannel
+  ChangeChannelName,
+  RearrangeChannel,
+  SetOperators,
+  OpenChannelDialog,
+  CycleToNextChannel,
+  CycleToPreviousChannel,
+  CycleToChannel,
+  CycleToLastChannel
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage, SendMessage } from '../actions/message.actions';
@@ -285,6 +292,35 @@ export class ChannelState {
     }
 
     ctx.dispatch(new SetChannel({ channelName: state.channels[nextIndex] }));
+  }
+
+  @Action(CycleToChannel)
+  cycleToChannel(ctx: StateContext<ChannelStateModel>, action: CycleToChannel) {
+    const state = ctx.getState();
+    const channelsOpen = state.channels.length;
+    let indexToOpen = action.payload.channelIndex;
+
+    if (channelsOpen <= 1) {
+      return;
+    }
+
+    if (indexToOpen >= channelsOpen) {
+      indexToOpen = channelsOpen - 1;
+    }
+
+    ctx.dispatch(new SetChannel({ channelName: state.channels[indexToOpen] }));
+  }
+
+  @Action(CycleToLastChannel)
+  cycleToLastChannel(ctx: StateContext<ChannelStateModel>) {
+    const state = ctx.getState();
+    const channelsOpen = state.channels.length;
+
+    if (channelsOpen <= 1) {
+      return;
+    }
+
+    ctx.dispatch(new SetChannel({ channelName: state.channels[channelsOpen - 1] }));
   }
 
   @Action(SetChannel)

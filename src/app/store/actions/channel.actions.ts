@@ -35,6 +35,15 @@ export class CycleToPreviousChannel {
   static readonly type = '[Channel] CycleToPreviousChannel';
 }
 
+export class CycleToChannel {
+  static readonly type = '[Channel] CycleToChannel';
+  constructor(public payload: { channelIndex: number }) { }
+}
+
+export class CycleToLastChannel {
+  static readonly type = '[Channel] CycleToLastChannel';
+}
+
 export class LeaveChannel {
   static readonly type = '[Channel] LeaveChannel';
   constructor(public payload: { channelName: string }) { }

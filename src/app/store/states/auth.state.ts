@@ -82,9 +82,6 @@ export class AuthState {
       this.storage.set('username', action.payload.username);
       this.storage.set('password', action.payload.password);
     }
-
-    // Register hotkeys once logged in
-    this.hotkeys.registerHotkeys();
   }
 
   @Action(LoginFailed)

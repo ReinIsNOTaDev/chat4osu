@@ -3,6 +3,7 @@ import { Store } from '@ngxs/store';
 import hotkeys from 'hotkeys-js';
 import { ChannelState } from '../store/states/channel.state';
 import {
+  CycleToChannel, CycleToLastChannel,
   CycleToNextChannel,
   CycleToPreviousChannel,
   LeaveChannel,
@@ -48,7 +49,7 @@ export class HotkeysService {
       return true;
     };
 
-    // CTRL + W: Close tab
+    // Ctrl + W: Close tab
     hotkeys('Ctrl+w', 'app', () => {
       const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
 
@@ -57,19 +58,32 @@ export class HotkeysService {
       }
     });
 
-    // CTRL + N: Open new channel
+    // Ctrl + N: Open new channel
     hotkeys('Ctrl+N', 'app', () => {
       this.store.dispatch(new OpenChannelDialog());
     });
 
-    // CTRL + Tab or CTRL + Right: Cycle to next tab
+    // Ctrl + Tab or CTRL + Right: Cycle to next tab
     hotkeys('Ctrl+Tab,Ctrl+Right', 'app', () => {
       this.store.dispatch(new CycleToNextChannel());
     });
 
-    // CTRL + Shift + Tab or CTRL + Left: Cycle to previous tab
+    // Ctrl + Shift + Tab or CTRL + Left: Cycle to previous tab
     hotkeys('Ctrl+Shift+Tab,Ctrl+Left', 'app', () => {
       this.store.dispatch(new CycleToPreviousChannel());
+    });
+
+    // Ctrl + 1 - 8: Cycle to tab x
+    const tabNumbers = [1, 2, 3, 4, 5, 6, 7, 8];
+    for (const tabNumber of tabNumbers) {
+      hotkeys(`Ctrl+${tabNumber}`, 'app', () => {
+        this.store.dispatch(new CycleToChannel({ channelIndex: tabNumber - 1 }));
+      });
+    }
+
+    // Ctrl + 9: Cycle to last tab
+    hotkeys('Ctrl+9', 'app', () => {
+      this.store.dispatch(new CycleToLastChannel());
     });
 
     hotkeys.setScope('app');
