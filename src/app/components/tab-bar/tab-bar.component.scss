@@ -124,6 +124,10 @@
     font-weight: 600;
   }
 
+  &.unread {
+    background-color: rgba(255, 154, 37, 0.6);
+  }
+
   .leave {
     display: none;
   }
