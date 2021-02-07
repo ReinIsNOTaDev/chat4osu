@@ -8,6 +8,7 @@ import {
 } from '@ngxs/store';
 import produce from 'immer';
 import {
+  ClearMessages,
   ReceiveMessage,
   SendMessage,
   SendMessageToChannel
@@ -201,6 +202,15 @@ export class MessageState {
       produce(ctx.getState(), draft => {
         draft.messages[action.payload.newName] = [...draft.messages[action.payload.channelName]];
         delete draft.messages[action.payload.channelName];
+      })
+    );
+  }
+
+  @Action(ClearMessages)
+  clearMessages(ctx: StateContext<MessageStateModel>, action: ClearMessages) {
+    ctx.setState(
+      produce(ctx.getState(), draft => {
+        draft.messages[action.payload.channelName] = [];
       })
     );
   }

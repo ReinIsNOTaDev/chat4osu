@@ -10,14 +10,9 @@ export class SendMessageToChannel {
   ) {}
 }
 
-export class SendMessageSuccess {
-  static readonly type = '[Message] SendMessageSuccess';
-  constructor(public payload: { channelName: string; message: string }) {}
-}
-
-export class SendMessageFailed {
-  static readonly type = '[Message] SendMessageFailed';
-  constructor(public payload: any) {}
+export class ClearMessages {
+  static readonly type = '[Message] ClearMessages';
+  constructor(public payload: { channelName: string; }) {}
 }
 
 export class ReceiveMessage {

@@ -1,25 +1,32 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgxsModule } from '@ngxs/store';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MaterialModule } from '../../../../../material.module';
+import { RouterTestingModule } from '@angular/router/testing';
 import { CreateHotkeyComponent } from './create-hotkey.component';
+import { FormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 describe('CreateHotkeyComponent', () => {
-  let component: CreateHotkeyComponent;
-  let fixture: ComponentFixture<CreateHotkeyComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CreateHotkeyComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CreateHotkeyComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<CreateHotkeyComponent>;
+  const createComponent = createComponentFactory({
+    component: CreateHotkeyComponent,
+    imports: [
+      FormsModule,
+      NgxsModule.forRoot(),
+      MaterialModule,
+      RouterTestingModule.withRoutes([])
+    ],
+    declarations: [],
+    providers: [{
+      provide: MatDialogRef,
+      useValue: { close: () => {} }
+    }],
+    detectChanges: false
   });
 
+  beforeEach(() => spectator = createComponent());
+
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });

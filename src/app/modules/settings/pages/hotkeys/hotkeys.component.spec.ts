@@ -1,25 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgxsModule } from '@ngxs/store';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MaterialModule } from '../../../../material.module';
+import { RouterTestingModule } from '@angular/router/testing';
 import { HotkeysComponent } from './hotkeys.component';
+import { of } from 'rxjs';
 
 describe('HotkeysComponent', () => {
-  let component: HotkeysComponent;
-  let fixture: ComponentFixture<HotkeysComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HotkeysComponent ]
-    })
-    .compileComponents();
-  }));
+  let spectator: Spectator<HotkeysComponent>;
+  const createComponent = createComponentFactory({
+    component: HotkeysComponent,
+    imports: [
+      NgxsModule.forRoot(),
+      MaterialModule,
+      RouterTestingModule.withRoutes([])
+    ],
+    declarations: [],
+    detectChanges: false
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HotkeysComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+
+    Object.defineProperty(spectator.component, 'hotkeys$', { writable: true });
+    spectator.component.hotkeys$ = of([]);
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });
