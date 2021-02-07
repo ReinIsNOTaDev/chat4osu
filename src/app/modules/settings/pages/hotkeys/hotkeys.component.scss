@@ -18,6 +18,26 @@
         margin-bottom: 5px;
       }
 
+      .custom-hotkeys-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+
+        h3 {
+          flex-grow: 1;
+          margin-bottom: 0;
+        }
+
+        button {
+          mat-icon {
+            font-size: 16px;
+            height: 16px;
+            width: 16px;
+            margin-right: 5px;
+          }
+        }
+      }
+
       ul {
         padding: 0;
 
@@ -47,7 +67,10 @@
 
 .command {
   margin-left: 20px;
-  width: 200px;
+  width: 250px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .custom-hotkey {

@@ -51,7 +51,14 @@
     </div>
 
     <div class="hotkey-list">
-      <h3>Chat hotkeys</h3>
+      <div class="custom-hotkeys-header">
+        <h3>Chat hotkeys</h3>
+        <button mat-raised-button (click)="openCreateHotkeyDialog()">
+          <mat-icon>add</mat-icon>
+          Create
+        </button>
+      </div>
+
       <i *ngIf="(hotkeys$ | async).length === 0">None created yet!</i>
       <ul *ngIf="(hotkeys$ | async).length > 0">
         <li *ngFor="let hotkey of (hotkeys$ | async)" class="custom-hotkey">
@@ -60,13 +67,10 @@
             <ng-container *ngIf="!isLast">+</ng-container>
           </ng-container>
 
-          <span class="command">Send in chat: <code>{{hotkey.command}}</code></span>
-
+          <span class="command" [matTooltip]="hotkey.command" matTooltipPosition="right">Send in chat: <code>{{hotkey.command}}</code></span>
           <button mat-icon-button matTooltip="Delete this hotkey" matTooltipPosition="right" (click)="removeHotkey(hotkey.hotkeyString)"><mat-icon>delete</mat-icon></button>
         </li>
       </ul>
     </div>
-
-    <button mat-raised-button (click)="openCreateHotkeyDialog()">Create chat hotkey</button>
   </form>
 </div>
