@@ -44,6 +44,11 @@ export class CycleToLastChannel {
   static readonly type = '[Channel] CycleToLastChannel';
 }
 
+export class SetMessage {
+  static readonly type = '[Channel] SetMessage';
+  constructor(public payload: string) { }
+}
+
 export class LeaveChannel {
   static readonly type = '[Channel] LeaveChannel';
   constructor(public payload: { channelName: string }) { }

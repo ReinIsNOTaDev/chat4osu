@@ -48,6 +48,7 @@ import { MaterialModule } from './material.module';
 import { JoinChannelComponent } from './components/join-channel/join-channel.component';
 import { ChangelogComponent } from './components/changelog/changelog.component';
 import { ElectronState } from './store/states/electron.state';
+import { HistoryState } from './store/states/history.state';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -73,6 +74,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   imports: [
     NgxsModule.forRoot([
       SettingsState,
+      HistoryState,
       ElectronState,
       AuthState,
       ChannelState,

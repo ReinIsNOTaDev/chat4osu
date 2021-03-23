@@ -3,7 +3,6 @@ import {
   Action,
   StateContext,
   Selector,
-  createSelector,
   Store
 } from '@ngxs/store';
 import produce from 'immer';
@@ -30,14 +29,12 @@ export interface MessageStateModel {
       action?: boolean;
     }[];
   };
-  history: string[];
 }
 
 @State<MessageStateModel>({
   name: 'message',
   defaults: {
-    messages: {},
-    history: []
+    messages: {}
   }
 })
 @Injectable()
@@ -67,8 +64,6 @@ export class MessageState {
             draft.messages[channelName] = [];
           }
 
-          draft.history.push(message);
-
           draft.messages[channelName].push({
             message: message,
             sender: username,
@@ -96,8 +91,6 @@ export class MessageState {
           if (!draft.messages[channelName]) {
             draft.messages[channelName] = [];
           }
-
-          draft.history.push(message);
 
           draft.messages[channelName].push({
             message: message,
@@ -229,7 +222,6 @@ export class MessageState {
     ctx.setState(
       produce(ctx.getState(), draft => {
         draft.messages = {};
-        draft.history = [];
       })
     );
   }

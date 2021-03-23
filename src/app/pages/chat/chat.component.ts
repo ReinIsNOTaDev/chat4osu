@@ -13,7 +13,6 @@ import { Logout } from '../../store/actions/auth.actions';
 import { ToggleUsersPanel } from '../../store/actions/settings.actions';
 import { SettingsState } from '../../store/states/settings.state';
 import { MultiplayerState, MpLobby } from '../../store/states/multiplayer.state';
-import { MatDialog } from '@angular/material/dialog';
 import { Navigate } from '@ngxs/router-plugin';
 import { OpenExternalUrl } from '../../store/actions/electron.actions';
 

@@ -11,6 +11,7 @@ import {
 } from '../store/actions/channel.actions';
 import { SendMessage } from '../store/actions/message.actions';
 import { OpenDevTools } from '../store/actions/electron.actions';
+import { CycleNextHistory, CyclePreviousHistory } from '../store/actions/history.actions';
 
 export class Hotkey {
   constructor(public key: string, public ctrl = false, public alt = false, public shift = false) { }
@@ -96,7 +97,8 @@ export class HotkeysService {
     hotkeys('Up', 'app', event => {
       const element = event.target as HTMLInputElement;
       if (element.id === 'send-message') {
-        // TODO
+        event.preventDefault();
+        this.store.dispatch(new CyclePreviousHistory());
       }
     });
 
@@ -104,7 +106,8 @@ export class HotkeysService {
     hotkeys('Down', 'app', event => {
       const element = event.target as HTMLInputElement;
       if (element.id === 'send-message') {
-        // TODO
+        event.preventDefault();
+        this.store.dispatch(new CycleNextHistory());
       }
     });
 

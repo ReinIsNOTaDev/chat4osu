@@ -16,7 +16,8 @@ import {
   CycleToNextChannel,
   CycleToPreviousChannel,
   CycleToChannel,
-  CycleToLastChannel
+  CycleToLastChannel,
+  SetMessage
 } from '../actions/channel.actions';
 import { IrcService } from '../../providers/irc.service';
 import { ReceiveMessage, SendMessage } from '../actions/message.actions';
@@ -321,6 +322,15 @@ export class ChannelState {
     }
 
     ctx.dispatch(new SetChannel({ channelName: state.channels[channelsOpen - 1] }));
+  }
+
+  @Action(SetMessage)
+  setMessage(ctx: StateContext<ChannelStateModel>, action: SetMessage) {
+    const newState = produce(ctx.getState(), draft => {
+      draft.writtenMessageForm.model.message = action.payload;
+    });
+
+    ctx.setState(newState);
   }
 
   @Action(SetChannel)
