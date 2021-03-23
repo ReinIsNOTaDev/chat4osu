@@ -137,19 +137,12 @@ export class ElectronService {
     this.autoUpdater.on('update-downloaded', info => {
       this.store.dispatch(
         new AddToast({
-          summary: 'New update!',
-          detail: 'A new update was downloaded, restarting...',
+          detail: 'A new update was downloaded! Please restart chat4osu to install it.',
           key: 'toast',
           severity: 'info'
         })
       );
-    });
-
-    this.autoUpdater.on('update-downloaded', info => {
       this.storage.set('updated', true);
-      setTimeout(() => {
-        this.autoUpdater.quitAndInstall();
-      }, 3000);
     });
   }
 
