@@ -251,7 +251,7 @@ export class IrcService {
       ];
 
       // Workaround for weird IRC errors
-      if (blacklistedErrors.some(e => error.message.toLowerCase().includes(e.toLowerCase()))) {
+      if (blacklistedErrors.some(e => error.message?.toLowerCase().includes(e.toLowerCase()))) {
         return;
       }
 
@@ -263,7 +263,7 @@ export class IrcService {
           this.store.dispatch(
             new AddToast({
               severity: 'error',
-              detail: 'Login failed! Please try again.'
+              detail: 'Login failed! Please try again. Note that your osu! credentials are NOT your IRC credentials.'
             })
           );
           break;
@@ -282,7 +282,6 @@ export class IrcService {
             new AddToast({
               key: 'errors',
               severity: 'error',
-              summary: 'Error',
               detail: error.command
             })
           );
@@ -295,8 +294,7 @@ export class IrcService {
           new AddToast({
             key: 'errors',
             severity: 'error',
-            summary: 'Network error',
-            detail: 'This could mean your internet connection is failing or Bancho is down. Attempting to reconnect...',
+            detail: 'A network error has occurred! This could mean your internet connection is failing or Bancho is down. Attempting to reconnect...',
             sticky: true,
             closable: false
           })
@@ -312,7 +310,6 @@ export class IrcService {
         new AddToast({
           key: 'errors',
           severity: 'warn',
-          summary: 'Unhandled message',
           detail:
             'An unhandled message was sent from the server. Check the console for more information.'
         })
