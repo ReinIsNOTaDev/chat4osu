@@ -32,7 +32,7 @@ export class Hotkey {
 
     const formattedKey = this.key.length === 1 ? this.key.toUpperCase() : this.key;
 
-    return shortcutString += formattedKey;
+    return shortcutString + formattedKey;
   }
 }
 
@@ -56,7 +56,7 @@ export class HotkeysService {
     });
 
     // Ctrl + W: Close tab
-    hotkeys('Ctrl+w', 'app', () => {
+    hotkeys('Ctrl+W', 'app', () => {
       const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
 
       if (currentChannel && currentChannel !== '') {
@@ -90,6 +90,22 @@ export class HotkeysService {
     // Ctrl + 9: Cycle to last tab
     hotkeys('Ctrl+9', 'app', () => {
       this.store.dispatch(new CycleToLastChannel());
+    });
+
+    // Up arrow: Cycle to previous sent message
+    hotkeys('Up', 'app', event => {
+      const element = event.target as HTMLInputElement;
+      if (element.id === 'send-message') {
+        // TODO
+      }
+    });
+
+    // Down arrow: Cycle to next sent message
+    hotkeys('Down', 'app', event => {
+      const element = event.target as HTMLInputElement;
+      if (element.id === 'send-message') {
+        // TODO
+      }
     });
 
     hotkeys.setScope('app');
