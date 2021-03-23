@@ -5,7 +5,7 @@ import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
 import { StorageService } from './providers/storage.service';
 import { Login } from './store/actions/auth.actions';
-import { LoadSettings, OpenChangelog, SetVersion } from './store/actions/settings.actions';
+import { LoadSettings, OpenChangelog } from './store/actions/settings.actions';
 import { fadeInAnimation } from './app.animations';
 import { RouterOutlet } from '@angular/router';
 import { CheckForUpdates } from './store/actions/electron.actions';

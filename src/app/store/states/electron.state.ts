@@ -5,12 +5,14 @@ import { OpenDevTools, OpenExternalUrl, CheckForUpdates } from '../actions/elect
 
 export interface ElectronStateModel {
   isElectron: boolean;
+  version: string;
 }
 
 @State<ElectronStateModel>({
   name: 'electron',
   defaults: {
-    isElectron: false
+    isElectron: false,
+    version: '0.0.0'
   }
 })
 @Injectable()
@@ -20,11 +22,17 @@ export class ElectronState implements NgxsOnInit {
     return state.isElectron;
   }
 
+  @Selector()
+  static version(state: ElectronStateModel) {
+    return state.version;
+  }
+
   constructor(private electron: ElectronService) { }
 
   ngxsOnInit(ctx?: StateContext<ElectronStateModel>): any {
     ctx.patchState({
-      isElectron: this.electron.isElectron()
+      isElectron: this.electron.isElectron(),
+      version: this.electron.remote.app.getVersion()
     });
   }
 

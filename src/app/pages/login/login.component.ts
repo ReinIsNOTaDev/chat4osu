@@ -7,6 +7,7 @@ import { AuthState } from '../../store/states/auth.state';
 import { SettingsState } from '../../store/states/settings.state';
 import { ChangeSetting, SaveSettings } from '../../store/actions/settings.actions';
 import { OpenExternalUrl } from '../../store/actions/electron.actions';
+import { ElectronState } from '../../store/states/electron.state';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   @Select(AuthState.loggingIn)
   loggingIn$: Observable<boolean>;
 
-  @Select(SettingsState.version)
+  @Select(ElectronState.version)
   version$: Observable<string>;
 
   @Select(SettingsState.rememberCredentials)
