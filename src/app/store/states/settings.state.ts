@@ -1,6 +1,5 @@
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import {
-  SetVersion,
   ToggleUsersPanel,
   HideUsersPanel,
   LoadSettings,
@@ -29,7 +28,6 @@ export interface Settings {
 }
 
 export interface SettingsStateModel {
-  version: string;
   usersVisible: boolean;
   appSettings: Settings;
 }
@@ -45,18 +43,12 @@ const defaultAppSettings: Settings = {
 @State<SettingsStateModel>({
   name: 'settings',
   defaults: {
-    version: '0.0.0',
     usersVisible: false,
     appSettings: defaultAppSettings
   }
 })
 @Injectable()
 export class SettingsState {
-  @Selector()
-  static version(state: SettingsStateModel) {
-    return state.version;
-  }
-
   @Selector()
   static usersVisible(state: SettingsStateModel) {
     return state.usersVisible;
@@ -95,15 +87,6 @@ export class SettingsState {
     private store: Store,
     private hotkeys: HotkeysService
   ) { }
-
-  @Action(SetVersion)
-  setVersion(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
-    ctx.setState(
-      produce(ctx.getState(), draft => {
-        draft.version = action.payload;
-      })
-    );
-  }
 
   @Action(ToggleUsersPanel)
   toggleUsersPanel(ctx: StateContext<SettingsStateModel>) {

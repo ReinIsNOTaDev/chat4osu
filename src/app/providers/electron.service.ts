@@ -9,7 +9,6 @@ import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import { Store } from '@ngxs/store';
 import { AddToast } from '../store/actions/toast.actions';
-import { SetVersion } from '../store/actions/settings.actions';
 import { AppConfig } from '../../environments/environment';
 import { StorageService } from './storage.service';
 
@@ -49,8 +48,6 @@ export class ElectronService {
         provider: 'generic',
         url: 'https://gitlab.com/hallowatcher/chat4osu/-/jobs/artifacts/master/raw/release?job=build'
       });
-
-      this.store.dispatch(new SetVersion(this.remote.app.getVersion()));
 
       if (AppConfig.production) {
         this.autoUpdateListeners();

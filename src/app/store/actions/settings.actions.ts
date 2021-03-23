@@ -1,10 +1,5 @@
 import { Hotkey } from '../../providers/hotkeys.service';
 
-export class SetVersion {
-  static readonly type = '[Settings] SetVersion';
-  constructor(public readonly payload: string) {}
-}
-
 export class ToggleUsersPanel {
   static readonly type = '[Settings] ToggleUsersPanel';
 }
