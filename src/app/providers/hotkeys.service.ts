@@ -10,6 +10,7 @@ import {
   OpenChannelDialog
 } from '../store/actions/channel.actions';
 import { SendMessage } from '../store/actions/message.actions';
+import { OpenDevTools } from '../store/actions/electron.actions';
 
 export class Hotkey {
   constructor(public key: string, public ctrl = false, public alt = false, public shift = false) { }
@@ -48,6 +49,11 @@ export class HotkeysService {
     hotkeys.filter = () => {
       return true;
     };
+
+    // Ctrl + Shift + I: Open DevTools
+    hotkeys('Ctrl+Shift+I', 'app', () => {
+      this.store.dispatch(new OpenDevTools());
+    });
 
     // Ctrl + W: Close tab
     hotkeys('Ctrl+w', 'app', () => {

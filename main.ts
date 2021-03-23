@@ -33,12 +33,6 @@ function createWindow() {
     icon: iconPath
   });
 
-  // Handle external links
-  win.webContents.on('new-window', function (event, link) {
-    event.preventDefault();
-    shell.openExternal(link);
-  });
-
   // Set the menu to null so we can remove default shortcuts like CTRL + W
   win.setMenu(null);
 

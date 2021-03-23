@@ -89,6 +89,12 @@ export class ElectronService {
     }
   }
 
+  openDevTools() {
+    if (this.isElectron()) {
+      this.remote.getCurrentWebContents().openDevTools();
+    }
+  }
+
   autoUpdateListeners() {
     this.autoUpdater.on('checking-for-update', () => {
       console.log('Checking for update...');

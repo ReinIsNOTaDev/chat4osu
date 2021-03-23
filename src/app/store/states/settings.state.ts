@@ -1,7 +1,6 @@
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import {
   SetVersion,
-  OpenExternalUrl,
   ToggleUsersPanel,
   HideUsersPanel,
   LoadSettings,
@@ -106,11 +105,6 @@ export class SettingsState {
         draft.version = action.payload;
       })
     );
-  }
-
-  @Action(OpenExternalUrl)
-  openExternalUrl(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
-    this.electron.openLinkInBrowser(action.payload);
   }
 
   @Action(ToggleUsersPanel)
