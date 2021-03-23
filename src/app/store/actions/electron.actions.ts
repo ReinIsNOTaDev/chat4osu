@@ -3,6 +3,10 @@ export class OpenDevTools {
 }
 
 export class OpenExternalUrl {
-  static readonly type = '[Settings] OpenExternalUrl';
+  static readonly type = '[Electron] OpenExternalUrl';
   constructor(public readonly payload: string) {}
+}
+
+export class CheckForUpdates {
+  static readonly type = '[Electron] CheckForUpdates';
 }

@@ -1,21 +1,32 @@
-import { State, Action, StateContext } from '@ngxs/store';
+import { State, Action, StateContext, Selector, NgxsOnInit } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { ElectronService } from '../../providers/electron.service';
-import { OpenDevTools, OpenExternalUrl } from '../actions/electron.actions';
+import { OpenDevTools, OpenExternalUrl, CheckForUpdates } from '../actions/electron.actions';
 
 export interface ElectronStateModel {
-  placeholder: any;
+  isElectron: boolean;
 }
 
 @State<ElectronStateModel>({
   name: 'electron',
   defaults: {
-    placeholder: undefined
+    isElectron: false
   }
 })
 @Injectable()
-export class ElectronState {
-  constructor(private electron: ElectronService) {}
+export class ElectronState implements NgxsOnInit {
+  @Selector()
+  static isElectron(state: ElectronStateModel) {
+    return state.isElectron;
+  }
+
+  constructor(private electron: ElectronService) { }
+
+  ngxsOnInit(ctx?: StateContext<ElectronStateModel>): any {
+    ctx.patchState({
+      isElectron: this.electron.isElectron()
+    });
+  }
 
   @Action(OpenDevTools)
   openDevTools() {
@@ -25,5 +36,10 @@ export class ElectronState {
   @Action(OpenExternalUrl)
   openExternalUrl(ctx: StateContext<ElectronStateModel>, action: OpenExternalUrl) {
     this.electron.openLinkInBrowser(action.payload);
+  }
+
+  @Action(CheckForUpdates)
+  checkForUpdates() {
+    this.electron.update();
   }
 }

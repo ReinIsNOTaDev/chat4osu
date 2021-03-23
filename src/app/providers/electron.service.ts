@@ -47,20 +47,14 @@ export class ElectronService {
       this.autoUpdater.autoDownload = true;
       this.autoUpdater.setFeedURL({
         provider: 'generic',
-        url:
-          'https://gitlab.com/hallowatcher/chat4osu/-/jobs/artifacts/master/raw/release?job=build'
+        url: 'https://gitlab.com/hallowatcher/chat4osu/-/jobs/artifacts/master/raw/release?job=build'
       });
+
+      this.store.dispatch(new SetVersion(this.remote.app.getVersion()));
 
       if (AppConfig.production) {
         this.autoUpdateListeners();
       }
-    }
-  }
-
-  setVersion() {
-    if (this.isElectron()) {
-      this.log.info(`Version ${this.remote.app.getVersion()}`);
-      this.store.dispatch(new SetVersion(this.remote.app.getVersion()));
     }
   }
 
@@ -159,7 +153,7 @@ export class ElectronService {
     });
   }
 
-  isElectron = () => window && window.process && window.process.type;
+  isElectron = () => window != null && window.process != null && window.process.type != null;
 
   update() {
     if (this.isElectron() && AppConfig.production) {

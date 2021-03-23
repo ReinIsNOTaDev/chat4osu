@@ -10,7 +10,6 @@ import {
   OpenChangelog, CreateHotkey, DeleteHotkey
 } from '../actions/settings.actions';
 import produce from 'immer';
-import { ElectronService } from '../../providers/electron.service';
 import { Injectable, NgZone } from '@angular/core';
 import { StorageService } from '../../providers/storage.service';
 import soundDb from '../../sounds.json';
@@ -89,7 +88,6 @@ export class SettingsState {
   }
 
   constructor(
-    private electron: ElectronService,
     private storage: StorageService,
     private sounds: SoundService,
     private ngZone: NgZone,
