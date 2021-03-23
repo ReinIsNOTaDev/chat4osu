@@ -12,9 +12,6 @@ import { AddToast } from '../store/actions/toast.actions';
 import { SetVersion } from '../store/actions/settings.actions';
 import { AppConfig } from '../../environments/environment';
 import { StorageService } from './storage.service';
-import * as localShortcut from 'electron-localshortcut';
-import { CycleToNextChannel, CycleToPreviousChannel, LeaveChannel, OpenChannelDialog } from '../store/actions/channel.actions';
-import { ChannelState } from '../store/states/channel.state';
 
 @Injectable({ providedIn: 'root' })
 export class ElectronService {
@@ -50,23 +47,14 @@ export class ElectronService {
       this.autoUpdater.autoDownload = true;
       this.autoUpdater.setFeedURL({
         provider: 'generic',
-        url:
-          'https://gitlab.com/hallowatcher/chat4osu/-/jobs/artifacts/master/raw/release?job=build'
+        url: 'https://gitlab.com/hallowatcher/chat4osu/-/jobs/artifacts/master/raw/release?job=build'
       });
 
-      // Hotkey settings
-      this.registerHotkeys();
+      this.store.dispatch(new SetVersion(this.remote.app.getVersion()));
 
       if (AppConfig.production) {
         this.autoUpdateListeners();
       }
-    }
-  }
-
-  setVersion() {
-    if (this.isElectron()) {
-      this.log.info(`Version ${this.remote.app.getVersion()}`);
-      this.store.dispatch(new SetVersion(this.remote.app.getVersion()));
     }
   }
 
@@ -83,32 +71,6 @@ export class ElectronService {
     }
   }
 
-  registerHotkeys() {
-    // CTRL + W: Close tab
-    localShortcut.register(this.remote.getCurrentWindow(), 'Ctrl+W', () => {
-      const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
-
-      if (currentChannel && currentChannel !== '') {
-        this.store.dispatch(new LeaveChannel({ channelName: currentChannel }));
-      }
-    });
-
-    // CTRL + N: Open new channel
-    localShortcut.register(this.remote.getCurrentWindow(), 'CommandOrControl+N', () => {
-      this.store.dispatch(new OpenChannelDialog());
-    });
-
-    // CTRL + Tab or CTRL + Right: Cycle to next tab
-    localShortcut.register(this.remote.getCurrentWindow(), ['CommandOrControl+Tab', 'CommandOrControl+Right'], () => {
-      this.store.dispatch(new CycleToNextChannel());
-    });
-
-    // CTRL + Shift + Tab or CTRL + Left: Cycle to previous tab
-    localShortcut.register(this.remote.getCurrentWindow(), ['CommandOrControl+Shift+Tab', 'CommandOrControl+Left'], () => {
-      this.store.dispatch(new CycleToPreviousChannel());
-    });
-  }
-
   saveFile(path: string, content: string, callback: () => void) {
     if (this.isElectron()) {
       this.fs.writeFile(path, content, (err) => {
@@ -121,6 +83,12 @@ export class ElectronService {
     }
   }
 
+  openDevTools() {
+    if (this.isElectron()) {
+      this.remote.getCurrentWebContents().openDevTools();
+    }
+  }
+
   autoUpdateListeners() {
     this.autoUpdater.on('checking-for-update', () => {
       console.log('Checking for update...');
@@ -130,7 +98,6 @@ export class ElectronService {
       console.log('Update available.');
       this.store.dispatch(
         new AddToast({
-          summary: 'New update!',
           detail:
             'A new update was found and will be downloaded in the background...',
           key: 'toast',
@@ -147,7 +114,6 @@ export class ElectronService {
       console.log('Error in auto-updater.', err);
       this.store.dispatch(
         new AddToast({
-          summary: 'Updater error',
           detail:
             'The auto updater has encountered an error. Please check the logs for more info!',
           key: 'toast',
@@ -169,23 +135,16 @@ export class ElectronService {
     this.autoUpdater.on('update-downloaded', info => {
       this.store.dispatch(
         new AddToast({
-          summary: 'New update!',
-          detail: 'A new update was downloaded, restarting...',
+          detail: 'A new update was downloaded! Please restart chat4osu to install it.',
           key: 'toast',
           severity: 'info'
         })
       );
-    });
-
-    this.autoUpdater.on('update-downloaded', info => {
       this.storage.set('updated', true);
-      setTimeout(() => {
-        this.autoUpdater.quitAndInstall();
-      }, 3000);
     });
   }
 
-  isElectron = () => window && window.process && window.process.type;
+  isElectron = () => window != null && window.process != null && window.process.type != null;
 
   update() {
     if (this.isElectron() && AppConfig.production) {

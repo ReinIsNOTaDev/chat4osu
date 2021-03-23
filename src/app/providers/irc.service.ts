@@ -3,13 +3,13 @@ import * as irc from 'irc-upd';
 import moment from 'moment';
 import { Store } from '@ngxs/store';
 import { LoginSuccess, LoginFailed } from '../store/actions/auth.actions';
-import { ReceiveMessage } from '../store/actions/message.actions';
+import { ClearMessages, ReceiveMessage } from '../store/actions/message.actions';
 import {
   JoinChannelSuccess,
   JoinChannel,
   SetChannel,
   SetChannelUsers,
-  ChangeChannelName, SetOperators
+  ChangeChannelName, SetOperators, LeaveChannel
 } from '../store/actions/channel.actions';
 import { ElectronService } from './electron.service';
 import { MessageService } from 'primeng/api';
@@ -27,6 +27,7 @@ import {
   SetBeatmap
 } from '../store/actions/multiplayer.actions';
 import { StorageService } from './storage.service';
+import { ChannelState } from '../store/states/channel.state';
 
 @Injectable({ providedIn: 'root' })
 export class IrcService {
@@ -250,7 +251,7 @@ export class IrcService {
       ];
 
       // Workaround for weird IRC errors
-      if (blacklistedErrors.some(e => error.message.toLowerCase().includes(e.toLowerCase()))) {
+      if (blacklistedErrors.some(e => error.message?.toLowerCase().includes(e.toLowerCase()))) {
         return;
       }
 
@@ -262,7 +263,7 @@ export class IrcService {
           this.store.dispatch(
             new AddToast({
               severity: 'error',
-              detail: 'Login failed! Please try again.'
+              detail: 'Login failed! Please try again. Note that your osu! credentials are NOT your IRC credentials.'
             })
           );
           break;
@@ -281,7 +282,6 @@ export class IrcService {
             new AddToast({
               key: 'errors',
               severity: 'error',
-              summary: 'Error',
               detail: error.command
             })
           );
@@ -294,8 +294,7 @@ export class IrcService {
           new AddToast({
             key: 'errors',
             severity: 'error',
-            summary: 'Network error',
-            detail: 'This could mean your internet connection is failing or Bancho is down. Attempting to reconnect...',
+            detail: 'A network error has occurred! This could mean your internet connection is failing or Bancho is down. Attempting to reconnect...',
             sticky: true,
             closable: false
           })
@@ -311,7 +310,6 @@ export class IrcService {
         new AddToast({
           key: 'errors',
           severity: 'warn',
-          summary: 'Unhandled message',
           detail:
             'An unhandled message was sent from the server. Check the console for more information.'
         })
@@ -614,19 +612,108 @@ export class IrcService {
         break;
       }
 
+      case '/query':
+      case '/chat':
+      case '/msg':
+      case '/j':
       case '/join': {
         this.store.dispatch(new JoinChannel({ channelName: msgParts[1] }));
         break;
       }
 
-      case '/j': {
-        this.store.dispatch(new JoinChannel({ channelName: msgParts[1] }));
+      case '/p':
+      case '/part':
+      case '/leave': {
+        const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
+        this.store.dispatch(new LeaveChannel({ channelName: currentChannel }));
+        break;
+      }
+
+      case '/clear': {
+        const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
+        this.store.dispatch(new ClearMessages({ channelName: currentChannel }));
         break;
       }
 
       case '/me': {
         const message = msg.replace('/me ', '');
         this.sendAction(channel, message);
+        break;
+      }
+
+      case '/help': {
+        const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
+        this.store.dispatch(new ReceiveMessage({
+          channelName: currentChannel,
+          date: new Date(),
+          sender: 'Join channel',
+          message: '/join {channel}, /j {channel}, /msg {channel}, /chat {channel}, /query {channel}',
+          action: true
+        }));
+
+        this.store.dispatch(new ReceiveMessage({
+          channelName: currentChannel,
+          date: new Date(),
+          sender: 'Leave channel',
+          message: '/leave, /part, /p',
+          action: true
+        }));
+
+        this.store.dispatch(new ReceiveMessage({
+          channelName: currentChannel,
+          date: new Date(),
+          sender: 'Clear channel',
+          message: '/clear',
+          action: true
+        }));
+
+        this.store.dispatch(new ReceiveMessage({
+          channelName: currentChannel,
+          date: new Date(),
+          sender: 'Send action',
+          message: '/me {msg}',
+          action: true
+        }));
+
+        this.store.dispatch(new ReceiveMessage({
+          channelName: currentChannel,
+          date: new Date(),
+          sender: 'Save logs',
+          message: '/savelog, /save, /log',
+          action: true
+        }));
+
+        this.store.dispatch(new ReceiveMessage({
+          channelName: currentChannel,
+          date: new Date(),
+          sender: '',
+          message: '-----',
+          action: true
+        }));
+
+        this.store.dispatch(new ReceiveMessage({
+          channelName: currentChannel,
+          date: new Date(),
+          sender: 'MP set cheat sheet',
+          message: '!mp set {teammode} [{scoremode} {size}]',
+          action: true
+        }));
+
+        this.store.dispatch(new ReceiveMessage({
+          channelName: currentChannel,
+          date: new Date(),
+          sender: 'teammode',
+          message: '0: Head To Head, 1: Tag Coop, 2: Team Vs, 3: Tag Team Vs',
+          action: true
+        }));
+
+        this.store.dispatch(new ReceiveMessage({
+          channelName: currentChannel,
+          date: new Date(),
+          sender: 'scoremode',
+          message: '0: Score, 1: Accuracy, 2: Combo, 3: Score V2',
+          action: true
+        }));
         break;
       }
 

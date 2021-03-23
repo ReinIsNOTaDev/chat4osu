@@ -1,17 +1,15 @@
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import {
   SetVersion,
-  OpenExternalUrl,
   ToggleUsersPanel,
   HideUsersPanel,
   LoadSettings,
   ChangeSetting,
   SaveSettings,
   PlayNotificationSound,
-  OpenChangelog
+  OpenChangelog, CreateHotkey, DeleteHotkey
 } from '../actions/settings.actions';
 import produce from 'immer';
-import { ElectronService } from '../../providers/electron.service';
 import { Injectable, NgZone } from '@angular/core';
 import { StorageService } from '../../providers/storage.service';
 import soundDb from '../../sounds.json';
@@ -20,12 +18,14 @@ import { ChangelogComponent } from '../../components/changelog/changelog.compone
 import changelog from '../../../assets/changelog.json';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthState } from './auth.state';
+import { HotkeysService } from '../../providers/hotkeys.service';
 
 export interface Settings {
   notificationSoundEnabled: boolean;
   selectedSound: string;
   notificationKeywords: string;
   rememberCredentials: boolean;
+  hotkeys: { hotkeyString: string; command: string; }[];
 }
 
 export interface SettingsStateModel {
@@ -38,7 +38,8 @@ const defaultAppSettings: Settings = {
   notificationSoundEnabled: true,
   selectedSound: 'click',
   notificationKeywords: '',
-  rememberCredentials: false
+  rememberCredentials: false,
+  hotkeys: []
 };
 
 @State<SettingsStateModel>({
@@ -81,13 +82,18 @@ export class SettingsState {
     return state.appSettings.rememberCredentials;
   }
 
+  @Selector()
+  static hotkeys(state: SettingsStateModel) {
+    return state.appSettings.hotkeys;
+  }
+
   constructor(
-    private electron: ElectronService,
     private storage: StorageService,
     private sounds: SoundService,
     private ngZone: NgZone,
     private dialog: MatDialog,
-    private store: Store
+    private store: Store,
+    private hotkeys: HotkeysService
   ) { }
 
   @Action(SetVersion)
@@ -97,11 +103,6 @@ export class SettingsState {
         draft.version = action.payload;
       })
     );
-  }
-
-  @Action(OpenExternalUrl)
-  openExternalUrl(ctx: StateContext<SettingsStateModel>, action: SetVersion) {
-    this.electron.openLinkInBrowser(action.payload);
   }
 
   @Action(ToggleUsersPanel)
@@ -134,6 +135,9 @@ export class SettingsState {
       if (username && username !== '' && password && password !== '') {
         draft.appSettings.rememberCredentials = true;
       }
+
+      // Register custom hotkeys every time we load settings
+      this.registerHotkeys(draft.appSettings.hotkeys);
     });
     ctx.setState(newState);
   }
@@ -166,6 +170,9 @@ export class SettingsState {
       this.storage.delete('username');
       this.storage.delete('password');
     }
+
+    // Register custom hotkeys every time we save settings
+    this.registerHotkeys(settings.hotkeys);
   }
 
   @Action(PlayNotificationSound)
@@ -187,5 +194,44 @@ export class SettingsState {
         }
       });
     });
+  }
+
+  @Action(CreateHotkey)
+  createHotkey(ctx: StateContext<SettingsStateModel>, action: CreateHotkey) {
+    const newState = produce(ctx.getState(), draft => {
+
+      // Delete existing hotkey if it exists
+      const existingHotkeyIndex = draft.appSettings.hotkeys.findIndex(
+        e => e.hotkeyString.toLowerCase() === action.payload.hotkey.toString().toLowerCase()
+      );
+      if (existingHotkeyIndex >= 0) {
+        draft.appSettings.hotkeys.splice(existingHotkeyIndex, 1);
+      }
+
+      draft.appSettings.hotkeys.push({ hotkeyString: action.payload.hotkey.toString(), command: action.payload.command });
+    });
+    ctx.setState(newState);
+  }
+
+  @Action(DeleteHotkey)
+  deleteHotkey(ctx: StateContext<SettingsStateModel>, action: DeleteHotkey) {
+    const newState = produce(ctx.getState(), draft => {
+      const existingHotkeyIndex = draft.appSettings.hotkeys.findIndex(
+        e => e.hotkeyString.toLowerCase() === action.hotkeyString.toLowerCase()
+      );
+      if (existingHotkeyIndex >= 0) {
+        draft.appSettings.hotkeys.splice(existingHotkeyIndex, 1);
+      }
+    });
+    ctx.setState(newState);
+  }
+
+  private registerHotkeys(customHotkeys: { hotkeyString: string; command: string; }[]) {
+    this.hotkeys.reset();
+    this.hotkeys.registerHotkeys();
+
+    for (const hotkey of customHotkeys) {
+      this.hotkeys.addCustomHotkey(hotkey.hotkeyString, hotkey.command);
+    }
   }
 }

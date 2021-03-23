@@ -72,13 +72,13 @@ $border-radius: 5px;
 
   .router {
     flex-grow: 1;
+    overflow: auto;
   }
 }
 
 .actions {
   display: flex;
-  padding-bottom: 10px;
-  padding-right: 10px;
+  padding: 10px;
 
   button {
     margin: 0 5px;

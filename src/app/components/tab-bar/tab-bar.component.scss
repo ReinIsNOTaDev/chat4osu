@@ -93,7 +93,8 @@
     .leave {
       visibility: hidden;
       color: rgb(216, 216, 216);
-      margin-left: 3px;
+      margin: 0 3px;
+      font-size: 10px;
     }
 
     &:hover {
@@ -105,9 +106,9 @@
 }
 
 .cdk-drag-preview {
-  padding: 2px 5px 2px 10px;
+  padding: 0 5px 2px 10px;
   margin: 0 1px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
   color: white;
   cursor: pointer;
   height: 25px;
@@ -117,8 +118,14 @@
   font-size: 12px;
   line-height: 24px;
 
-  .active {
-    background-color: black !important;
+  &.active {
+    background-color: white;
+    color: rgba(36, 36, 63, .8);
+    font-weight: 600;
+  }
+
+  &.unread {
+    background-color: rgba(255, 154, 37, 0.6);
   }
 
   .leave {

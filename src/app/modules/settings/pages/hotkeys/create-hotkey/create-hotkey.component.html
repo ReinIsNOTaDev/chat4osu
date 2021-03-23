@@ -1,0 +1,33 @@
+<div class="create-hotkey">
+
+  <div class="listening" *ngIf="awaitingHotkey">
+    <div class="red-dot"></div> Press your desired hotkey now...
+  </div>
+
+  <div class="creating" *ngIf="!awaitingHotkey && hotkey">
+    <div class="hotkey">
+      <span>Creating hotkey for</span>
+      <ng-container *ngFor="let key of hotkeyStringToArray(hotkey.toString()); last as isLast">
+        <kbd>{{key}}</kbd>
+        <ng-container *ngIf="!isLast">+</ng-container>
+      </ng-container>
+    </div>
+
+    <p class="hint-text">
+      You can send multiple commands with 1 hotkey by splitting them with a comma
+    </p>
+
+    <form class="hotkey-form">
+      <mat-form-field class="hotkey-command">
+        <mat-label>Chat message to send</mat-label>
+        <input [autofocus]="true" matInput name="command" [(ngModel)]="command" />
+        <mat-hint>e.g. !mp start or !mp timer 120</mat-hint>
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="primary" (click)="save()" [disabled]="command === '' || !hotkey">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

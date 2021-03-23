@@ -5,7 +5,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthState } from '../../store/states/auth.state';
 import { SettingsState } from '../../store/states/settings.state';
-import { ChangeSetting, OpenExternalUrl, SaveSettings } from '../../store/actions/settings.actions';
+import { ChangeSetting, SaveSettings } from '../../store/actions/settings.actions';
+import { OpenExternalUrl } from '../../store/actions/electron.actions';
 
 @Component({
   selector: 'app-login',

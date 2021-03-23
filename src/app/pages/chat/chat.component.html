@@ -1,22 +1,44 @@
 <div class="chat-container">
   <div class="main">
-    <app-control-bar [showUsers]="(channels$ | async) && (channels$ | async).length > 0" (logout)="onLogout()" (users)="onUsers()" (settings)="onSettings()"></app-control-bar>
-    <app-tab-bar [channels]="channels$ | async" [currentChannel]="currentChannel$ | async"
-      [unreadChannels]="unreadChannels$ | async" (setChannel)="onSetChannel($event)" (joinChannelClick)="onJoinChannelClick()"
-      (leaveChannel)="onLeaveChannel($event)" (rearrangeChannel)="onRearrangeChannel($event.previousIndex, $event.currentIndex)"></app-tab-bar>
-      <app-message-box [messages]="messages$ | async" [currentChannel]="currentChannel$ | async" [myUsername]="username$ | async" (openProfile)="onOpenProfile($event)"></app-message-box>
+    <app-control-bar
+      [showUsers]="(channels$ | async) && (channels$ | async).length > 0 && (currentChannel$ | async).charAt(0) === '#'"
+      (logout)="onLogout()"
+      (users)="onUsers()"
+      (settings)="onSettings()"
+    ></app-control-bar>
+
+    <app-tab-bar
+      [channels]="channels$ | async"
+      [currentChannel]="currentChannel$ | async"
+      [unreadChannels]="unreadChannels$ | async"
+      (setChannel)="onSetChannel($event)"
+      (joinChannelClick)="onJoinChannelClick()"
+      (leaveChannel)="onLeaveChannel($event)"
+      (rearrangeChannel)="onRearrangeChannel($event.previousIndex, $event.currentIndex)"
+    ></app-tab-bar>
+
+    <app-message-box
+      [messages]="messages$ | async"
+      [currentChannel]="currentChannel$ | async"
+      [myUsername]="username$ | async"
+      (openProfile)="onOpenProfile($event)"
+    ></app-message-box>
+
     <ng-container *ngIf="(currentChannel$ | async)  && (currentChannel$ | async) !== ''">
       <app-input-bar (send)="onSendMessage($event)"></app-input-bar>
     </ng-container>
   </div>
-  <ng-container *ngIf="(usersVisible$ | async)">
+  <ng-container *ngIf="(usersVisible$ | async) && (currentChannel$ | async).charAt(0) === '#'">
     <ng-container *ngIf="!(multiplayer$ | async)">
       <app-user-bar [users]="users$ | async"></app-user-bar>
     </ng-container>
 
     <ng-container *ngIf="(multiplayer$ | async)">
-      <app-mp-user-bar [mpLobby]="lobby$ | async" (refresh)="onRefresh()" (start)="onStart()" (abort)="onAbort()">
-      </app-mp-user-bar>
+      <app-mp-user-bar
+        [mpLobby]="lobby$ | async"
+        (refresh)="onRefresh()"
+        (start)="onStart()" (abort)="onAbort()"
+      ></app-mp-user-bar>
     </ng-container>
   </ng-container>
 </div>

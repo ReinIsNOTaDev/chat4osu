@@ -1,0 +1,79 @@
+.hotkeys {
+  height: 100%;
+  padding: 20px 50px;
+
+  h1 {
+    margin-bottom: 30px;
+  }
+
+  .settings {
+    display: flex;
+    flex-direction: column;
+
+    .hotkey-list {
+      margin-bottom: 20px;
+
+      h3 {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .custom-hotkeys-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+
+        h3 {
+          flex-grow: 1;
+          margin-bottom: 0;
+        }
+
+        button {
+          mat-icon {
+            font-size: 16px;
+            height: 16px;
+            width: 16px;
+            margin-right: 5px;
+          }
+        }
+      }
+
+      ul {
+        padding: 0;
+
+        li {
+          display: flex;
+          flex-direction: row;
+
+          .keys {
+            flex-grow: 1;
+          }
+        }
+      }
+    }
+
+    kbd {
+      display: inline-block;
+      border: 1px solid #2a2a4a;
+      border-radius: 4px;
+      padding: 0.1em 0.5em;
+      margin: 0 0.2em;
+      box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), -1px -1px 0 1px #8282bf inset;
+      background-color: #6363ad;
+      color: white;
+    }
+  }
+}
+
+.command {
+  margin-left: 20px;
+  width: 250px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.custom-hotkey {
+  display: flex;
+  align-items: center;
+}

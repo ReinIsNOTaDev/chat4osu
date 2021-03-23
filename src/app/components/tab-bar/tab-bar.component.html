@@ -4,7 +4,7 @@
          [ngClass]="{'active': channel === currentChannel, 'unread': isUnread(channel)}" (mousedown)="removeMouseDown($event)"
          cdkDragLockAxis="x" cdkDragBoundary=".tab-container" cdkDrag>
       <span class="channel-text">{{channel}}</span>
-      <span class="leave" (click)="onLeaveChannel($event, channel)">x</span>
+      <span class="leave" (click)="onLeaveChannel($event, channel)">✕</span>
     </div>
   </div>
   <div matRipple class="join" (click)="onJoinChannelClick()">+</div>

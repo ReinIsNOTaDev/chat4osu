@@ -6,17 +6,15 @@ import { MessageState } from '../../store/states/message.state';
 import { AuthState } from '../../store/states/auth.state';
 import {
   SetChannel,
-  JoinAndSetChannel,
   LeaveChannel, RearrangeChannel, OpenChannelDialog
 } from '../../store/actions/channel.actions';
 import { SendMessage } from '../../store/actions/message.actions';
 import { Logout } from '../../store/actions/auth.actions';
-import { ToggleUsersPanel, OpenExternalUrl } from '../../store/actions/settings.actions';
+import { ToggleUsersPanel } from '../../store/actions/settings.actions';
 import { SettingsState } from '../../store/states/settings.state';
 import { MultiplayerState, MpLobby } from '../../store/states/multiplayer.state';
-import { MatDialog } from '@angular/material/dialog';
-import { JoinChannelComponent } from '../../components/join-channel/join-channel.component';
 import { Navigate } from '@ngxs/router-plugin';
+import { OpenExternalUrl } from '../../store/actions/electron.actions';
 
 @Component({
   selector: 'app-chat',
@@ -54,7 +52,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('input', { static: true })
   input;
 
-  constructor(public store: Store, private dialog: MatDialog) { }
+  constructor(public store: Store) { }
 
   ngOnInit(): void { }
 

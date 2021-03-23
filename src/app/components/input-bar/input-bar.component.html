@@ -1,4 +1,4 @@
 <form [formGroup]="messageForm" ngxsForm="channel.writtenMessageForm" (ngSubmit)="onSubmit()" class="input-bar">
-  <input class="input-text" name="message" placeholder="Write a message..." formControlName="message" />
+  <input id="send-message" class="input-text" name="message" placeholder="Write a message..." formControlName="message" />
   <button class="input-submit" type="submit">Send</button>
 </form>

@@ -1,0 +1,76 @@
+<div class="hotkeys">
+  <h1>Hotkeys</h1>
+
+  <form class="settings">
+    <div class="hotkey-list">
+      <h3>App hotkeys</h3>
+      <p>Note: These hotkeys cannot be changed for now.</p>
+      <ul>
+        <li>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>N</kbd>
+          </div>
+          <span class="command">Join channel</span>
+        </li>
+
+        <li>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>W</kbd>
+          </div>
+          <span class="command">Leave channel</span>
+        </li>
+
+        <li>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>→</kbd> / <kbd>Ctrl</kbd>+<kbd>Tab</kbd>
+          </div>
+          <span class="command">Cycle to next channel</span>
+        </li>
+
+        <li>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>←</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd>
+          </div>
+          <span class="command">Cycle to previous channel</span>
+        </li>
+
+        <li>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>1</kbd> - <kbd>8</kbd>
+          </div>
+          <span class="command">Cycle to a specific tab (1-8)</span>
+        </li>
+
+        <li>
+          <div class="keys">
+            <kbd>Ctrl</kbd>+<kbd>9</kbd>
+          </div>
+          <span class="command">Cycle to the last tab</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="hotkey-list">
+      <div class="custom-hotkeys-header">
+        <h3>Chat hotkeys</h3>
+        <button mat-raised-button (click)="openCreateHotkeyDialog()">
+          <mat-icon>add</mat-icon>
+          Create
+        </button>
+      </div>
+
+      <i *ngIf="(hotkeys$ | async).length === 0">None created yet!</i>
+      <ul *ngIf="(hotkeys$ | async).length > 0">
+        <li *ngFor="let hotkey of (hotkeys$ | async)" class="custom-hotkey">
+          <ng-container *ngFor="let key of hotkeyStringToArray(hotkey.hotkeyString); last as isLast">
+            <kbd>{{key}}</kbd>
+            <ng-container *ngIf="!isLast">+</ng-container>
+          </ng-container>
+
+          <span class="command" [matTooltip]="hotkey.command" matTooltipPosition="right">Send in chat: <code>{{hotkey.command}}</code></span>
+          <button mat-icon-button matTooltip="Delete this hotkey" matTooltipPosition="right" (click)="removeHotkey(hotkey.hotkeyString)"><mat-icon>delete</mat-icon></button>
+        </li>
+      </ul>
+    </div>
+  </form>
+</div>
