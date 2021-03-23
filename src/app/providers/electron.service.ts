@@ -98,7 +98,6 @@ export class ElectronService {
       console.log('Update available.');
       this.store.dispatch(
         new AddToast({
-          summary: 'New update!',
           detail:
             'A new update was found and will be downloaded in the background...',
           key: 'toast',
@@ -115,7 +114,6 @@ export class ElectronService {
       console.log('Error in auto-updater.', err);
       this.store.dispatch(
         new AddToast({
-          summary: 'Updater error',
           detail:
             'The auto updater has encountered an error. Please check the logs for more info!',
           key: 'toast',
