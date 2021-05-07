@@ -32,7 +32,8 @@
     "artifactName": "${productName}-setup.${ext}"
   },
   "mac": {
-    "icon": "dist",
+    "icon": "dist/favicon.512x512.png",
+    "identity":  null,
     "target": ["dmg"]
   },
   "linux": {
