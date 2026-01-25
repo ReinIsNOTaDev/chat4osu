@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SettingsState } from '../../../../store/states/settings.state';
 
 @Component({
+  standalone: false,
   selector: 'app-general',
   templateUrl: './general.component.html',
   styleUrls: ['./general.component.scss']

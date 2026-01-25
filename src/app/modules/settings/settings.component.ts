@@ -7,6 +7,7 @@ import { HotkeysService } from '../../providers/hotkeys.service';
 import { ElectronState } from '../../store/states/electron.state';
 
 @Component({
+  standalone: false,
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']

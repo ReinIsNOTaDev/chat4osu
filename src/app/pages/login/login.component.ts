@@ -10,6 +10,7 @@ import { OpenExternalUrl } from '../../store/actions/electron.actions';
 import { ElectronState } from '../../store/states/electron.state';
 
 @Component({
+  standalone: false,
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']

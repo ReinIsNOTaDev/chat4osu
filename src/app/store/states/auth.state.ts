@@ -5,7 +5,7 @@ import {
   LoginFailed,
   Logout
 } from '../actions/auth.actions';
-import produce from 'immer';
+import { produce } from 'immer';
 import { IrcService } from '../../providers/irc.service';
 import { Navigate } from '@ngxs/router-plugin';
 import { StorageService } from '../../providers/storage.service';

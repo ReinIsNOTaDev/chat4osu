@@ -12,9 +12,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 const modules = [
   DragDropModule,
+  ScrollingModule,
   MatInputModule,
   MatButtonModule,
   MatProgressSpinnerModule,

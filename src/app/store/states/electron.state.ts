@@ -32,7 +32,7 @@ export class ElectronState implements NgxsOnInit {
   ngxsOnInit(ctx?: StateContext<ElectronStateModel>): any {
     ctx.patchState({
       isElectron: this.electron.isElectron(),
-      version: this.electron.remote.app.getVersion()
+      version: "1.0.0" // this.electron.remote.app.getVersion()
     });
   }
 

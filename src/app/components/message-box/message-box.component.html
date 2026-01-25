@@ -1,7 +1,7 @@
 <div class="parent-container">
-  <virtual-scroller #scroll [items]="messages" [enableUnequalChildrenSizes]="true" (vsUpdate)="viewPortItems = $event">
+  <cdk-virtual-scroll-viewport #scroll itemSize="24" class="scroll-viewport">
     <div class="message" [ngClass]="{ action: msg.action, highlight: !msg.action && includesCaseInsensitive(msg.message, myUsername) }"
-      *ngFor="let msg of viewPortItems">
+      *cdkVirtualFor="let msg of messages">
       <span class="date">[{{ parseDate(msg.date) }}]</span>
       <span class="sender {{msg.sender | role: currentChannel}}" *ngIf="!msg.action" (click)="clickUser(msg.sender)">
         <span>{{ msg.sender }}</span>
@@ -9,7 +9,7 @@
       <span class="sender action" *ngIf="msg.action">{{ msg.sender }}</span>
       <span class="message-text" [innerHTML]="msg.message | parse"></span>
     </div>
-  </virtual-scroller>
+  </cdk-virtual-scroll-viewport>
 
   <div *ngIf="!messages || messages.length === 0" class="empty">There are no messages to display</div>
 </div>

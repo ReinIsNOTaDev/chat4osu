@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import hotkeys from 'hotkeys-js';
-import { ChannelState } from '../store/states/channel.state';
 import {
   CycleToChannel, CycleToLastChannel,
   CycleToNextChannel,
@@ -58,7 +57,7 @@ export class HotkeysService {
 
     // Ctrl + W: Close tab
     hotkeys('Ctrl+W', 'app', () => {
-      const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
+      const currentChannel = this.store.selectSnapshot((state: any) => state.channel.currentChannel);
 
       if (currentChannel && currentChannel !== '') {
         this.store.dispatch(new LeaveChannel({ channelName: currentChannel }));

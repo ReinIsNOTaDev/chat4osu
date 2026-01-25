@@ -17,6 +17,7 @@ import { Navigate } from '@ngxs/router-plugin';
 import { OpenExternalUrl } from '../../store/actions/electron.actions';
 
 @Component({
+  standalone: false,
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']

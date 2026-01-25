@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-user-bar',
   templateUrl: './user-bar.component.html',
   styleUrls: ['./user-bar.component.scss']
@@ -8,8 +9,6 @@ import { Component, OnInit, Input } from '@angular/core';
 export class UserBarComponent implements OnInit {
   @Input()
   users: string[];
-
-  viewPortItems: string[];
 
   constructor() {}
 

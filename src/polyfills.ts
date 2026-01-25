@@ -70,7 +70,7 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone-mix';  // Included with Angular CLI.
+import 'zone.js';  // Included with Angular CLI.
 
 /**
  * You can load zone-patch-electron to allow electron native APIs

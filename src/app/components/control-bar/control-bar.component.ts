@@ -1,6 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-control-bar',
   templateUrl: './control-bar.component.html',
   styleUrls: ['./control-bar.component.scss']

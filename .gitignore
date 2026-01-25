@@ -9,6 +9,7 @@
 main.js
 src/**/*.js
 *.js.map
+.angular/cache/**
 
 # dependencies
 /node_modules

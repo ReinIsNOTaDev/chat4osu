@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { OpenExternalUrl } from '../../store/actions/electron.actions';
 
 @Component({
+  standalone: false,
   selector: 'app-changelog',
   templateUrl: './changelog.component.html',
   styleUrls: ['./changelog.component.scss']

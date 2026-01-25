@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-input-bar',
   templateUrl: './input-bar.component.html',
   styleUrls: ['./input-bar.component.scss']
