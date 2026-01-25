@@ -5,7 +5,7 @@ import {
   Selector,
   Store
 } from '@ngxs/store';
-import produce from 'immer';
+import { produce } from 'immer';
 import {
   ClearMessages,
   ReceiveMessage,

@@ -8,7 +8,9 @@ export class StorageService {
 
   constructor() {
     if (this.isElectron()) {
-      const Store = window.require('electron-store');
+      const electronStore = window.require('electron-store');
+      // electron-store v8+ is ESM - default export is on .default property
+      const Store = electronStore.default || electronStore;
       this.storage = new Store();
     }
   }

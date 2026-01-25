@@ -1,9 +1,9 @@
 <div class="user-bar">
   <div class="title">Users total: {{users?.length}}</div>
   <hr>
-  <virtual-scroller [items]="users" [enableUnequalChildrenSizes]="false" (vsUpdate)="viewPortItems = $event">
-    <div class="user" *ngFor="let user of viewPortItems">
+  <cdk-virtual-scroll-viewport itemSize="20" class="scroll-viewport">
+    <div class="user" *cdkVirtualFor="let user of users">
       {{user}}
     </div>
-  </virtual-scroller>
+  </cdk-virtual-scroll-viewport>
 </div>

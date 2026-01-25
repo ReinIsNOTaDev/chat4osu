@@ -3,6 +3,7 @@ import { Hotkey, HotkeysService } from '../../../../../providers/hotkeys.service
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
+  standalone: false,
   selector: 'app-create-hotkey',
   templateUrl: './create-hotkey.component.html',
   styleUrls: ['./create-hotkey.component.scss']

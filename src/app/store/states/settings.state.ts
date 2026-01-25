@@ -8,7 +8,7 @@ import {
   PlayNotificationSound,
   OpenChangelog, CreateHotkey, DeleteHotkey
 } from '../actions/settings.actions';
-import produce from 'immer';
+import { produce } from 'immer';
 import { Injectable, NgZone } from '@angular/core';
 import { StorageService } from '../../providers/storage.service';
 import soundDb from '../../sounds.json';

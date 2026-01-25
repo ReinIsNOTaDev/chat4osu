@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MpLobby, MpUser } from '../../store/states/multiplayer.state';
+import { MpLobby } from '../../store/states/multiplayer.state';
 
 @Component({
+  standalone: false,
   selector: 'app-mp-user-bar',
   templateUrl: './mp-user-bar.component.html',
   styleUrls: ['./mp-user-bar.component.scss']
@@ -18,8 +19,6 @@ export class MpUserBarComponent implements OnInit {
 
   @Output()
   abort = new EventEmitter();
-
-  viewPortItems: MpUser[];
 
   constructor() { }
 

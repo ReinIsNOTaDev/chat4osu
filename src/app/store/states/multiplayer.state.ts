@@ -1,5 +1,5 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import produce from 'immer';
+import { produce } from 'immer';
 import { ChangeChannelName } from '../actions/channel.actions';
 import { SendMessageToChannel } from '../actions/message.actions';
 import { Logout } from '../actions/auth.actions';

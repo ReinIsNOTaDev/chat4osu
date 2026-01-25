@@ -1,7 +1,7 @@
-virtual-scroller {
+.scroll-viewport {
   display: block;
   width: 100%;
-  height: calc(100vh - 40px);
+  height: calc(100vh - 80px);
   word-break: break-word;
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
+  standalone: false,
   selector: 'app-join-channel',
   templateUrl: './join-channel.component.html',
   styleUrls: ['./join-channel.component.scss']

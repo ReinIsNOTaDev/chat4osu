@@ -1,10 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Select, Store} from '@ngxs/store';
-import {AuthState} from '../store/states/auth.state';
-import {ChannelState} from '../store/states/channel.state';
-import {MpLobby, MultiplayerState} from '../store/states/multiplayer.state';
+import { Store } from '@ngxs/store';
 
-@Pipe({ name: 'role' })
+interface MpPlayer {
+  username: string;
+  team?: string;
+}
+
+interface MpLobby {
+  players: MpPlayer[];
+}
+
+@Pipe({ name: 'role', standalone: false })
 export class RolePipe implements PipeTransform {
   constructor(private store: Store) { }
 
@@ -21,20 +27,25 @@ export class RolePipe implements PipeTransform {
 
     if (mp) {
       // Multiplayer logic
-      const lobby: MpLobby = this.store.selectSnapshot(MultiplayerState.lobby);
-      for (const player of lobby.players) {
-        if (player.username.toLowerCase().replace(' ', '_') === value.toLowerCase().replace(' ', '_')) {
-          if (player.team) {
-            return `team-${player.team}`;
-          } else {
-            return 'normal';
+      const state: any = this.store.snapshot();
+      const currentChannel = state.channel?.currentChannel;
+      const lobby: MpLobby = state.multiplayer?.multiplayerLobbies?.[currentChannel];
+      if (lobby?.players) {
+        for (const player of lobby.players) {
+          if (player.username.toLowerCase().replace(' ', '_') === value.toLowerCase().replace(' ', '_')) {
+            if (player.team) {
+              return `team-${player.team}`;
+            } else {
+              return 'normal';
+            }
           }
         }
       }
       return 'self';
     }
 
-    const self = this.store.selectSnapshot(AuthState.username);
+    const state: any = this.store.snapshot();
+    const self = state.auth?.username || '';
     if (self.toLowerCase() === value.toLowerCase()) {
       return 'self';
     }
@@ -47,7 +58,7 @@ export class RolePipe implements PipeTransform {
       return 'peppy';
     }
 
-    const operators = this.store.selectSnapshot(ChannelState.operators);
+    const operators = state.channel?.operators || [];
     if (operators.indexOf(value) !== -1) {
       return 'operator';
     }

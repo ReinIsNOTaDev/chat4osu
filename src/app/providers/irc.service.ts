@@ -27,7 +27,6 @@ import {
   SetBeatmap
 } from '../store/actions/multiplayer.actions';
 import { StorageService } from './storage.service';
-import { ChannelState } from '../store/states/channel.state';
 
 @Injectable({ providedIn: 'root' })
 export class IrcService {
@@ -624,13 +623,13 @@ export class IrcService {
       case '/p':
       case '/part':
       case '/leave': {
-        const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
+        const currentChannel = this.store.selectSnapshot((state: any) => state.channel.currentChannel);
         this.store.dispatch(new LeaveChannel({ channelName: currentChannel }));
         break;
       }
 
       case '/clear': {
-        const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
+        const currentChannel = this.store.selectSnapshot((state: any) => state.channel.currentChannel);
         this.store.dispatch(new ClearMessages({ channelName: currentChannel }));
         break;
       }
@@ -642,7 +641,7 @@ export class IrcService {
       }
 
       case '/help': {
-        const currentChannel = this.store.selectSnapshot(ChannelState.currentChannel);
+        const currentChannel = this.store.selectSnapshot((state: any) => state.channel.currentChannel);
         this.store.dispatch(new ReceiveMessage({
           channelName: currentChannel,
           date: new Date(),

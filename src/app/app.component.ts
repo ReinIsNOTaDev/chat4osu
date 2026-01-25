@@ -12,6 +12,7 @@ import { CheckForUpdates } from './store/actions/electron.actions';
 import { ElectronState } from './store/states/electron.state';
 
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

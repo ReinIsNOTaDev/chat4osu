@@ -3,13 +3,12 @@
   flex-shrink: 0;
 }
 
-virtual-scroller {
+.scroll-viewport {
   display: block;
   width: 100%;
   height: 100%;
   max-height: calc(100vh - 110px);
   word-break: break-word;
-  overflow-x: hidden !important;
 }
 
 .parent-container {

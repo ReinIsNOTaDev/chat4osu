@@ -11,6 +11,7 @@ import {
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
+  standalone: false,
   selector: 'app-tab-bar',
   templateUrl: './tab-bar.component.html',
   styleUrls: ['./tab-bar.component.scss'],

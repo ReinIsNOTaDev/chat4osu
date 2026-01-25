@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-@Pipe({ name: 'parse' })
+@Pipe({ name: 'parse', standalone: false })
 export class ParsePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
 

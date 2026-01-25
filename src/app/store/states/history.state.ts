@@ -1,7 +1,7 @@
 import { State, Action, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { SendMessage } from '../actions/message.actions';
-import produce from 'immer';
+import { produce } from 'immer';
 import { CycleNextHistory, CyclePreviousHistory } from '../actions/history.actions';
 import { SetMessage } from '../actions/channel.actions';
 

@@ -8,8 +8,15 @@ if (AppConfig.production) {
   enableProdMode();
 }
 
+console.log('Starting Angular bootstrap...');
 platformBrowserDynamic()
   .bootstrapModule(AppModule, {
     preserveWhitespaces: false
   })
-  .catch(err => console.error(err));
+  .then(() => console.log('Angular bootstrap successful!'))
+  .catch(err => {
+    console.error('Angular bootstrap failed!');
+    console.error('Error:', err);
+    console.error('Error message:', err?.message);
+    console.error('Error stack:', err?.stack);
+  });

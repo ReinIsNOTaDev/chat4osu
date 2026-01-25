@@ -7,6 +7,7 @@ import { SettingsState } from '../../../../store/states/settings.state';
 import { Observable } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-hotkeys',
   templateUrl: './hotkeys.component.html',
   styleUrls: ['./hotkeys.component.scss']

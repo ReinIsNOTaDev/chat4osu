@@ -6,6 +6,7 @@ import { SettingsState } from '../../../../store/states/settings.state';
 import { Observable } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss']

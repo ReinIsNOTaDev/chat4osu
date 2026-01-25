@@ -1,6 +1,14 @@
 import { app, BrowserWindow, shell } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import Store from 'electron-store';
+import log from 'electron-log/main';
+
+// Initialize electron-log for renderer process access
+log.initialize();
+
+// Initialize electron-store for renderer process access
+Store.initRenderer();
 
 let win;
 const args = process.argv.slice(1);
@@ -27,16 +35,15 @@ function createWindow() {
     autoHideMenuBar: !serve,
     webPreferences: {
       nodeIntegration: true,
-      allowRunningInsecureContent: (serve),
-      enableRemoteModule: true
+      contextIsolation: false
     },
     icon: iconPath
   });
 
   // Handle external links
-  win.webContents.on('new-window', async (event, link) => {
-    event.preventDefault();
-    await shell.openExternal(link);
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
   });
 
   // Set the menu to null so we can remove default shortcuts like CTRL + W
@@ -50,6 +57,9 @@ function createWindow() {
     });
     win.loadURL('http://localhost:4200');
   } else {
+    // Open dev tools to debug - remove this line after debugging
+    win.webContents.openDevTools();
+
     win.loadURL(
       url.format({
         pathname: path.join(__dirname, 'dist/index.html'),
@@ -69,7 +79,6 @@ function createWindow() {
 }
 
 try {
-  app.allowRendererProcessReuse = true;
 
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.

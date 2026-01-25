@@ -1,6 +1,3 @@
-import 'zone.js/dist/zone-mix';
-import 'reflect-metadata';
-import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -9,11 +6,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { MessageService } from 'primeng/api';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
@@ -22,8 +19,8 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { AppRoutingModule } from './app-routing.module';
 
 // NG Translate
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -33,7 +30,6 @@ import { ChannelState } from './store/states/channel.state';
 import { MessageState } from './store/states/message.state';
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
-import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import { InputBarComponent } from './components/input-bar/input-bar.component';
 import { ToastState } from './store/states/toast.state';
 import { SettingsState } from './store/states/settings.state';
@@ -50,10 +46,6 @@ import { ChangelogComponent } from './components/changelog/changelog.component';
 import { ElectronState } from './store/states/electron.state';
 import { HistoryState } from './store/states/history.state';
 
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
 
 @NgModule({
   declarations: [
@@ -86,29 +78,25 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxsLoggerPluginModule.forRoot({ disabled: AppConfig.production }),
     BrowserModule,
     BrowserAnimationsModule,
-    VirtualScrollerModule,
     MaterialModule,
     FormsModule,
     ContextMenuModule,
     ReactiveFormsModule,
     NgxsFormPluginModule.forRoot(),
-    HttpClientModule,
     AppRoutingModule,
     InputTextModule,
     ButtonModule,
     DialogModule,
     ToastModule,
-    DropdownModule,
+    SelectModule,
     ProgressSpinnerModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+    TranslateModule.forRoot()
   ],
-  providers: [MessageService],
+  providers: [
+    provideHttpClient(),
+    provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
+    MessageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
