@@ -214,7 +214,7 @@ export class SettingsState {
     this.hotkeys.registerHotkeys();
 
     for (const hotkey of customHotkeys) {
-      this.hotkeys.addCustomHotkey(hotkey.hotkeyString, hotkey.command);
+      this.hotkeys.addCustomHotkey(hotkey.hotkeyString, hotkey.command.split(", "));
     }
   }
 }
