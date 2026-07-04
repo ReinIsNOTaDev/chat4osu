@@ -129,9 +129,11 @@ export class HotkeysService {
     });
   }
 
-  addCustomHotkey(hotkeyString: string, command: string) {
+  addCustomHotkey(hotkeyString: string, command: list) {
     hotkeys(hotkeyString, 'app', () => {
-      this.store.dispatch(new SendMessage({ message: command, date: new Date() }));
+      for (var command_string of command) {
+        this.store.dispatch(new SendMessage({ message: command_string, date: new Date() }))
+      };
     });
   }
 
